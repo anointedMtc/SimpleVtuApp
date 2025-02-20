@@ -1,0 +1,150 @@
+﻿using DomainSharedKernel;
+using DomainSharedKernel.Interfaces;
+using Wallet.Domain.Events;
+using Wallet.Domain.Exceptions;
+
+namespace Wallet.Domain.Entities.WalletAggregate;
+
+public class WalletDomainEntity : BaseEntity, IAggregateRoot
+{
+    private HashSet<Transfer> _transfers = new();
+
+    public Guid WalletId { get; private set; }
+    public Guid OwnerId { get; private set; }
+    public Guid ApplicationUserId { get; private set; }
+    public string Email { get; private set; }
+
+    public IEnumerable<Transfer> Transfers
+    {
+        get => _transfers;
+        set => _transfers = new HashSet<Transfer>(value);
+    }
+    public DateTimeOffset CreatedAt { get; private set; }
+
+
+    //#pragma warning disable CS8618    // Required by Entity Framework
+    private WalletDomainEntity() { }
+
+    public WalletDomainEntity(Guid ownerId, Guid applicationUserId, string email)
+    {
+        OwnerId = ownerId;
+        ApplicationUserId = applicationUserId;
+        Email = email;
+        CreatedAt = DateTimeOffset.UtcNow;
+
+        // raise the domain event
+        RaiseWalletAddedDomainEvent();
+    }
+
+
+    public static WalletDomainEntity Create(Guid ownerId, Guid applicationUserId, string email)
+    {
+
+        return new WalletDomainEntity(ownerId, applicationUserId, email);
+    }
+
+
+    public IReadOnlyCollection<Transfer> TransferFunds(WalletDomainEntity receiver, Amount amount)
+    {
+        var outTransferId = Guid.NewGuid();
+        var inTransferId = Guid.NewGuid();
+
+        var outTransfer = DeductFunds(amount);
+        var inTransfer = receiver.AddFunds(amount);
+
+        AddDomainEvent(new FundsTransferredDomainEvent(WalletId, receiver.WalletId, amount));
+
+        return new[] { outTransfer, inTransfer };
+    }
+
+    public Transfer AddFunds(Amount amount) // why are we not stating reason why the funds was added and the date/time it was added???
+    {
+        if (amount <= 0)
+        {
+            throw new InvalidTransferAmountException(amount);
+        }
+        var createdAt = DateTimeOffset.UtcNow;
+        var referenceId = Guid.NewGuid();
+        var transfer = Transfer.Incoming(WalletId, amount, createdAt, referenceId);
+        _transfers.Add(transfer);
+
+        RaiseFundsAddedDomainEvent(amount);
+
+        return transfer;
+    }
+
+    public Transfer DeductFunds(Amount amount) // why are we not stating reason why the funds was added and the date/time it was added???
+    {
+        if (amount <= 0)
+        {
+            throw new InvalidTransferAmountException(amount);
+        }
+
+        if (CurrentAmount() < amount)
+        {
+            throw new InsufficientWalletFundsException(WalletId);
+        }
+
+        var createdAt = DateTimeOffset.UtcNow;
+        var referenceId = Guid.NewGuid();
+        var transfer = Transfer.Outgoing(WalletId, amount, createdAt, referenceId);
+        _transfers.Add(transfer);
+
+        return transfer;
+    }
+
+    public Amount CurrentAmount() => SumIncomingAmount() - SumOutgoingAmount();
+
+    private Amount SumIncomingAmount()
+    {
+        return _transfers.Where(x => x.Direction == Transfer.TransferDirection.In).Sum(x => x.Amount);
+    }
+
+    private Amount SumOutgoingAmount()
+    {
+        return _transfers.Where(x => x.Direction == Transfer.TransferDirection.Out).Sum(x => x.Amount);
+    }
+
+
+
+
+
+
+
+
+
+    private void RaiseWalletAddedDomainEvent()
+    {
+        var walletAddedDomainEvent = new WalletAddedDomainEvent(this);
+
+        AddDomainEvent(walletAddedDomainEvent);
+    }
+
+
+    //private void RaiseWalletAddedDomainEvent(Guid walletId, Guid ownerId)
+    //{
+    //    var walletAddedDomainEvent = new WalletAddedDomainEvent(this, walletId, OwnerId);
+
+    //    this.AddDomainEvent(walletAddedDomainEvent);
+    //}
+
+
+    private void SecondWayToAddDomainEvent()
+    {
+        AddDomainEvent(new WalletAddedDomainEvent(this));
+
+    }
+
+    private void RaiseFundsAddedDomainEvent(Amount amount)
+    {
+        AddDomainEvent(new FundsAddedDomainEvent(WalletId, OwnerId, amount));
+    }
+
+
+
+
+    public override string ToString()
+    {
+        return WalletId.ToString();
+    }
+}

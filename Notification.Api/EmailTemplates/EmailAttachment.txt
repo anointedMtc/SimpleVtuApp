@@ -1,0 +1,7 @@
+Dear Anointed,
+
+This is just a random text file that is used to demonstrate the power of the fluent
+email library and how it can be used to send files as an attachment to an email.
+
+Best wishes,
+Hr

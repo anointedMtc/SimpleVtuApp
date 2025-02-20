@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "WalletModuleDb": "Data Source =CHIKURDEE\\SQLEXPRESS;Initial Catalog=WalletApiModuleDb;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True;Connection Timeout=30;"
+  }
+}

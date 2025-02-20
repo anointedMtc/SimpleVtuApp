@@ -1,0 +1,50 @@
+﻿using InfrastructureSharedKernel.Persistence.Interceptors;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Notification.Domain.Entities;
+using System.Reflection;
+
+namespace Notification.Infrastructure.Persistence;
+
+public class EmailDbContext : DbContext
+{
+    private readonly IMediator _mediator;
+    public EmailDbContext(DbContextOptions<EmailDbContext> options, IMediator mediator) : base(options)
+    {
+        _mediator = mediator;
+    }
+
+    public DbSet<EmailEntity> EmailEntities { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // we want it to apply those configurations we specified in the Config Folder
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    }
+
+
+    // PUBLISHING EVENTS AFTER SAVING
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        int result = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+        // ignore events if no dispatcher provided
+        if (_mediator == null) return result;
+
+
+        await _mediator.DispatchDomainEvents(this);
+
+        return result;
+    }
+
+
+
+    public override int SaveChanges()
+    {
+        return SaveChangesAsync().GetAwaiter().GetResult();
+    }
+
+
+}

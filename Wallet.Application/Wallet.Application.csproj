@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ApplicationSharedKernel\SharedKernel.Application.csproj" />
+    <ProjectReference Include="..\SagaOrchestrationStateMachines.Shared\SagaOrchestrationStateMachines.Shared.csproj" />
+    <ProjectReference Include="..\Wallet.Domain\Wallet.Domain.csproj" />
+    <ProjectReference Include="..\Wallet.Shared\Wallet.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

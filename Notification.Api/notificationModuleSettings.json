@@ -1,0 +1,16 @@
+{
+  "ConnectionStrings": {
+    "NotificationModuleDb": "Data Source =CHIKURDEE\\SQLEXPRESS;Initial Catalog=NotificationApiModuleDb;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True;Connection Timeout=30;"
+  },
+  "EmailConfiguration": {
+    "DefaultFromEmail": "anointedMtc@gmail.com",
+    "DefaultFromName": "anointedMtc",
+    "SmtpServer": "localhost",
+    "Port": 25,
+    "Username": "anointedMtc@gmail.com",
+    "Password": "superSecretPassword"
+  },
+  "SendGridConfiguration": {
+    "SecretKey": "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"
+  }
+}

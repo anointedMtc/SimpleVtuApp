@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "SagaStateMachinesModuleDb": "Data Source =CHIKURDEE\\SQLEXPRESS;Initial Catalog=SagaStateMachinesApiModuleDb;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True;Connection Timeout=30;"
+  }
+}

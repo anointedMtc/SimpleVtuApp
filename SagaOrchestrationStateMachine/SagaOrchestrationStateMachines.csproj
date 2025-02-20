@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ApiSharedKernel\SharedKernel.Api.csproj" />
+    <ProjectReference Include="..\ExternalServices.Api\ExternalServices.Api.csproj" />
+    <ProjectReference Include="..\Identity.Api\Identity.Api.csproj" />
+    <ProjectReference Include="..\Notification.Api\Notification.Api.csproj" />
+    <ProjectReference Include="..\VtuApp.Api\VtuApp.Api.csproj" />
+    <ProjectReference Include="..\Wallet.Presentation\Wallet.Api.csproj" />
+  </ItemGroup>
+
+</Project>

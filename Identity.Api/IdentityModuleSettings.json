@@ -1,0 +1,11 @@
+{
+  "ConnectionStrings": {
+    "IdentityModuleDb": "Data Source =CHIKURDEE\\SQLEXPRESS;Initial Catalog=IdentityApiModuleDb;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True;Connection Timeout=30;"
+  },
+  "JwtSettings": {
+    "validIssuer": "anointMtcAPI",
+    "validAudience": "https://localhost:7287",
+    "expires": 120,
+    "key": "ThisIsA32CharactersLongSecretKey!"
+  }
+}

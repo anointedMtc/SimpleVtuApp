@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.3.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.13" />
+    <PackageReference Include="Polly" Version="8.5.1" />
+    <PackageReference Include="StackExchange.Redis" Version="2.8.24" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ApplicationSharedKernel\SharedKernel.Application.csproj" />
+    <ProjectReference Include="..\DomainSharedKernel\SharedKernel.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
