@@ -19,8 +19,8 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         });
 
         // NON-CLUSTERED
-        builder.HasIndex(b => b.Email)
-             .IsUnique();
+        //builder.HasIndex(b => b.Email)
+        //     .IsUnique();
 
         builder.Ignore(b => b.DomainEvents);
     }

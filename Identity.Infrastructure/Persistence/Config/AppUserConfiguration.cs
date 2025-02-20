@@ -11,8 +11,8 @@ public class AppUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
 
         builder.Ignore(b => b.DomainEvents);
 
-        builder.HasIndex(b => b.Email)
-               .IsUnique();
+        //builder.HasIndex(b => b.Email)
+        //       .IsUnique();
 
     }
 }

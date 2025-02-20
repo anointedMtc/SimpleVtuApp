@@ -49,7 +49,7 @@ public sealed class DeductFundsFromCustomerWalletForVtuPurchaseTransactionMessag
             throw new NotFoundException();
         }
 
-        wallet.DeductFunds(context.Message.PricePaid);
+        wallet.DeductFunds(context.Message.PricePaid, $"vtuTransaction: {context.Message.VtuTransactionId}");
 
         await _walletDomainEntityRepository.UpdateAsync(wallet);
        

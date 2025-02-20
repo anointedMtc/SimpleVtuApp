@@ -1,4 +1,5 @@
 ﻿using DomainSharedKernel;
+using SharedKernel.Domain.Exceptions;
 using System.Text.Json.Serialization;
 
 namespace Wallet.Domain.Entities.WalletAggregate;
@@ -6,10 +7,10 @@ namespace Wallet.Domain.Entities.WalletAggregate;
 public class Transfer : BaseEntity
 {
     public Guid TransferId { get; private set; }
-    public Guid ReferenceId { get; private set; }
     public Guid WalletId { get; private set; }
     public Amount Amount { get; private set; }
     public TransferDirection Direction { get; private set; }
+    public string ReasonWhy { get; private set; }
     public DateTimeOffset CreatedAt { get; private set; }
 
 
@@ -18,36 +19,36 @@ public class Transfer : BaseEntity
 
     // what you must use to 
     public Transfer(Guid walletId, Amount amount,
-        TransferDirection direction, DateTimeOffset createdAt, Guid referenceId)
+        TransferDirection direction, string reasonWhy, DateTimeOffset createdAt)
     {
         WalletId = walletId;
         Amount = amount;
         Direction = direction;
+        ReasonWhy = reasonWhy;
         CreatedAt = createdAt;
-        ReferenceId = referenceId;
     }
 
     public static Transfer Incoming(Guid walletId, Amount amount,
-        DateTimeOffset createdAt, Guid referenceId)
+        string reasonWhy, DateTimeOffset createdAt)
     {
         return new Transfer(
             walletId,
             amount,
             TransferDirection.In,
-            createdAt,
-            referenceId
+            reasonWhy,
+            createdAt
         );
     }
 
     public static Transfer Outgoing(Guid walletId, Amount amount,
-        DateTimeOffset createdAt, Guid referenceId)
+        string reasonWhy, DateTimeOffset createdAt)
     {
         return new Transfer(
             walletId,
             amount,
             TransferDirection.Out,
-            createdAt,
-            referenceId
+            reasonWhy,
+            createdAt
         );
     }
 
@@ -58,8 +59,6 @@ public class Transfer : BaseEntity
         In,
         Out
     }
-
-
 
     public override string ToString()
     {

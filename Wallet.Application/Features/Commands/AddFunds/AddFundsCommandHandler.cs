@@ -30,14 +30,18 @@ public class AddFundsCommandHandler : IRequestHandler<AddFundsCommand, AddFundsR
             return addFundsResponse;
         }
 
-        var transfer = wallet.AddFunds(request.Amount);
+        var transfer = wallet.AddFunds(request.Amount, request.ReasonWhy);
 
         await _walletRepository.UpdateAsync(wallet);
 
         addFundsResponse.Success = true;
         addFundsResponse.Message = $"204 No Content";
 
-        _logger.LogInformation($"Added {transfer.Amount} to the wallet: '{wallet.WalletId}'");
+        _logger.LogInformation("Added {Amount} to the wallet: {WalletId} because of {reason}",
+            transfer.Amount,
+            transfer.WalletId,
+            transfer.ReasonWhy
+        );
 
         return addFundsResponse;
 

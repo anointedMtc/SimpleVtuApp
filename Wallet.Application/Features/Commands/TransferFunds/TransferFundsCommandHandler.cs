@@ -39,11 +39,16 @@ public class TransferFundsCommandHandler : IRequestHandler<TransferFundsCommand,
             return transferFundsResponse;
         }
 
-        fromWallet.TransferFunds(toWallet, request.Amount, DateTimeOffset.UtcNow);
+        fromWallet.TransferFunds(toWallet, request.Amount, request.ReasonWhy);
 
         await _walletRepository.UpdateAsync(fromWallet);
         await _walletRepository.UpdateAsync(toWallet);
-        _logger.LogInformation($"Transferred {request.Amount} from: '{request.FromWalletId}' to: '{request.ToWalletId}'.");
+        _logger.LogInformation("Transferred {Amount} from: {FromWalletId} to: {ToWalletId} because of {reason}.",
+            request.Amount,
+            request.FromWalletId,
+            request.ToWalletId,
+            request.ReasonWhy
+        );
 
         transferFundsResponse.Success = true;
         transferFundsResponse.Message = $"204 No Content";

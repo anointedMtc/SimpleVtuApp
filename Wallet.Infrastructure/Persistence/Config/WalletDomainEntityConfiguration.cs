@@ -23,8 +23,8 @@ public class WalletDomainEntityConfiguration : IEntityTypeConfiguration<WalletDo
             .SetPropertyAccessMode(PropertyAccessMode.Field);
 
         // NON-CLUSTERED
-        builder.HasIndex(b => b.Email)
-             .IsUnique();
+        //builder.HasIndex(b => b.Email)
+        //     .IsUnique();
 
         builder.Ignore(b => b.DomainEvents);
     }

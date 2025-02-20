@@ -7,7 +7,7 @@ namespace Wallet.Domain.Entities.WalletAggregate;
 
 public class WalletDomainEntity : BaseEntity, IAggregateRoot
 {
-    private HashSet<Transfer> _transfers = new();
+    private HashSet<Transfer> _transfers = [];
 
     public Guid WalletId { get; private set; }
     public Guid OwnerId { get; private set; }
@@ -44,28 +44,25 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
     }
 
 
-    public IReadOnlyCollection<Transfer> TransferFunds(WalletDomainEntity receiver, Amount amount)
+    public IReadOnlyCollection<Transfer> TransferFunds(WalletDomainEntity receiver, Amount amount, string reasonWhy)
     {
-        var outTransferId = Guid.NewGuid();
-        var inTransferId = Guid.NewGuid();
 
-        var outTransfer = DeductFunds(amount);
-        var inTransfer = receiver.AddFunds(amount);
+        var outTransfer = DeductFunds(amount, reasonWhy);
+        var inTransfer = receiver.AddFunds(amount, reasonWhy);
 
         AddDomainEvent(new FundsTransferredDomainEvent(WalletId, receiver.WalletId, amount));
 
-        return new[] { outTransfer, inTransfer };
+        return [outTransfer, inTransfer];
     }
 
-    public Transfer AddFunds(Amount amount) // why are we not stating reason why the funds was added and the date/time it was added???
+    public Transfer AddFunds(Amount amount, string reasonWhy) // why are we not stating reason why the funds was added and the date/time it was added???
     {
         if (amount <= 0)
         {
             throw new InvalidTransferAmountException(amount);
         }
         var createdAt = DateTimeOffset.UtcNow;
-        var referenceId = Guid.NewGuid();
-        var transfer = Transfer.Incoming(WalletId, amount, createdAt, referenceId);
+        var transfer = Transfer.Incoming(WalletId, amount, reasonWhy, createdAt);
         _transfers.Add(transfer);
 
         RaiseFundsAddedDomainEvent(amount);
@@ -73,7 +70,7 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
         return transfer;
     }
 
-    public Transfer DeductFunds(Amount amount) // why are we not stating reason why the funds was added and the date/time it was added???
+    public Transfer DeductFunds(Amount amount, string reasonWhy) // why are we not stating reason why the funds was added and the date/time it was added???
     {
         if (amount <= 0)
         {
@@ -86,8 +83,7 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
         }
 
         var createdAt = DateTimeOffset.UtcNow;
-        var referenceId = Guid.NewGuid();
-        var transfer = Transfer.Outgoing(WalletId, amount, createdAt, referenceId);
+        var transfer = Transfer.Outgoing(WalletId, amount, reasonWhy, createdAt);
         _transfers.Add(transfer);
 
         return transfer;

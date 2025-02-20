@@ -30,16 +30,18 @@ public class DeductFundsCommandHandler : IRequestHandler<DeductFundsCommand, Ded
             return deductFundsResponse;
         }
 
-        var transfer = wallet.DeductFunds(request.Amount);
+        var transfer = wallet.DeductFunds(request.Amount, request.ReasonWhy);
 
         await _walletRepository.UpdateAsync(wallet);
 
         deductFundsResponse.Success = true;
         deductFundsResponse.Message = $"204 No Content";
 
-        _logger.LogInformation("Added {transferAmount} to the wallet with Id: {WalletId}",
+        _logger.LogInformation("Added {transferAmount} to the wallet with Id: {WalletId} because of {reason}",
             transfer.Amount,
-            wallet.WalletId);
+            wallet.WalletId, 
+            transfer.ReasonWhy
+        );
 
         return deductFundsResponse;
     }

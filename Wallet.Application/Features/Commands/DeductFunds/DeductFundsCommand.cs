@@ -6,4 +6,6 @@ public class DeductFundsCommand : IRequest<DeductFundsResponse>
 {
     public Guid WalletId { get; set; }
     public decimal Amount { get; set; }
+    public string ReasonWhy { get; set; }
+
 }

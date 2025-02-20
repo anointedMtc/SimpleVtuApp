@@ -23,8 +23,8 @@ internal class OwnerConfiguration : IEntityTypeConfiguration<Owner>
             .HasMaxLength(256);
 
         // NON-CLUSTERED
-        builder.HasIndex(b => b.Email)
-             .IsUnique();
+        //builder.HasIndex(b => b.Email)
+        //     .IsUnique();
 
         builder.Ignore(b => b.DomainEvents);
     }

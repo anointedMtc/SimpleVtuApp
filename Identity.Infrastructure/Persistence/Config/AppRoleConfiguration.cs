@@ -31,8 +31,8 @@ public class AppRoleConfiguration : IEntityTypeConfiguration<ApplicationRole>
         // have the same value(s) for the index's column set. Attempting to
         // insert more than one entity with the same values for the index's
         // column set will cause an exception to be thrown
-        builder.HasIndex(b => b.Name)
-               .IsUnique();
+        //builder.HasIndex(b => b.Name)
+        //       .IsUnique();
 
         // Composite Index
         // An index can also span more than one column: Indexes over multiple
