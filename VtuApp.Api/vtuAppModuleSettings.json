@@ -1,5 +1,5 @@
 {
   "ConnectionStrings": {
-    "VtuAppModuleDb": "Data Source =CHIKURDEE\\SQLEXPRESS;Initial Catalog=VtuAppApiModuleDb;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True;Connection Timeout=30;"
+    "VtuAppModuleDb": "Data Source =CHIKURDEE\\SQLEXPRESS;Initial Catalog=vtuApp_VtuAppApiModuleDb;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True;Connection Timeout=30;"
   }
 }

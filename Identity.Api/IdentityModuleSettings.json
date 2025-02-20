@@ -1,6 +1,6 @@
 {
   "ConnectionStrings": {
-    "IdentityModuleDb": "Data Source =CHIKURDEE\\SQLEXPRESS;Initial Catalog=IdentityApiModuleDb;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True;Connection Timeout=30;"
+    "IdentityModuleDb": "Data Source =CHIKURDEE\\SQLEXPRESS;Initial Catalog=vtuApp_IdentityApiModuleDb;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True;Connection Timeout=30;"
   },
   "JwtSettings": {
     "validIssuer": "anointMtcAPI",

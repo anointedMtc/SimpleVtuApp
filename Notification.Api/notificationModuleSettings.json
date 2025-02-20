@@ -1,6 +1,6 @@
 {
   "ConnectionStrings": {
-    "NotificationModuleDb": "Data Source =CHIKURDEE\\SQLEXPRESS;Initial Catalog=NotificationApiModuleDb;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True;Connection Timeout=30;"
+    "NotificationModuleDb": "Data Source =CHIKURDEE\\SQLEXPRESS;Initial Catalog=vtuApp_NotificationApiModuleDb;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True;Connection Timeout=30;"
   },
   "EmailConfiguration": {
     "DefaultFromEmail": "anointedMtc@gmail.com",
