@@ -13,30 +13,21 @@ namespace Identity.Application.Features.UsersEndpoints.RefreshToken;
 
 public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, RefreshTokenResponse>
 {
-    private readonly IMapper _mapper;
     private readonly ILogger _logger;
-    private readonly IPublisher _publisher;
-
     private readonly ITokenService _tokenService;
-    private readonly IUserContext _userContext;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<ApplicationRole> _roleManager;
-    private readonly IEmailService _emailService;
+    private readonly IMassTransitService _massTransitService;
 
 
     public RefreshTokenCommandHandler(IMapper mapper,
-        ILogger<RefreshTokenCommandHandler> logger, IPublisher publisher, ITokenService tokenService,
-        IUserContext userContext, UserManager<ApplicationUser> userManager,
-        RoleManager<ApplicationRole> roleManager, IEmailService emailService)
+        ILogger<RefreshTokenCommandHandler> logger, ITokenService tokenService,
+        UserManager<ApplicationUser> userManager,
+        IMassTransitService massTransitService)
     {
-        _mapper = mapper;
         _logger = logger;
-        _publisher = publisher;
         _tokenService = tokenService;
-        _userContext = userContext;
         _userManager = userManager;
-        _roleManager = roleManager;
-        _emailService = emailService;
+        _massTransitService = massTransitService;
     }
 
     public async Task<RefreshTokenResponse> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
@@ -44,10 +35,12 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
         var refreshTokenResponse = new RefreshTokenResponse();
         refreshTokenResponse.RefreshTokenResponseDto = new RefreshTokenResponseDto();
 
-        _logger.LogInformation($"Refresh token request: {request}");
+        _logger.LogInformation("Refresh token request:{@request}", 
+            request.RefreshTokenRequest);
 
-        using var sha256 = SHA256.Create();     // using helps us to dispose... not necessarily garbage collection, but when the resources is no longer needed it would dispose it
-        var refreshTokenHash = sha256.ComputeHash(Encoding.UTF8.GetBytes(request.RefreshTokenRequest.RefreshToken));
+        //using var sha256 = SHA256.Create();     // using helps us to dispose... not necessarily garbage collection, but when the resources is no longer needed it would dispose it
+        //var refreshTokenHash = sha256.ComputeHash(Encoding.UTF8.GetBytes(request.RefreshTokenRequest.RefreshToken));
+        var refreshTokenHash = SHA256.HashData(Encoding.UTF8.GetBytes(request.RefreshTokenRequest.RefreshToken));
         var hashedRefreshedToken = Convert.ToBase64String(refreshTokenHash);
 
         var user = _userManager.Users.FirstOrDefault(u => u.RefreshToken == hashedRefreshedToken);

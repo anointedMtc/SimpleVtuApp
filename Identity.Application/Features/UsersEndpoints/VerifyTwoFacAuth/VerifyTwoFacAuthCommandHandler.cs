@@ -1,6 +1,4 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using AutoMapper;
-using Identity.Application.Exceptions;
+﻿using Identity.Application.Exceptions;
 using Identity.Application.Interfaces;
 using Identity.Domain.Entities;
 using Identity.Shared.DTO;
@@ -14,30 +12,18 @@ namespace Identity.Application.Features.UsersEndpoints.VerifyTwoFacAuth;
 
 public class VerifyTwoFacAuthCommandHandler : IRequestHandler<VerifyTwoFacAuthCommand, VerifyTwoFacAuthResponse>
 {
-    private readonly IMapper _mapper;
     private readonly ILogger _logger;
-    private readonly IPublisher _publisher;
-
     private readonly ITokenService _tokenService;
-    private readonly IUserContext _userContext;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<ApplicationRole> _roleManager;
-    private readonly IEmailService _emailService;
 
 
-    public VerifyTwoFacAuthCommandHandler(IMapper mapper,
-        ILogger<VerifyTwoFacAuthCommandHandler> logger, IPublisher publisher, ITokenService tokenService,
-        IUserContext userContext, UserManager<ApplicationUser> userManager,
-        RoleManager<ApplicationRole> roleManager, IEmailService emailService)
+    public VerifyTwoFacAuthCommandHandler(
+        ILogger<VerifyTwoFacAuthCommandHandler> logger, ITokenService tokenService,
+        UserManager<ApplicationUser> userManager)
     {
-        _mapper = mapper;
         _logger = logger;
-        _publisher = publisher;
         _tokenService = tokenService;
-        _userContext = userContext;
         _userManager = userManager;
-        _roleManager = roleManager;
-        _emailService = emailService;
     }
     public async Task<VerifyTwoFacAuthResponse> Handle(VerifyTwoFacAuthCommand request, CancellationToken cancellationToken)
     {

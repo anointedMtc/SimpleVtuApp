@@ -34,7 +34,7 @@ public sealed class NewApplicationUserRegisteredEventConsumer : IConsumer<NewApp
             DateTimeOffset.UtcNow
         );
 
-        var message = new EmailDto(context.Message.Email!, "Email Confirmation Token", $"Dear Subscriber, <br><br>Please confirm your Email account by <a href={HtmlEncoder.Default.Encode(context.Message.CallbackUrl)}>clicking here</a>.  <br><br> You can as well choose to copy your Token below and paste in appropriate apiEndpoint: <br><br> {HtmlEncoder.Default.Encode(context.Message.ValidToken)} <br><br> If however you didn't make this request, kindly ignore. <br><br> Thanks <br><br> anointedMtc");
+        var message = new EmailDto(context.Message.Email!, "Email Confirmation Token", $"Dear {context.Message.FirstName}, <br><br>Please confirm your Email account by <a href={HtmlEncoder.Default.Encode(context.Message.CallbackUrl)}>clicking here</a>.  <br><br> You can as well choose to copy your Token below and paste in appropriate apiEndpoint: <br><br> {HtmlEncoder.Default.Encode(context.Message.ValidToken)} <br><br> If however you didn't make this request, kindly ignore. <br><br> Thanks <br><br> anointedMtc");
         await _emailService.Send(message);
 
         var emailToSave = _mapper.Map<EmailEntity>(message);

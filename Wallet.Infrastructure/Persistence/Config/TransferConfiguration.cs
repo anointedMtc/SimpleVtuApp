@@ -10,9 +10,6 @@ public class TransferConfiguration : IEntityTypeConfiguration<Transfer>
     {
         builder.HasKey(b => b.TransferId);
 
-        builder.Property(b => b.ReferenceId)
-            .IsRequired()
-            .HasMaxLength(256);
 
         builder.Property(b => b.WalletId)
             .IsRequired()

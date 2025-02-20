@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using System.Text.Encodings.Web;
 using System.Text;
 using Identity.Domain.Entities;
 using ApplicationSharedKernel.Interfaces;
 using Identity.Application.Exceptions;
+using Identity.Shared.IntegrationEvents;
 
 namespace Identity.Application.Features.UsersEndpoints.ChangeEmailRequest;
 
@@ -14,19 +14,19 @@ public class ChangeEmailRequestCommandHandler : IRequestHandler<ChangeEmailReque
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ILogger<ChangeEmailRequestCommandHandler> _logger;
-    private readonly IEmailService _emailService;
     private readonly IUserContext _userContext;
+    private readonly IMassTransitService _massTransitService;
 
-    private static readonly string _resetEmailEndpoint = $"https://localhost:7023/api/Account/confirm-change-email";            // it's job is just to supply the resetPassword endpoint link and to that would be attached token and email which are needed by that endpoint... so when you click it, it automatically invokes the endpoint and confirms your email for you
+    private static readonly string _resetEmailEndpoint = $"https://localhost:7287/api/v1/Account/confirm-change-email";            // it's job is just to supply the resetPassword endpoint link and to that would be attached token and email which are needed by that endpoint... so when you click it, it automatically invokes the endpoint and confirms your email for you
 
     public ChangeEmailRequestCommandHandler(UserManager<ApplicationUser> userManager,
-        ILogger<ChangeEmailRequestCommandHandler> logger, IEmailService emailService,
-        IUserContext userContext)
+        ILogger<ChangeEmailRequestCommandHandler> logger,
+        IUserContext userContext, IMassTransitService massTransitService)
     {
         _userManager = userManager;
         _logger = logger;
-        _emailService = emailService;
         _userContext = userContext;
+        _massTransitService = massTransitService;
     }
     public async Task<ChangeEmailRequestResponse> Handle(ChangeEmailRequestCommand request, CancellationToken cancellationToken)
     {
@@ -76,12 +76,18 @@ public class ChangeEmailRequestCommandHandler : IRequestHandler<ChangeEmailReque
         var callbackUrl = $"{_resetEmailEndpoint}?newEmail={request.ChangeEmailRequestDto.NewEmail!}&currentEmail={user.Email}&token={validToken}";
 
         
-        var message = new EmailMetadata(request.ChangeEmailRequestDto.NewEmail!, "Change Email Request Token", $"Dear Subscriber, <br><br> If you are consuming this through a FrontEnd client, Please confirm the change of email request by using the call back link by <a href={HtmlEncoder.Default.Encode(callbackUrl)}>clicking here</a>. <br><br> Else Here is your token <br><br> {HtmlEncoder.Default.Encode(validToken)} <br><br> If however, you didn't make this request, kindly ignore. <br><br> Thanks. <br><br> anointedMtc");
-
-        await _emailService.Send(message);
-
+        //var message = new EmailMetadata(request.ChangeEmailRequestDto.NewEmail!, "Change Email Request Token", $"Dear Subscriber, <br><br> If you are consuming this through a FrontEnd client, Please confirm the change of email request by using the call back link by <a href={HtmlEncoder.Default.Encode(callbackUrl)}>clicking here</a>. <br><br> Else Here is your token <br><br> {HtmlEncoder.Default.Encode(validToken)} <br><br> If however, you didn't make this request, kindly ignore. <br><br> Thanks. <br><br> anointedMtc");
+        //await _emailService.Send(message);
         // ALSO SEND AN EMAIL TO THE CURRENT EMAIL INFORMING THEM OF THE CHANGE-EMAIL REQUEST
-        var messageTwo = new EmailMetadata(user.Email, "Change of Email Request", $"Dear Subscriber, <br><br> A request was made to change your email with us from this to another email. If it wasn't you, kindly reach out to us at <br><br> info@anointedMtc.com   <br><br>  Thanks.  <br><br> anointedMtc");
+        //var messageTwo = new EmailMetadata(user.Email, "Change of Email Request", $"Dear Subscriber, <br><br> A request was made to change your email with us from this to another email. If it wasn't you, kindly reach out to us at <br><br> info@anointedMtc.com   <br><br>  Thanks.  <br><br> anointedMtc");
+
+        await _massTransitService.Publish(new ChangeEmailRequestedEvent(
+            user.Email,
+            request.ChangeEmailRequestDto.NewEmail,
+            callbackUrl,
+            validToken,
+            user.FirstName!)
+        );
 
         changeEmailRequestResponse.Success = true;
         changeEmailRequestResponse.Message = "Confirmation link to change email sent. Please check your email for token/link to complete the process.";

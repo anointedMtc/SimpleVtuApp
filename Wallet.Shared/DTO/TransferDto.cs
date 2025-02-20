@@ -8,5 +8,6 @@ public class TransferDto
     public int Direction { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public Guid ReferenceId { get; set; }
+    public string ReasonWhy { get; set; }
 }
 

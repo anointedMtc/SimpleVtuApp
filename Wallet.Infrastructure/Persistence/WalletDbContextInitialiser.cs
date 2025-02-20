@@ -146,7 +146,7 @@ public class WalletDbContextInitialiser
         using Stream reader = new FileStream(fileName, FileMode.Open);
         var apptTypes = await JsonSerializer.DeserializeAsync<List<TransferDto>>(reader);
 
-        return apptTypes.Select(dto => new Transfer(dto.WalletId, dto.Amount, (Transfer.TransferDirection)dto.Direction, dto.CreatedAt, dto.ReferenceId)).ToList();
+        return apptTypes.Select(dto => new Transfer(dto.WalletId, dto.Amount, (Transfer.TransferDirection)dto.Direction, dto.ReasonWhy, dto.CreatedAt)).ToList();
     }
 
     private static List<TransferDto> GetDefaultTransfers()

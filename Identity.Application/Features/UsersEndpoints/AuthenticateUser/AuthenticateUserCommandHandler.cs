@@ -4,6 +4,7 @@ using Identity.Application.Exceptions;
 using Identity.Application.Interfaces;
 using Identity.Domain.Entities;
 using Identity.Shared.DTO;
+using Identity.Shared.IntegrationEvents;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -22,13 +23,14 @@ public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCo
     private readonly IUserContext _userContext;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<ApplicationRole> _roleManager;
-    private readonly IEmailService _emailService;
+    private readonly IMassTransitService _massTransitService;
 
 
     public AuthenticateUserCommandHandler(IMapper mapper,
         ILogger<AuthenticateUserCommandHandler> logger, IPublisher publisher, ITokenService tokenService,
         IUserContext userContext, UserManager<ApplicationUser> userManager,
-        RoleManager<ApplicationRole> roleManager, IEmailService emailService)
+        RoleManager<ApplicationRole> roleManager,
+        IMassTransitService massTransitService)
     {
         _mapper = mapper;
         _logger = logger;
@@ -37,7 +39,7 @@ public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCo
         _userContext = userContext;
         _userManager = userManager;
         _roleManager = roleManager;
-        _emailService = emailService;
+        _massTransitService = massTransitService;
     }
     public async Task<AuthenticateUserResponse> Handle(AuthenticateUserCommand request, CancellationToken cancellationToken)
     {
@@ -71,12 +73,15 @@ public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCo
 
             if (await _userManager.IsLockedOutAsync(user))
             {
-                var content = $"Your Account is Locked Due to Multiple Invalid login Attempts. If you want to reset the password, " +
-                    $"you can use the Forgot Password link on the Login Page";
+                //var content = $"Your Account is Locked Due to Multiple Invalid login Attempts. If you want to reset the password, " +
+                //    $"you can use the Forgot Password link on the Login Page";
+                //var message = new EmailMetadata(request.UserForAuthentication.Email!, "Locked out account information", content);
+                //await _emailService.Send(message);
 
-                var message = new EmailMetadata(request.UserForAuthentication.Email!, "Locked out account information", content);
-
-                await _emailService.Send(message);
+                await _massTransitService.Publish(new NotifyUserOfAccountLockOutEvent(
+                    user.Email!,
+                    user.FirstName)
+                );
 
                 throw new CustomUnauthorizedException("Your account is locked out, please try again after sometime or you may reset your password. No retry attempt remaining");
             }
@@ -93,9 +98,14 @@ public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCo
 
             var tokenFor2Fac = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
             
-            var message = new EmailMetadata(user.Email!, "Authentication token", $"Dear subscriber, <br><br> Kindly use this OTP to complete your login request.<br><br> {tokenFor2Fac} <br><br> But if you didn't request for this, kindly ignore. <br><br> Thanks. <br><br> anointedMtc");
+            //var message = new EmailMetadata(user.Email!, "Authentication token", $"Dear subscriber, <br><br> Kindly use this OTP to complete your login request.<br><br> {tokenFor2Fac} <br><br> But if you didn't request for this, kindly ignore. <br><br> Thanks. <br><br> anointedMtc");
+            //await _emailService.Send(message);
 
-            await _emailService.Send(message);
+            await _massTransitService.Publish(new TwoFacAuthRequestedEvent(
+                user.Email!,
+                tokenFor2Fac,
+                user.FirstName)
+            );
 
             authenticateUserResponse.LoginResponse.Is2FactorRequired = user.TwoFactorEnabled;
             authenticateUserResponse.LoginResponse.Provider = "Email";

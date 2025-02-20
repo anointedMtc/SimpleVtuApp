@@ -21,7 +21,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IMassTransitService _massTransitService;
 
-    private static readonly string _emailConfirmationEndpoint = $"https://localhost:7023/api/Account/emailconfirmation";            // it's job is just to supply the emailConfirmation endpoint link and to that would be attached token and email which are needed by that endpoint... so when you click it, it automatically invokes the endpoint and confirms your email for you
+    private static readonly string _emailConfirmationEndpoint = $"https://localhost:7287/api/v1/Account/emailconfirmation";            // it's job is just to supply the emailConfirmation endpoint link and to that would be attached token and email which are needed by that endpoint... so when you click it, it automatically invokes the endpoint and confirms your email for you
 
     public RegisterUserCommandHandler(IMapper mapper,
         ILogger<RegisterUserCommandHandler> logger, 
@@ -77,7 +77,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
 
         //var message = new EmailDto(request.UserForRegisteration.Email!, "Email Confirmation Token", $"Dear Subscriber, <br><br>Please confirm your Email account by <a href={HtmlEncoder.Default.Encode(callbackUrl)}>clicking here</a>.  <br><br> You can as well choose to copy your Token below and paste in appropriate apiEndpoint: <br><br> {HtmlEncoder.Default.Encode(validToken)} <br><br> If however you didn't make this request, kindly ignore. <br><br> Thanks <br><br> anointedMtc");
         //await _emailService.Send(message);
-        await _massTransitService.Publish(new NewApplicationUserRegisteredEvent(request.UserForRegisteration.Email!, callbackUrl, validToken));
+        await _massTransitService.Publish(new NewApplicationUserRegisteredEvent(request.UserForRegisteration.Email!, newUser.FirstName, callbackUrl, validToken));
 
 
         await _userManager.SetTwoFactorEnabledAsync(newUser, request.UserForRegisteration.IsTwoFacAuthEnabled);
