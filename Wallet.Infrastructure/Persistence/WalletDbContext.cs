@@ -10,15 +10,13 @@ namespace Wallet.Infrastructure.Persistence;
 public class WalletDbContext : DbContext
 {
     private readonly IMediator _mediator;
-    private readonly AuditableEntitySaveChangesInterceptor _auditableEntitySaveChangesInterceptor;
+    //private readonly AuditableEntitySaveChangesInterceptor _auditableEntitySaveChangesInterceptor;
 
-    public WalletDbContext(DbContextOptions<WalletDbContext> contextOptions, 
-        IMediator mediator,
-        AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor) 
+    public WalletDbContext(DbContextOptions<WalletDbContext> contextOptions, IMediator mediator) 
         : base(contextOptions)
     {
         _mediator = mediator;
-        _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
+        //_auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
     }
 
     // EntityFramework core 
@@ -27,7 +25,7 @@ public class WalletDbContext : DbContext
 
     public DbSet<Owner> Owners { get; set; }
     public DbSet<Transfer> Transfers { get; set; }
-    public DbSet<Domain.Entities.WalletAggregate.WalletDomainEntity> WalletDomainEntities { get; set; }
+    public DbSet<WalletDomainEntity> WalletDomainEntities { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -61,12 +59,12 @@ public class WalletDbContext : DbContext
     }
 
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //{
+    //    optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
 
-        optionsBuilder.UseSqlServer("Data Source =CHIKURDEE\\SQLEXPRESS;Initial Catalog=vtuApp_WalletApiModuleDb;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True;Connection Timeout=30;");
-    }
+    //    //optionsBuilder.UseSqlServer("Data Source =CHIKURDEE\\SQLEXPRESS;Initial Catalog=vtuApp_WalletApiModuleDb;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True;Connection Timeout=30;");
+    //}
 
 
     // PUBLISHING EVENTS BEFORE SAVING
