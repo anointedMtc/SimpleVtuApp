@@ -9,7 +9,7 @@ public class WalletDomainEntityConfiguration : IEntityTypeConfiguration<WalletDo
     public void Configure(EntityTypeBuilder<WalletDomainEntity> builder)
     {
 
-        builder.HasKey(b => b.WalletId);
+        builder.HasKey(b => b.Id);
 
         builder.Property(b => b.OwnerId)
            .IsRequired()
@@ -25,6 +25,15 @@ public class WalletDomainEntityConfiguration : IEntityTypeConfiguration<WalletDo
         // NON-CLUSTERED
         //builder.HasIndex(b => b.Email)
         //     .IsUnique();
+
+
+        // JUST CONFIGURE IT ONLY ONCE... I USED THE PRINCIPAL/PARENT CLASS SO NO NEED TO DO IT AGAIN HERE (DEPENDENT/CHILD CLASS)
+        // Neither of these options is better than the other; they both result in exactly the same configuration.
+        //builder.HasOne(d => d.Owner)
+        //    .WithOne(e => e.WalletDomainEntity)
+        //    .HasForeignKey<WalletDomainEntity>(e => e.OwnerId)
+        //    .IsRequired();
+
 
         builder.Ignore(b => b.DomainEvents);
     }

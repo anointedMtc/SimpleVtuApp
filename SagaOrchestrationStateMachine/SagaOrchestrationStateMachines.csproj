@@ -15,4 +15,10 @@
     <ProjectReference Include="..\Wallet.Presentation\Wallet.Api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="sagaStateMachinesModuleSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

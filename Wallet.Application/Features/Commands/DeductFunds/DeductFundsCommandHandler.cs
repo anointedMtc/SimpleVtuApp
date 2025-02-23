@@ -39,7 +39,7 @@ public class DeductFundsCommandHandler : IRequestHandler<DeductFundsCommand, Ded
 
         _logger.LogInformation("Added {transferAmount} to the wallet with Id: {WalletId} because of {reason}",
             transfer.Amount,
-            wallet.WalletId, 
+            wallet.Id, 
             transfer.ReasonWhy
         );
 

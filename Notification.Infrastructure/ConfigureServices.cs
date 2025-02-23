@@ -1,8 +1,10 @@
 ﻿using DomainSharedKernel.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Notification.Application.Interfaces;
 using Notification.Infrastructure.Models;
+using Notification.Infrastructure.Persistence;
 using Notification.Infrastructure.Persistence.Repositories;
 using Notification.Infrastructure.Services;
 
@@ -12,6 +14,13 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddNotificationInfrastructureLayer(this IServiceCollection services, IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("NotificationModuleDb")
+            ?? throw new InvalidOperationException("Connection string"
+            + "'DefaultConnection' not found.");
+
+        services.AddDbContext<EmailDbContext>(options =>
+                options.UseSqlServer(connectionString, o => o.EnableRetryOnFailure()));
+
         services.AddScoped(typeof(IRepository<>), typeof(EmailRepository<>));
 
 

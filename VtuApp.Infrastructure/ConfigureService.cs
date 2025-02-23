@@ -1,16 +1,26 @@
 ﻿using DomainSharedKernel.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using VtuApp.Application.Interfaces.ExternalServices.VtuNationApi;
 using VtuApp.Infrastructure.ExternalServices.VtuNationApi;
+using VtuApp.Infrastructure.Persistence;
 using VtuApp.Infrastructure.Persistence.Repositories;
 
 namespace VtuApp.Infrastructure;
 
 public static class ConfigureService
 {
-    public static IServiceCollection AddVtuAppInfrastructureLayer(this IServiceCollection services)
+    public static IServiceCollection AddVtuAppInfrastructureLayer(this IServiceCollection services, IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("VtuAppModuleDb")
+            ?? throw new InvalidOperationException("Connection string"
+            + "'DefaultConnection' not found.");
+
+        services.AddDbContext<VtuDbContext>(options =>
+                options.UseSqlServer(connectionString, o => o.EnableRetryOnFailure()));
+
         services.AddScoped(typeof(IRepository<>), typeof(VtuAppRepository<>));
 
 

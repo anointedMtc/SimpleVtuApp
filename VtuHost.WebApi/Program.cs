@@ -5,6 +5,7 @@ using Identity.Infrastructure;
 using Notification.Api;
 using SagaOrchestrationStateMachines;
 using Serilog;
+using Serilog.Formatting.Compact;
 using SharedKernel.Api;
 using VtuApp.Api;
 using VtuHost.WebApi.Constants;
@@ -12,9 +13,35 @@ using VtuHost.WebApi.Extensions;
 using VtuHost.WebApi.Middlewares;
 using Wallet.Api;
 
+// this will get replaced by the one registered in our IoC container
+
+// METHOD ONE
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .Enrich.FromLogContext()
+    //.WriteTo.Console()
+    .WriteTo.Console(new RenderedCompactJsonFormatter())
+    .WriteTo.Seq("http://localhost:5341")
+    .WriteTo.File(new CompactJsonFormatter(), "/logs/logformat2-.json", rollingInterval: RollingInterval.Day)
+    //.CreateLogger();
+    .CreateBootstrapLogger(); // use this especially when you want to override with the one below
+
+// METHOD TWO
+//var configuration = new ConfigurationBuilder()
+//    .SetBasePath(Directory.GetCurrentDirectory())
+//    .AddJsonFile("appsettings.json")
+//    .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", true, true)
+//    .Build();
+
+//var logger = new LoggerConfiguration()
+//    .ReadFrom.Configuration(configuration)
+//    .CreateLogger();
+
+Log.Information("Starting web application...");
+
 try
 {
-    Log.Information("Application Stating Up");
+
 
     var builder = WebApplication.CreateBuilder(args);
 
@@ -94,10 +121,12 @@ try
     app.Run();
 
 }
-catch (Exception ex)
+//catch (Exception ex)
+// Yes this is expected, you should be able to catch and ignore HostAbortedException in your application code if you're catching and logging all startup exceptions.
+catch (Exception ex) when (ex is not HostAbortedException && ex.Source != "Microsoft.EntityFrameworkCore.Design") // see https://github.com/dotnet/efcore/issues/29923
 {
 
-    Log.Fatal(ex, "Application startup failed");
+    Log.Fatal(ex, "Host terminated unexpectedly. Application startup failed.");
 
 }
 finally

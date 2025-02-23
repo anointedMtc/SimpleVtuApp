@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Wallet.Infrastructure.Persistence.Repositories;
 
-public class WalletRepository<T> : IRepository<T> where T : BaseEntity, IAggregateRoot
+public class WalletRepository<T> : IRepository<T> where T : class, IAggregateRoot
 {
     private readonly WalletDbContext _walletDbContext;
 

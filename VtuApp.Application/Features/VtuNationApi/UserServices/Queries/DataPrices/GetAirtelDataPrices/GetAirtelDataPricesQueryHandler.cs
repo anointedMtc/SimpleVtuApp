@@ -7,10 +7,10 @@ namespace VtuApp.Application.Features.VtuNationApi.UserServices.Queries.DataPric
 public class GetAirtelDataPricesQueryHandler : IRequestHandler<GetAirtelDataPricesQuery, GetAirtelDataPricesResponse>
 {
     private readonly IGetServicesFromVtuNation _getServicesFromVtuNation;
-    private readonly ILogger _logger;
+    private readonly ILogger<GetAirtelDataPricesQueryHandler> _logger;
 
     public GetAirtelDataPricesQueryHandler(IGetServicesFromVtuNation getServicesFromVtuNation, 
-        ILogger logger)
+        ILogger<GetAirtelDataPricesQueryHandler> logger)
     {
         _getServicesFromVtuNation = getServicesFromVtuNation;
         _logger = logger;

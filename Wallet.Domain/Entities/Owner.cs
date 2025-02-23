@@ -5,6 +5,7 @@ using Wallet.Domain.Events;
 
 namespace Wallet.Domain.Entities;
 
+// Principal (parent) of walletDomainEntity class... 
 public class Owner : BaseEntity, IAggregateRoot
 {
     public Guid OwnerId { get; private set; }
@@ -15,7 +16,8 @@ public class Owner : BaseEntity, IAggregateRoot
     public DateTimeOffset CreatedAt { get; private set; }
 
 
-    public Guid WalletDomainEntityId { get; private set; }
+    // Reference navigation to dependent
+    // A good way to remember this is that foreign key is placed inside the child/dependent
     public WalletDomainEntity WalletDomainEntity { get; private set; }
 
 

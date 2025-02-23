@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -23,6 +24,14 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddIdentityInfrastructureLayer(this IServiceCollection services, IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("IdentityModuleDb")
+                ?? throw new InvalidOperationException("Connection string"
+                + "'DefaultConnection' not found.");
+
+
+        services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(connectionString, o => o.EnableRetryOnFailure()));
+
         services.AddScoped(typeof(IRepository<>), typeof(IdentityRepository<>));
 
         services.AddScoped<ApplicationDbContextInitializer>();

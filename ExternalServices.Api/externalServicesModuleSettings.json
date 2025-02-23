@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "externalServicesModuleDb": "Data Source =CHIKURDEE\\SQLEXPRESS;Initial Catalog=vtuApp_ExternalServicesApiModuleDb;Integrated Security=True;TrustServerCertificate=True;Trusted_Connection=True;Connection Timeout=30;"
+  }
+}

@@ -5,12 +5,12 @@ using Wallet.Domain.Exceptions;
 
 namespace Wallet.Domain.Entities.WalletAggregate;
 
+// Dependent (child) of Owner class... so Owner is a parent... Wallet is the child... 
 public class WalletDomainEntity : BaseEntity, IAggregateRoot
 {
     private HashSet<Transfer> _transfers = [];
 
-    public Guid WalletId { get; private set; }
-    public Guid OwnerId { get; private set; }
+    public Guid Id { get; private set; }
     public Guid ApplicationUserId { get; private set; }
     public string Email { get; private set; }
 
@@ -20,6 +20,11 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
         set => _transfers = new HashSet<Transfer>(value);
     }
     public DateTimeOffset CreatedAt { get; private set; }
+
+
+    public Guid OwnerId { get; private set; } // Required foreign key property of parent
+    public Owner Owner { get; private set; }  // Required reference navigation to principal/parent
+
 
 
     //#pragma warning disable CS8618    // Required by Entity Framework
@@ -50,7 +55,7 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
         var outTransfer = DeductFunds(amount, reasonWhy);
         var inTransfer = receiver.AddFunds(amount, reasonWhy);
 
-        AddDomainEvent(new FundsTransferredDomainEvent(WalletId, receiver.WalletId, amount));
+        AddDomainEvent(new FundsTransferredDomainEvent(Id, receiver.Id, amount));
 
         return [outTransfer, inTransfer];
     }
@@ -62,7 +67,7 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
             throw new InvalidTransferAmountException(amount);
         }
         var createdAt = DateTimeOffset.UtcNow;
-        var transfer = Transfer.Incoming(WalletId, amount, reasonWhy, createdAt);
+        var transfer = Transfer.Incoming(Id, amount, reasonWhy, createdAt);
         _transfers.Add(transfer);
 
         RaiseFundsAddedDomainEvent(amount);
@@ -79,11 +84,11 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
 
         if (CurrentAmount() < amount)
         {
-            throw new InsufficientWalletFundsException(WalletId);
+            throw new InsufficientWalletFundsException(Id);
         }
 
         var createdAt = DateTimeOffset.UtcNow;
-        var transfer = Transfer.Outgoing(WalletId, amount, reasonWhy, createdAt);
+        var transfer = Transfer.Outgoing(Id, amount, reasonWhy, createdAt);
         _transfers.Add(transfer);
 
         return transfer;
@@ -133,7 +138,7 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
 
     private void RaiseFundsAddedDomainEvent(Amount amount)
     {
-        AddDomainEvent(new FundsAddedDomainEvent(WalletId, OwnerId, amount));
+        AddDomainEvent(new FundsAddedDomainEvent(Id, OwnerId, amount));
     }
 
 
@@ -141,6 +146,6 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
 
     public override string ToString()
     {
-        return WalletId.ToString();
+        return Id.ToString();
     }
 }
