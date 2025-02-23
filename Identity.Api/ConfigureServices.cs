@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using System;
+using System.Reflection;
 
 namespace Identity.Api;
 
@@ -21,11 +22,22 @@ public static class ConfigureServices
         //ConfigureModuleFileProvidersAndSettingsFiles(builder);
         //ConfigureDatabase(builder);
 
+        AddSettingsJsonFile(builder.Configuration);
+
         builder.Services.AddControllers()
                        .AddApplicationPart(typeof(AccountController).Assembly);
 
         builder.Services.AddIdentityApplicationLayer();
         builder.Services.AddIdentityInfrastructureLayer(builder.Configuration);
+    }
+
+    private static void AddSettingsJsonFile(this IConfigurationBuilder configurationBuilder)
+    {
+
+        var buildDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        var filePath = buildDirectory + @"\identityModuleSettings.json";
+        configurationBuilder.AddJsonFile(filePath, false, true);
+
     }
 
     //private static void ConfigureModuleFileProvidersAndSettingsFiles(WebApplicationBuilder builder)
@@ -57,5 +69,5 @@ public static class ConfigureServices
     //    //                .AddApplicationPart(assembly);
 
     //}
-    
+
 }

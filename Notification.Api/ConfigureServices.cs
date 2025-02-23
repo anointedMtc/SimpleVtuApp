@@ -8,6 +8,7 @@ using Notification.Application;
 using Notification.Infrastructure;
 using Notification.Infrastructure.Persistence;
 using System;
+using System.Reflection;
 
 namespace Notification.Api;
 
@@ -21,11 +22,22 @@ public static class ConfigureServices
         //ConfigureModuleFileProvidersAndSettingsFiles(builder);
         //ConfigureDatabase(builder);
 
+        AddSettingsJsonFile(builder.Configuration);
+
         builder.Services.AddControllers()
                        .AddApplicationPart(typeof(EmailController).Assembly);
 
         builder.Services.AddNotificationApplicationLayer();
         builder.Services.AddNotificationInfrastructureLayer(builder.Configuration);
+    }
+
+    private static void AddSettingsJsonFile(this IConfigurationBuilder configurationBuilder)
+    {
+
+        var buildDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        var filePath = buildDirectory + @"\notificationModuleSettings.json";
+        configurationBuilder.AddJsonFile(filePath, false, true);
+
     }
 
     //private static void ConfigureModuleFileProvidersAndSettingsFiles(WebApplicationBuilder builder)
@@ -57,5 +69,5 @@ public static class ConfigureServices
     //    //                .AddApplicationPart(assembly);
 
     //}
-    
+
 }

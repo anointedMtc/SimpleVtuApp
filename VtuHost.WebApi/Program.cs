@@ -42,7 +42,6 @@ Log.Information("Starting web application...");
 try
 {
 
-
     var builder = WebApplication.CreateBuilder(args);
 
     builder.AddExternalServicesModule();

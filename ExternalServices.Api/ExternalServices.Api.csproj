@@ -11,4 +11,10 @@
     <ProjectReference Include="..\ExternalServices.Application\ExternalServices.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="externalServicesModuleSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

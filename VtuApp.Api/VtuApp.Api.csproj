@@ -11,4 +11,10 @@
     <ProjectReference Include="..\VtuApp.Infrastructure\VtuApp.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="vtuAppModuleSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
