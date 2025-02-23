@@ -7,11 +7,15 @@ namespace Wallet.Domain.Entities.WalletAggregate;
 public class Transfer : BaseEntity
 {
     public Guid TransferId { get; private set; }
-    public Guid WalletId { get; private set; }
     public Amount Amount { get; private set; }
     public TransferDirection Direction { get; private set; }
     public string ReasonWhy { get; private set; }
     public DateTimeOffset CreatedAt { get; private set; }
+
+
+    // there is an Id of the Principal/parent class on the dependent/child class which would be used as foreign key / navigation
+    // the relationship between Transfer and WalletDomainEntity = one-to-many... a wallet can have many transfers
+    public Guid WalletDomainEntityId { get; private set; }
 
 
     //#pragma warning disable CS8618    // Required by Entity Framework
@@ -21,7 +25,7 @@ public class Transfer : BaseEntity
     public Transfer(Guid walletId, Amount amount,
         TransferDirection direction, string reasonWhy, DateTimeOffset createdAt)
     {
-        WalletId = walletId;
+        WalletDomainEntityId = walletId;
         Amount = amount;
         Direction = direction;
         ReasonWhy = reasonWhy;

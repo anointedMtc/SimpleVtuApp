@@ -18,6 +18,11 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             p.Property(pp => pp.Value).IsRequired().HasColumnType("decimal (18,2)");
         });
 
+        builder.OwnsOne(p => p.BonusBalance, p =>
+        {
+            p.Property(pp => pp.Value).IsRequired().HasColumnType("decimal (18,2)");
+        });
+
         // NON-CLUSTERED
         //builder.HasIndex(b => b.Email)
         //     .IsUnique();

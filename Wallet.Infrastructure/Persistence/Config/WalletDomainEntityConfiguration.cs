@@ -9,7 +9,7 @@ public class WalletDomainEntityConfiguration : IEntityTypeConfiguration<WalletDo
     public void Configure(EntityTypeBuilder<WalletDomainEntity> builder)
     {
 
-        builder.HasKey(b => b.Id);
+        builder.HasKey(b => b.WalletDomainEntityId);
 
         builder.Property(b => b.OwnerId)
            .IsRequired()

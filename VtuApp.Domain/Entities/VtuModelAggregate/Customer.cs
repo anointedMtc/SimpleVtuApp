@@ -9,7 +9,8 @@ namespace VtuApp.Domain.Entities.VtuModelAggregate;
 
 public class Customer : BaseEntity, IAggregateRoot
 {
-    private readonly List<VtuTransaction> _transactions = [];
+    // the name of the backing field should reflect the name of the property
+    private readonly List<VtuTransaction> _vtuTransactions = [];
     //private TimeSpan _timeLastStarWasAchieved = TimeSpan.Zero;
 
 
@@ -27,7 +28,8 @@ public class Customer : BaseEntity, IAggregateRoot
     public VtuAmount BonusBalance { get; private set; }
     public VtuAmount TotalBalance { get; private set; }
 
-    public IReadOnlyCollection<VtuTransaction> VtuTransactions => _transactions;
+    public IReadOnlyCollection<VtuTransaction> VtuTransactions => _vtuTransactions.AsReadOnly();
+    
     public int NumberOfStars { get; private set; }
     public int TransactionCount { get; private set; }
 
@@ -108,7 +110,7 @@ public class Customer : BaseEntity, IAggregateRoot
         var vtuTransaction = new VtuTransaction(typeOfTransaction,
             netWorkProvider, vtuAmount, createdAt, status, this.CustomerId, discount);
 
-        _transactions.Add(vtuTransaction);
+        _vtuTransactions.Add(vtuTransaction);
 
         AddDomainEvent(new VtuAppTransactionDomainEvent(
              this.CustomerId,
@@ -142,7 +144,7 @@ public class Customer : BaseEntity, IAggregateRoot
 
     public void UpdateVtuTransactionStatus(Guid vtuTransactionId, Status status)
     {
-        var transactionToUpdate = _transactions.SingleOrDefault(e => e.Id == vtuTransactionId);
+        var transactionToUpdate = _vtuTransactions.SingleOrDefault(e => e.Id == vtuTransactionId);
 
         transactionToUpdate?.UpdateStatus(status);
     }
@@ -152,7 +154,7 @@ public class Customer : BaseEntity, IAggregateRoot
     {
         if (TimeLastStarWasAchieved == TimeSpan.Zero)
         {
-            var chosenTransactions = _transactions.Take(3);
+            var chosenTransactions = _vtuTransactions.Take(3);
             var currentTime = DateTimeOffset.UtcNow;
             var oneHourAgo = currentTime - TimeSpan.FromHours(1);
             VtuAmount discountDefault = 0;

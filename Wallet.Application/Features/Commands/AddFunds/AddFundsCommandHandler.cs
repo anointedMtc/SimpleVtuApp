@@ -39,7 +39,7 @@ public class AddFundsCommandHandler : IRequestHandler<AddFundsCommand, AddFundsR
 
         _logger.LogInformation("Added {Amount} to the wallet: {WalletId} because of {reason}",
             transfer.Amount,
-            transfer.WalletId,
+            transfer.WalletDomainEntityId,
             transfer.ReasonWhy
         );
 

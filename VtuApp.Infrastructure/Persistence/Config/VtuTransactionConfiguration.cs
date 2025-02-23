@@ -16,6 +16,11 @@ public class VtuTransactionConfiguration : IEntityTypeConfiguration<VtuTransacti
             p.Property(pp => pp.Value).IsRequired().HasColumnType("decimal (18,2)");
         });
 
+        builder.OwnsOne(p => p.Discount, p =>
+        {
+            p.Property(pp => pp.Value).IsRequired().HasColumnType("decimal (18,2)");
+        });
+
         // ENUM CONVERSION
         //builder.Property(b => b.TypeOfTransaction)
         //    .HasConversion<string>();

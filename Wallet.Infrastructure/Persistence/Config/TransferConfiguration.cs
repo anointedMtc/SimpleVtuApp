@@ -11,7 +11,7 @@ public class TransferConfiguration : IEntityTypeConfiguration<Transfer>
         builder.HasKey(b => b.TransferId);
 
 
-        builder.Property(b => b.WalletId)
+        builder.Property(b => b.WalletDomainEntityId)
             .IsRequired()
             .HasMaxLength(256);
 

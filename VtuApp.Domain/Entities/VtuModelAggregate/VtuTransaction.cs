@@ -6,7 +6,6 @@ namespace VtuApp.Domain.Entities.VtuModelAggregate;
 public class VtuTransaction : BaseEntity
 {
     public Guid Id { get; private set; }
-    public Guid CustomerId { get; private set; }
     public TypeOfTransaction TypeOfTransaction { get; private set; }
     public NetworkProvider NetWorkProvider { get; private set; }
     public VtuAmount Amount { get; private set; }
@@ -14,6 +13,9 @@ public class VtuTransaction : BaseEntity
     public Status Status { get; private set; }
     public VtuAmount Discount { get; private set; }
 
+
+    // there is an Id of the Principal/parent class on the dependent/child class which would be used as foreign key / navigation
+    public Guid CustomerId { get; private set; }
 
 
     //#pragma warning disable CS8618    // Required by Entity Framework
