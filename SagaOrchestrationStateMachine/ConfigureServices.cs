@@ -1,10 +1,8 @@
-﻿using DomainSharedKernel.Interfaces;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SagaOrchestrationStateMachines.Common.Services;
-//using SagaOrchestrationStateMachines.UserCreatedSagaOrchestrator.Helpers.Controllers.V1;
+using SagaOrchestrationStateMachines.Api.Controllers.V1;
 using System.Reflection;
 
 namespace SagaOrchestrationStateMachines;
@@ -13,12 +11,13 @@ public static class ConfigureServices
 {
     public static void AddSagaStateMachinesModule(this WebApplicationBuilder builder)
     {
-        AddSettingsJsonFile(builder.Configuration);
+        builder.Configuration.AddSettingsJsonFile();
 
-        //ConfigureControllers(builder);
-        //ConfigureModuleFileProvidersAndSettingsFiles(builder);
+        ConfigureControllers(builder);
 
-        // YOU DON'T NEED TO REGISTER THE SAGA-DB-CONTEXT AGAIN... IT HAS ALREADY BEEN REGISTERED FOR YOU
+        // YOU DON'T NEED TO REGISTER THE SAGA-DB-CONTEXT AGAIN... IT HAS ALREADY BEEN REGISTERED FOR YOU - 
+        // ADDING THIS REGISTERATION BELOW WON'T WORK BECAUSE IT TAKES A DEPENDENCY ON THE SAGA-DB-CONTEXT AND THE FOUNDER MENTIONED ON STACK OVERFLOW THAT THE REGISTERATION OF SAGADBCONTEXT IS DYNAMIC... IT COULD BE SINGLETON WHEN IT NEEDS IT LIKE THAT OR SCOPED OR TRANSIENT...
+        // SO INSTEAD... WE USE THE DBCONTEXT DIRECTLY IN OUR HANDLERS SO IT RESOLVES THE SERVICE-LIFE-TIME DYNAMICALLY AT RUNTIME
         //builder.Services.AddScoped(typeof(IMySagaRepository<>), typeof(UserCreatedSagaOrchestratorRepository<>));
         //builder.Services.AddScoped(typeof(IRepository<>), typeof(VtuAirtimeSagaOrchestratorRepository<>));
         //builder.Services.AddScoped(typeof(IRepository<>), typeof(VtuDataSagaOrchestratorRepository<>));
@@ -42,12 +41,12 @@ public static class ConfigureServices
     //    builder.Configuration.AddJsonFile(fileProvider, "sagaStateMachinesModuleSettings.json", false, true);
     //}
 
-    //private static void ConfigureControllers(WebApplicationBuilder builder)
-    //{
-    //    builder.Services.AddControllers()
-    //                    .AddApplicationPart(typeof(UserCreatedSagaOrchestratorController).Assembly);
-        
-    //}
+    private static void ConfigureControllers(WebApplicationBuilder builder)
+    {
+        builder.Services.AddControllers()
+                        .AddApplicationPart(typeof(UserCreatedSagaOrchestratorController).Assembly);
+
+    }
 
 
     private static void AddSettingsJsonFile(this IConfigurationBuilder configurationBuilder)

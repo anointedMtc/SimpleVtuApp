@@ -1,9 +1,7 @@
 ﻿using Identity.Infrastructure.Persistence;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Notification.Infrastructure.Persistence;
-using SagaOrchestrationStateMachines.UserCreatedSagaOrchestrator;
-using SagaOrchestrationStateMachines.VtuAirtimeOrderedSagaOrchestrator;
-using SagaOrchestrationStateMachines.VtuDataOrderedSagaOrchestrator;
+using SagaOrchestrationStateMachines.Infrastructure.Persistence;
 using VtuApp.Infrastructure.Persistence;
 using VtuHost.WebApi.Extensions.CustomImplementations;
 using Wallet.Infrastructure.Persistence;

@@ -49,7 +49,7 @@ try
     builder.AddNotificationModule();
     builder.AddVtuAppModule();
     builder.AddWalletsModule();
-    builder.AddSagaStateMachinesModule();
+    builder.AddSagaStateMachinesModule(); 
     builder.AddSharedKernelModule();
 
     builder.Services.AddExceptionHandler<GlobalExceptionHandler>();

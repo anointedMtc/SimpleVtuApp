@@ -8,11 +8,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ApiSharedKernel\SharedKernel.Api.csproj" />
-    <ProjectReference Include="..\ExternalServices.Api\ExternalServices.Api.csproj" />
-    <ProjectReference Include="..\Identity.Api\Identity.Api.csproj" />
-    <ProjectReference Include="..\Notification.Api\Notification.Api.csproj" />
-    <ProjectReference Include="..\VtuApp.Api\VtuApp.Api.csproj" />
-    <ProjectReference Include="..\Wallet.Presentation\Wallet.Api.csproj" />
+    <ProjectReference Include="..\ExternalServices.Shared\ExternalServices.Shared.csproj" />
+    <ProjectReference Include="..\Identity.Shared\Identity.Shared.csproj" />
+    <ProjectReference Include="..\Notification.Shared\Notification.Shared.csproj" />
+    <ProjectReference Include="..\SagaOrchestrationStateMachines.Shared\SagaOrchestrationStateMachines.Shared.csproj" />
+    <ProjectReference Include="..\VtuApp.Shared\VtuApp.Shared.csproj" />
+    <ProjectReference Include="..\Wallet.Shared\Wallet.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

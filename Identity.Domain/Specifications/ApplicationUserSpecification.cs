@@ -73,7 +73,7 @@ public class ApplicationUserSpecification : BaseSpecification<ApplicationUser>
                 
                 default:
                     ApplyOrderBy(n => n.Id);
-                    break;
+                    break; 
 
             }
         }

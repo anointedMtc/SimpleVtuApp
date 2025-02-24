@@ -75,6 +75,6 @@ public class GetApplicationUsersQueryHandler : IRequestHandler<GetApplicationUse
 
 
         return new Pagination<GetApplicationUsersResponse>(request.PaginationFilterAppUser.PageNumber, request.PaginationFilterAppUser.PageSize, totalUsers, getApplicationUsersResponse);
-
+         
     }
 }
