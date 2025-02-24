@@ -9,6 +9,7 @@ using SagaOrchestrationStateMachines.Infrastructure.Persistence;
 using SagaOrchestrationStateMachines.Domain.Specifications.VtuAirtimeSaga;
 using SagaOrchestrationStateMachines.Infrastructure.VtuAirtimeOrderedSagaOrchestrator;
 using MassTransit.EntityFrameworkCoreIntegration;
+using SagaOrchestrationStateMachines.Domain.Interfaces;
 
 namespace SagaOrchestrationStateMachines.Application.Features.VtuAirtimeSaga.Queries.GetSingleInstance;
 
@@ -18,15 +19,18 @@ public sealed class GetVtuAirtimeOrderedSagaStateInstanceQueryHandler
     private readonly SagaStateMachineDbContext _sagaStateMachineDbContext;
     private readonly ILogger<GetVtuAirtimeOrderedSagaStateInstanceQueryHandler> _logger;
     private readonly IMapper _mapper;
+    private readonly ISagaStateMachineRepository<VtuAirtimeOrderedSagaStateInstance> _sagaStateMachineRepository;
 
     public GetVtuAirtimeOrderedSagaStateInstanceQueryHandler(
         SagaStateMachineDbContext sagaStateMachineDbContext,
         ILogger<GetVtuAirtimeOrderedSagaStateInstanceQueryHandler> logger,
-        IMapper mapper)
+        IMapper mapper, 
+        ISagaStateMachineRepository<VtuAirtimeOrderedSagaStateInstance> sagaStateMachineRepository)
     {
         _logger = logger;
         _mapper = mapper;
         _sagaStateMachineDbContext = sagaStateMachineDbContext;
+        _sagaStateMachineRepository = sagaStateMachineRepository;
     }
 
     public async Task<GetVtuAirtimeOrderedSagaStateInstanceResponse> Handle(GetVtuAirtimeOrderedSagaStateInstanceQuery request, CancellationToken cancellationToken)
@@ -39,7 +43,9 @@ public sealed class GetVtuAirtimeOrderedSagaStateInstanceQueryHandler
         var spec = new GetVtuAirtimeOrderedSagaOrchestratorInstanceByCorrelationId(request.CorrelationId);
 
         // Always remember that you can choose to set the AsNoTracking here... before FirstOrDefault
-        var vtuAirtimeSagaStateInstance = await ApplySpecification(spec).FirstOrDefaultAsync(cancellationToken);
+        //var vtuAirtimeSagaStateInstance = await ApplySpecification(spec).FirstOrDefaultAsync(cancellationToken);
+
+        var vtuAirtimeSagaStateInstance = await _sagaStateMachineRepository.FindAsync(spec);
 
         if (vtuAirtimeSagaStateInstance == null)
         {

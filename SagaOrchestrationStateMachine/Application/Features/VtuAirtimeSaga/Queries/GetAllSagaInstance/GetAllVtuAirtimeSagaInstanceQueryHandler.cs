@@ -7,6 +7,7 @@ using MassTransit.EntityFrameworkCoreIntegration;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SagaOrchestrationStateMachines.Domain.Interfaces;
 using SagaOrchestrationStateMachines.Domain.Specifications.VtuAirtimeSaga;
 using SagaOrchestrationStateMachines.Infrastructure.Persistence;
 using SagaOrchestrationStateMachines.Infrastructure.VtuAirtimeOrderedSagaOrchestrator;
@@ -22,18 +23,21 @@ public sealed class GetAllVtuAirtimeSagaInstanceQueryHandler
     private readonly IMapper _mapper;
     private readonly IResourceBaseAuthorizationService _resourceBaseAuthorizationService;
     private readonly IUserContext _userContext;
+    private readonly ISagaStateMachineRepository<VtuAirtimeOrderedSagaStateInstance> _sagaStateMachineRepository;
 
     public GetAllVtuAirtimeSagaInstanceQueryHandler(
         SagaStateMachineDbContext sagaStateMachineDbContext,
         ILogger<GetAllVtuAirtimeSagaInstanceQueryHandler> logger,
         IMapper mapper, IResourceBaseAuthorizationService resourceBaseAuthorizationService,
-        IUserContext userContext)
+        IUserContext userContext, 
+        ISagaStateMachineRepository<VtuAirtimeOrderedSagaStateInstance> sagaStateMachineRepository)
     {
         _sagaStateMachineDbContext = sagaStateMachineDbContext;
         _logger = logger;
         _mapper = mapper;
         _resourceBaseAuthorizationService = resourceBaseAuthorizationService;
         _userContext = userContext;
+        _sagaStateMachineRepository = sagaStateMachineRepository;
     }
 
     public async Task<Pagination<GetAllVtuAirtimeSagaInstanceResponse>> Handle(GetAllVtuAirtimeSagaInstanceQuery request, CancellationToken cancellationToken)
@@ -65,9 +69,11 @@ public sealed class GetAllVtuAirtimeSagaInstanceQueryHandler
 
         var spec = new GetAllVtuAirtimeSagaOrchestratorInstanceSpecification(request.PaginationFilter);
 
-        var data = SpecificationEvaluator<VtuAirtimeOrderedSagaStateInstance>.GetQuery(_sagaStateMachineDbContext.Set<VtuAirtimeOrderedSagaStateInstance>().AsQueryable().AsNoTracking(), spec);
-        totalUsers = await SpecificationEvaluator<VtuAirtimeOrderedSagaStateInstance>.GetQuery(_sagaStateMachineDbContext.Set<VtuAirtimeOrderedSagaStateInstance>().AsQueryable().AsNoTracking(), spec).CountAsync(cancellationToken);
+        //var data = SpecificationEvaluator<VtuAirtimeOrderedSagaStateInstance>.GetQuery(_sagaStateMachineDbContext.Set<VtuAirtimeOrderedSagaStateInstance>().AsQueryable().AsNoTracking(), spec);
+        //totalUsers = await SpecificationEvaluator<VtuAirtimeOrderedSagaStateInstance>.GetQuery(_sagaStateMachineDbContext.Set<VtuAirtimeOrderedSagaStateInstance>().AsQueryable().AsNoTracking(), spec).CountAsync(cancellationToken);
 
+        var data = await _sagaStateMachineRepository.GetAllAsync(spec);
+        totalUsers = await _sagaStateMachineRepository.CountAsync(spec);
 
         getAllVtuAirtimeSagaInstanceResponse.Success = true;
         getAllVtuAirtimeSagaInstanceResponse.Message = $"your query was successful and this is the list of UserCreatedSagaInstance in {request.PaginationFilter.Sort ?? "Default"} order, matching {request.PaginationFilter.Search ?? "No search or filters"}";

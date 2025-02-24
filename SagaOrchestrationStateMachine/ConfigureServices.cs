@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using SagaOrchestrationStateMachines.Infrastructure.Persistence;
 using SagaOrchestrationStateMachines.Api.Controllers.V1;
 using System.Reflection;
+using MassTransit;
+using SagaOrchestrationStateMachines.Infrastructure.Persistence.Repository;
+using SagaOrchestrationStateMachines.Domain.Interfaces;
 
 namespace SagaOrchestrationStateMachines;
 
@@ -26,6 +29,8 @@ public static class ConfigureServices
         //builder.Services.AddScoped(typeof(IRepository<>), typeof(VtuDataSagaOrchestratorRepository<>));
         //builder.Services.AddScoped(typeof(IRepository<>), typeof(MySagaRepository<>));
 
+
+        builder.Services.AddScoped(typeof(ISagaStateMachineRepository<>), typeof(SagaStateMachineRepository<>));
 
         builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
         builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
