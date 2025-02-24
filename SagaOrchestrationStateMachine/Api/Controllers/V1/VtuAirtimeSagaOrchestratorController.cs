@@ -1,8 +1,11 @@
-﻿using Asp.Versioning;
+﻿using ApplicationSharedKernel.HelperClasses;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SagaOrchestrationStateMachines.Application.Features.VtuAirtimeSaga.Queries.GetAllSagaInstance;
 using SagaOrchestrationStateMachines.Application.Features.VtuAirtimeSaga.Queries.GetSingleInstance;
 using SharedKernel.Api.Controllers;
+using SharedKernel.Domain.HelperClasses;
 
 namespace SagaOrchestrationStateMachines.Api.Controllers.V1;
 
@@ -17,4 +20,14 @@ public class VtuAirtimeSagaOrchestratorController : ApiBaseController
 
         return Ok(result);
     }
+
+
+    [HttpGet("get-all-vtuAirtime-saga-instance")]
+    public async Task<ActionResult<Pagination<GetAllVtuAirtimeSagaInstanceResponse>>> GetAllUserCreatedSagaInstance([FromQuery] PaginationFilter paginationFilter)
+    {
+        var result = await Mediator.Send(new GetAllVtuAirtimeSagaInstanceQuery(paginationFilter));
+
+        return Ok(result);
+    }
+
 }

@@ -27,6 +27,12 @@ public sealed class GetAllUserCreatedSagaOrchestratorInstanceSpecification
             {
                 // you can add as many sorting choices as you may want here
 
+                case "currentStateAsc":
+                    ApplyOrderBy(p => p.CurrentState);
+                    break;
+                case "currentStateDesc":
+                    ApplyOrderByDescending(p => p.CurrentState);
+                    break;
                 case "firstNameAsc":
                     ApplyOrderBy(p => p.FirstName);
                     break;
@@ -45,28 +51,28 @@ public sealed class GetAllUserCreatedSagaOrchestratorInstanceSpecification
                 case "emailDesc":
                     ApplyOrderByDescending(p => p.Email!);
                     break;
-                case "constUserNameAsc":
+                case "phoneNumberAsc":
                     ApplyOrderBy(p => p.PhoneNumber);
                     break;
-                case "constUserNameDesc":
+                case "phoneNumberDesc":
                     ApplyOrderByDescending(p => p.PhoneNumber);
                     break;
-                case "userNameAsc":
+                case "registerationBonusAsc":
                     ApplyOrderBy(p => p.RegisterationBonus!);
                     break;
-                case "userNameDesc":
+                case "registerationBonusDesc":
                     ApplyOrderByDescending(p => p.RegisterationBonus!);
                     break;
-                case "genderAsc":
+                case "createdAtAsc":
                     ApplyOrderBy(p => p.CreatedAt);
                     break;
-                case "genderDesc":
+                case "createdAtDesc":
                     ApplyOrderByDescending(p => p.CreatedAt);
                     break;
-                case "nationalityAsc":
+                case "userCreatedInAllModulesEventStatusAsc":
                     ApplyOrderBy(p => p.UserCreatedInAllModulesEventStatus!);
                     break;
-                case "nationalityDesc":
+                case "userCreatedInAllModulesEventStatusDesc":
                     ApplyOrderByDescending(p => p.UserCreatedInAllModulesEventStatus!);
                     break;
 
