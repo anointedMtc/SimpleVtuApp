@@ -1,9 +1,9 @@
-﻿using MediatR;
+﻿//using MediatR;
 
-namespace SagaOrchestrationStateMachines.VtuAirtimeOrderedSagaOrchestrator.Helpers.Features.Queries;
+//namespace SagaOrchestrationStateMachines.VtuAirtimeOrderedSagaOrchestrator.Helpers.Features.Queries;
 
-public sealed class GetVtuAirtimeOrderedSagaStateInstanceQuery
-    : IRequest<GetVtuAirtimeOrderedSagaStateInstanceResponse>
-{
-    public Guid CorrelationId { get; set; }
-}
+//public sealed class GetVtuAirtimeOrderedSagaStateInstanceQuery
+//    : IRequest<GetVtuAirtimeOrderedSagaStateInstanceResponse>
+//{
+//    public Guid CorrelationId { get; set; }
+//}

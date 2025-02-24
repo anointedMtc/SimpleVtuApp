@@ -24,9 +24,9 @@ public static class HealthCheckExtension
          .AddDbContextCheck<VtuDbContext>()    
          .AddDbContextCheck<EmailDbContext>()    
          .AddDbContextCheck<ApplicationDbContext>()    
-         .AddDbContextCheck<UserCreatedSagaDbContext>()    
-         .AddDbContextCheck<VtuAirtimeOrderedSagaDbContext>()    
-         .AddDbContextCheck<VtuDataOrderedSagaDbContext>()
+         .AddDbContextCheck<SagaStateMachineDbContext>()    
+         //.AddDbContextCheck<VtuAirtimeOrderedSagaDbContext>()    
+         //.AddDbContextCheck<VtuDataOrderedSagaDbContext>()
 
          .AddSqlServer(configuration.GetConnectionString("cleanarchskeletonDb")!, name: "Sql Health", tags: ["database", "sqlServer", "custom", "itCanHaveMultipleNames"]);    
 

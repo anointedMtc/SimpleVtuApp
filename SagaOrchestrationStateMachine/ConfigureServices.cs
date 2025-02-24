@@ -3,7 +3,8 @@ using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SagaOrchestrationStateMachines.UserCreatedSagaOrchestrator.Helpers.Controllers.V1;
+using SagaOrchestrationStateMachines.Common.Services;
+//using SagaOrchestrationStateMachines.UserCreatedSagaOrchestrator.Helpers.Controllers.V1;
 using System.Reflection;
 
 namespace SagaOrchestrationStateMachines;
@@ -14,12 +15,15 @@ public static class ConfigureServices
     {
         AddSettingsJsonFile(builder.Configuration);
 
-        ConfigureControllers(builder);
+        //ConfigureControllers(builder);
         //ConfigureModuleFileProvidersAndSettingsFiles(builder);
 
-        //builder.Services.AddScoped(typeof(IRepository<>), typeof(UserCreatedSagaOrchestratorRepository<>));
+        // YOU DON'T NEED TO REGISTER THE SAGA-DB-CONTEXT AGAIN... IT HAS ALREADY BEEN REGISTERED FOR YOU
+        //builder.Services.AddScoped(typeof(IMySagaRepository<>), typeof(UserCreatedSagaOrchestratorRepository<>));
         //builder.Services.AddScoped(typeof(IRepository<>), typeof(VtuAirtimeSagaOrchestratorRepository<>));
         //builder.Services.AddScoped(typeof(IRepository<>), typeof(VtuDataSagaOrchestratorRepository<>));
+        //builder.Services.AddScoped(typeof(IRepository<>), typeof(MySagaRepository<>));
+
 
         builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
         builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
@@ -38,12 +42,12 @@ public static class ConfigureServices
     //    builder.Configuration.AddJsonFile(fileProvider, "sagaStateMachinesModuleSettings.json", false, true);
     //}
 
-    private static void ConfigureControllers(WebApplicationBuilder builder)
-    {
-        builder.Services.AddControllers()
-                        .AddApplicationPart(typeof(UserCreatedSagaOrchestratorController).Assembly);
+    //private static void ConfigureControllers(WebApplicationBuilder builder)
+    //{
+    //    builder.Services.AddControllers()
+    //                    .AddApplicationPart(typeof(UserCreatedSagaOrchestratorController).Assembly);
         
-    }
+    //}
 
 
     private static void AddSettingsJsonFile(this IConfigurationBuilder configurationBuilder)

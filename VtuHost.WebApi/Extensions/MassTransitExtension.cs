@@ -36,12 +36,12 @@ public static class MassTransitExtension
             {
                 r.ConcurrencyMode = ConcurrencyMode.Optimistic;
 
-                r.AddDbContext<DbContext, UserCreatedSagaDbContext>((provider, builder) =>
+                r.AddDbContext<DbContext, SagaStateMachineDbContext>((provider, builder) =>
                 {
                     builder.UseSqlServer(dbConnectionString, m =>
                     {
-                        m.MigrationsAssembly(typeof(UserCreatedSagaDbContext).Assembly.GetName().Name);
-                        m.MigrationsHistoryTable($"__{nameof(UserCreatedSagaDbContext)}");
+                        m.MigrationsAssembly(typeof(SagaStateMachineDbContext).Assembly.GetName().Name);
+                        m.MigrationsHistoryTable($"__{nameof(SagaStateMachineDbContext)}");
                     });
                 });
             });
@@ -51,12 +51,12 @@ public static class MassTransitExtension
            {
                r.ConcurrencyMode = ConcurrencyMode.Optimistic;
 
-               r.AddDbContext<DbContext, VtuAirtimeOrderedSagaDbContext>((provider, builder) =>
+               r.AddDbContext<DbContext, SagaStateMachineDbContext>((provider, builder) =>
                {
                    builder.UseSqlServer(dbConnectionString, m =>
                    {
-                       m.MigrationsAssembly(typeof(VtuAirtimeOrderedSagaDbContext).Assembly.GetName().Name);
-                       m.MigrationsHistoryTable($"__{nameof(VtuAirtimeOrderedSagaDbContext)}");
+                       m.MigrationsAssembly(typeof(SagaStateMachineDbContext).Assembly.GetName().Name);
+                       m.MigrationsHistoryTable($"__VtuAirtimeOrderedSagaDbContext");
                    });
                });
            });
@@ -66,12 +66,12 @@ public static class MassTransitExtension
            {
                r.ConcurrencyMode = ConcurrencyMode.Optimistic;
 
-               r.AddDbContext<DbContext, VtuDataOrderedSagaDbContext>((provider, builder) =>
+               r.AddDbContext<DbContext, SagaStateMachineDbContext>((provider, builder) =>
                {
                    builder.UseSqlServer(dbConnectionString, m =>
                    {
-                       m.MigrationsAssembly(typeof(VtuDataOrderedSagaDbContext).Assembly.GetName().Name);
-                       m.MigrationsHistoryTable($"__{nameof(VtuDataOrderedSagaDbContext)}");
+                       m.MigrationsAssembly(typeof(SagaStateMachineDbContext).Assembly.GetName().Name);
+                       m.MigrationsHistoryTable($"__VtuDataOrderedSagaDbContext");
                    });
                });
            });

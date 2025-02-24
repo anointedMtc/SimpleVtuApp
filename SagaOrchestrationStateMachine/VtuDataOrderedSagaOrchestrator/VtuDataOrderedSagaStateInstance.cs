@@ -1,9 +1,10 @@
-﻿using MassTransit;
+﻿using DomainSharedKernel.Interfaces;
+using MassTransit;
 using VtuApp.Shared.Constants;
 
 namespace SagaOrchestrationStateMachines.VtuDataOrderedSagaOrchestrator;
 
-public sealed class VtuDataOrderedSagaStateInstance : SagaStateMachineInstance
+public sealed class VtuDataOrderedSagaStateInstance : SagaStateMachineInstance, IAggregateRoot
 {
     public Guid CorrelationId { get; set; }
     public string CurrentState { get; set; }
