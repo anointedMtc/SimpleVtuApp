@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DomainSharedKernel.Interfaces;
 using InfrastructureSharedKernel.SpecificationHelper;
+using MassTransit.EntityFrameworkCoreIntegration;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -18,17 +19,18 @@ public sealed class GetUserCreatedSagOrchestratorInstanceQueryHandler
     private readonly IMapper _mapper;
 
 
-    private readonly DbSet<UserCreatedSagaStateInstance> _dbSetUserCreatedSagaStateInstance;
+    //private readonly DbSet<UserCreatedSagaStateInstance> _dbSetUserCreatedSagaStateInstance;
     private readonly SagaStateMachineDbContext _sagaStateMachineDbContext;
 
     public GetUserCreatedSagOrchestratorInstanceQueryHandler(
         ILogger<GetUserCreatedSagOrchestratorInstanceQueryHandler> logger,
-        IMapper mapper, DbSet<UserCreatedSagaStateInstance> dbSetUserCreatedSagaStateInstance,
+        IMapper mapper, 
+        //DbSet<UserCreatedSagaStateInstance> dbSetUserCreatedSagaStateInstance,
         SagaStateMachineDbContext sagaStateMachineDbContext)
     {
         _logger = logger;
         _mapper = mapper;
-        _dbSetUserCreatedSagaStateInstance = dbSetUserCreatedSagaStateInstance;
+        //_dbSetUserCreatedSagaStateInstance = dbSetUserCreatedSagaStateInstance;
         _sagaStateMachineDbContext = sagaStateMachineDbContext;
     }
 

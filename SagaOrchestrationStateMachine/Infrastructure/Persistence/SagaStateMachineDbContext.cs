@@ -7,7 +7,7 @@ using SagaOrchestrationStateMachines.Infrastructure.VtuDataOrderedSagaOrchestrat
 
 namespace SagaOrchestrationStateMachines.Infrastructure.Persistence;
 
-public sealed class SagaStateMachineDbContext : SagaDbContext
+public class SagaStateMachineDbContext : SagaDbContext
 {
     public SagaStateMachineDbContext(DbContextOptions<SagaStateMachineDbContext> options) : base(options)
     {

@@ -6,6 +6,6 @@ internal sealed class GetAllVtuDataSagaInstanceValidator : AbstractValidator<Get
 {
     public GetAllVtuDataSagaInstanceValidator()
     {
-        
+
     }
 }

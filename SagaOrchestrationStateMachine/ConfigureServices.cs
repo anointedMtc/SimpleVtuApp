@@ -1,7 +1,10 @@
 ﻿using FluentValidation;
+using Humanizer.Configuration;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SagaOrchestrationStateMachines.Infrastructure.Persistence;
 using SagaOrchestrationStateMachines.Api.Controllers.V1;
 using System.Reflection;
 
@@ -30,6 +33,15 @@ public static class ConfigureServices
         {
             config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
+
+
+        var connectionString = builder.Configuration.GetConnectionString("SagaStateMachinesModuleDb")
+            ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+        builder.Services.AddDbContext<SagaStateMachineDbContext>(options =>
+               options.UseSqlServer(connectionString, o => o.EnableRetryOnFailure()));
+
+
     }
 
     //private static void ConfigureModuleFileProvidersAndSettingsFiles(WebApplicationBuilder builder)

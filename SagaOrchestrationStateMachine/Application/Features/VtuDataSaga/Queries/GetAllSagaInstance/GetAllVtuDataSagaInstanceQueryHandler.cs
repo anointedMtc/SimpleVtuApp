@@ -3,6 +3,7 @@ using ApplicationSharedKernel.Interfaces;
 using AutoMapper;
 using Identity.Shared.Constants;
 using InfrastructureSharedKernel.SpecificationHelper;
+using MassTransit.EntityFrameworkCoreIntegration;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -23,9 +24,9 @@ internal sealed class GetAllVtuDataSagaInstanceQueryHandler
     private readonly IUserContext _userContext;
 
     public GetAllVtuDataSagaInstanceQueryHandler(
-        SagaStateMachineDbContext sagaStateMachineDbContext, 
-        ILogger<GetAllVtuDataSagaInstanceQueryHandler> logger, IMapper mapper, 
-        IResourceBaseAuthorizationService resourceBaseAuthorizationService, 
+        SagaStateMachineDbContext sagaStateMachineDbContext,
+        ILogger<GetAllVtuDataSagaInstanceQueryHandler> logger, IMapper mapper,
+        IResourceBaseAuthorizationService resourceBaseAuthorizationService,
         IUserContext userContext)
     {
         _sagaStateMachineDbContext = sagaStateMachineDbContext;

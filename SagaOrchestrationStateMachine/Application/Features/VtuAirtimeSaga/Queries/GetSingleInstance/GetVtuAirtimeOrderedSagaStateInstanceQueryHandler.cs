@@ -8,6 +8,7 @@ using SagaOrchestrationStateMachines.Shared.DTO;
 using SagaOrchestrationStateMachines.Infrastructure.Persistence;
 using SagaOrchestrationStateMachines.Domain.Specifications.VtuAirtimeSaga;
 using SagaOrchestrationStateMachines.Infrastructure.VtuAirtimeOrderedSagaOrchestrator;
+using MassTransit.EntityFrameworkCoreIntegration;
 
 namespace SagaOrchestrationStateMachines.Application.Features.VtuAirtimeSaga.Queries.GetSingleInstance;
 

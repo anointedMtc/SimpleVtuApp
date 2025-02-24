@@ -4,6 +4,7 @@ using AutoMapper;
 using DomainSharedKernel.Interfaces;
 using Identity.Shared.Constants;
 using InfrastructureSharedKernel.SpecificationHelper;
+using MassTransit.EntityFrameworkCoreIntegration;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

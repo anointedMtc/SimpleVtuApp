@@ -6,6 +6,6 @@ public sealed class GetAllVtuAirtimeSagaInstanceValidator : AbstractValidator<Ge
 {
     public GetAllVtuAirtimeSagaInstanceValidator()
     {
-        
+
     }
 }
