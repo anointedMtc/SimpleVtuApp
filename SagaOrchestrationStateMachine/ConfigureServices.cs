@@ -100,6 +100,17 @@ public static class ConfigureServices
         // but what we want instead is...
         // C:\Users\HP\Desktop\VisualStudioDocs\SpecificationPattern\DDDanointedMTC\SagaOrchestrationStateMachine\sagaStateMachinesModuleSettings.json
 
+        /*
+         if you click the class library that contains the file, you would now see this added 
+
+          <ItemGroup>
+            <None Update="sagaStateMachinesModuleSettings.json">
+              <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            </None>
+          </ItemGroup>
+
+         */
+
         var buildDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         var filePath = buildDirectory + @"\sagaStateMachinesModuleSettings.json";
         configurationBuilder.AddJsonFile(filePath, false, true);
