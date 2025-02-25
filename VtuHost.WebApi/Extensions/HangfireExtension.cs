@@ -11,7 +11,7 @@ public static class HangfireExtension
             config.SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
             .UseSimpleAssemblyNameTypeSerializer()
             .UseRecommendedSerializerSettings()
-            .UseSqlServerStorage(configuration.GetConnectionString("cleanarchskeletonDb"));
+            .UseSqlServerStorage(configuration.GetConnectionString("NotificationModuleDb"));
 
         });
         services.AddHangfireServer();

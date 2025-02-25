@@ -1,4 +1,4 @@
-﻿using ApplicationSharedKernel.DTO;
+﻿using SharedKernel.Application.DTO;
 using VtuApp.Shared.DTO;
 
 namespace VtuApp.Application.Features.VtuNationApi.UserServices.Commands.BuyDataVtuNation.Mtn.Buy1GB;

@@ -1,6 +1,6 @@
-﻿using DomainSharedKernel.Interfaces;
-using MassTransit;
+﻿using MassTransit;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Domain.Interfaces;
 using Wallet.Application.Exceptions;
 using Wallet.Domain.Entities;
 using Wallet.Domain.Specifications;

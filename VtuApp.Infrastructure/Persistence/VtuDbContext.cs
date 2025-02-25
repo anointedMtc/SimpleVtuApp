@@ -1,6 +1,6 @@
-﻿using InfrastructureSharedKernel.Persistence.Interceptors;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel.Infrastructure.Persistence.Interceptors;
 using System.Reflection;
 using VtuApp.Domain.Entities.VtuModelAggregate;
 
@@ -38,9 +38,9 @@ public class VtuDbContext : DbContext
         return result;
     }
 
-    public override int SaveChanges()
-    {
-        return SaveChangesAsync().GetAwaiter().GetResult();
-    }
+    //public override int SaveChanges()
+    //{
+    //    return SaveChangesAsync().GetAwaiter().GetResult();
+    //}
 
 }

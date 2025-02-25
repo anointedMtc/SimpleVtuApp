@@ -1,8 +1,8 @@
-﻿using ApplicationSharedKernel.Exceptions;
-using ApplicationSharedKernel.Interfaces;
-using Identity.Shared.Constants;
+﻿using Identity.Shared.Constants;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Application.Exceptions;
+using SharedKernel.Application.Interfaces;
 using VtuApp.Application.Features.VtuNationApi.AdminServices.Account.Commands.GenerateOtpVtuNation;
 using VtuApp.Application.Interfaces.ExternalServices.VtuNationApi;
 

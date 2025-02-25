@@ -1,15 +1,13 @@
-﻿using ApplicationSharedKernel.Exceptions;
-using ApplicationSharedKernel.Interfaces;
-using AutoMapper;
-using DomainSharedKernel.Interfaces;
+﻿using AutoMapper;
 using Identity.Shared.Constants;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Notification.Application.Features.SendEmailUsingLiquidSyntax;
-using Notification.Application.Features.SendEmailWithRazorTemplate;
 using Notification.Application.Interfaces;
 using Notification.Domain.Entities;
 using Notification.Shared.DTO;
+using SharedKernel.Application.Exceptions;
+using SharedKernel.Application.Interfaces;
+using SharedKernel.Domain.Interfaces;
 
 namespace Notification.Application.Features.SendEmailWithAttachment;
 
@@ -73,7 +71,18 @@ public class SendEmailWithAttachmentCommandHandler : IRequestHandler<SendEmailWi
 
         await _emailService.SendWithAttachment(emailMetadata);
 
-        var emailToSave = _mapper.Map<EmailEntity>(request.EmailDto);
+        //var emailToSave = _mapper.Map<EmailEntity>(request.EmailDto);
+
+        var emailToSave = new EmailEntity(
+           request.EmailDto.ToAddress,
+           request.EmailDto.Subject,
+           request.EmailDto.Body,
+           request.EmailDto.AttachmentPath,
+           request.EmailDto.CC,
+           request.EmailDto.BCC,
+           request.EmailDto.Sender,
+           request.EmailDto.EventType);
+
         await _emailRepository.AddAsync(emailToSave);
 
         sendEmailWithAttachmentResponse.Success = true;

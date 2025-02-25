@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using DomainSharedKernel.Interfaces;
 using Identity.Shared.IntegrationEvents;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Notification.Application.Interfaces;
 using Notification.Domain.Entities;
 using Notification.Shared.DTO;
+using SharedKernel.Domain.Interfaces;
 using System.Text.Encodings.Web;
 
 namespace Notification.Application.IntegrationEvents.IdentityModule;

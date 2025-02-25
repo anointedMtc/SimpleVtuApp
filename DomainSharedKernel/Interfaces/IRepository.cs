@@ -1,4 +1,4 @@
-﻿namespace DomainSharedKernel.Interfaces;
+﻿namespace SharedKernel.Domain.Interfaces;
 
 public interface IRepository<T> where T : class, IAggregateRoot
 {
@@ -18,7 +18,7 @@ public interface IRepository<T> where T : class, IAggregateRoot
     Task<int> CountAsync(ISpecification<T> specification);
 
 
-   
+
 
 
 

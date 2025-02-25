@@ -1,5 +1,4 @@
-﻿using DomainSharedKernel.Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Notification.Application.Interfaces;
@@ -7,6 +6,7 @@ using Notification.Infrastructure.Models;
 using Notification.Infrastructure.Persistence;
 using Notification.Infrastructure.Persistence.Repositories;
 using Notification.Infrastructure.Services;
+using SharedKernel.Domain.Interfaces;
 
 namespace Notification.Infrastructure;
 

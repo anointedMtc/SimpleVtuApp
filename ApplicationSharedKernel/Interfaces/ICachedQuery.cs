@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace ApplicationSharedKernel.Interfaces;
+namespace SharedKernel.Application.Interfaces;
 
 public interface ICachedQuery<TResponse> : IRequest<TResponse>, ICachedQuery;
 

@@ -1,5 +1,5 @@
-﻿using ApplicationSharedKernel.DTO;
-using SagaOrchestrationStateMachines.Shared.DTO;
+﻿using SagaOrchestrationStateMachines.Shared.DTO;
+using SharedKernel.Application.DTO;
 
 namespace SagaOrchestrationStateMachines.Application.Features.VtuDataSaga.Queries.GetAllSagaInstance;
 

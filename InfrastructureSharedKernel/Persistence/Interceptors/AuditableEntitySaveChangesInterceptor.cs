@@ -1,10 +1,10 @@
-﻿using DomainSharedKernel;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using ApplicationSharedKernel.Interfaces;
+using SharedKernel.Domain;
+using SharedKernel.Application.Interfaces;
 
-namespace InfrastructureSharedKernel.Persistence.Interceptors;
+namespace SharedKernel.Infrastructure.Persistence.Interceptors;
 
 
 public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
@@ -12,7 +12,7 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
     private readonly IUserContext _userContext;
     private readonly IDateTimeService _dateTimeService;
 
-    public AuditableEntitySaveChangesInterceptor(IUserContext userContext, 
+    public AuditableEntitySaveChangesInterceptor(IUserContext userContext,
         IDateTimeService dateTimeService)
     {
         _userContext = userContext;

@@ -1,4 +1,4 @@
-﻿namespace ApplicationSharedKernel.HelperClasses;
+﻿namespace SharedKernel.Application.HelperClasses;
 
 public record CurrentUser(string Id,
     string? UserName,

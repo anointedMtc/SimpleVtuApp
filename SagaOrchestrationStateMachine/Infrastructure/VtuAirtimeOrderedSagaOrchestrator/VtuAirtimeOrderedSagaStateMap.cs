@@ -12,6 +12,14 @@ public sealed class VtuAirtimeOrderedSagaStateMap : SagaClassMap<VtuAirtimeOrder
 
         entity.Property(x => x.ApplicationUserId).HasMaxLength(64);
 
+        entity.Property(x => x.AmountToPurchase).HasColumnType("decimal (18,2)");
+
+        entity.Property(x => x.PricePaid).HasColumnType("decimal (18,2)");
+       
+        entity.Property(x => x.InitialBalance).HasColumnType("decimal (18,2)");
+        
+        entity.Property(x => x.FinalBalance).HasColumnType("decimal (18,2)");
+
 
         entity.Property(x => x.RowVersion).IsRowVersion();
     }

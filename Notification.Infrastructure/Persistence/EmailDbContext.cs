@@ -1,7 +1,7 @@
-﻿using InfrastructureSharedKernel.Persistence.Interceptors;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Notification.Domain.Entities;
+using SharedKernel.Infrastructure.Persistence.Interceptors;
 using System.Reflection;
 
 namespace Notification.Infrastructure.Persistence;
@@ -13,6 +13,7 @@ public class EmailDbContext : DbContext
     {
         _mediator = mediator;
     }
+
 
     public DbSet<EmailEntity> EmailEntities { get; set; }
 
@@ -41,10 +42,10 @@ public class EmailDbContext : DbContext
 
 
 
-    public override int SaveChanges()
-    {
-        return SaveChangesAsync().GetAwaiter().GetResult();
-    }
+    //public override int SaveChanges()
+    //{
+    //    return SaveChangesAsync().GetAwaiter().GetResult();
+    //}
 
 
 }

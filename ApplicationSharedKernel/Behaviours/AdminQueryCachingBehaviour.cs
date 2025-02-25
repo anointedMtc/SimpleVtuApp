@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using System.Text;
-using ApplicationSharedKernel.Interfaces;
+using SharedKernel.Application.Interfaces;
 
-namespace ApplicationSharedKernel.Behaviours;
+namespace SharedKernel.Application.Behaviours;
 
 internal sealed class AdminQueryCachingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : ICacheableAdmin
@@ -21,7 +21,7 @@ internal sealed class AdminQueryCachingBehaviour<TRequest, TResponse> : IPipelin
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        
+
         if (request.BypassCache) return await next();
 
         _logger.LogInformation("fetching data for key: {CacheKey} from cache.", request.CacheKey);

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using SharedKernel.Domain.HelperClasses;
 
-namespace ApplicationSharedKernel.HelperClasses;
+namespace SharedKernel.Application.HelperClasses;
 
 public class Pagination<T> where T : class
 {

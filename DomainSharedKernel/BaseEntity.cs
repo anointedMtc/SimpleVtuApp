@@ -1,8 +1,8 @@
-﻿using DomainSharedKernel.Interfaces;
-using MediatR;
+﻿using MediatR;
+using SharedKernel.Domain.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DomainSharedKernel;
+namespace SharedKernel.Domain;
 
 public abstract class BaseEntity
 {

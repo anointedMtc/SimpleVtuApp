@@ -1,4 +1,4 @@
-﻿using DomainSharedKernel.Interfaces;
+﻿using SharedKernel.Domain.Interfaces;
 
 namespace Wallet.Domain.Events;
 

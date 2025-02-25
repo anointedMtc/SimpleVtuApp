@@ -1,8 +1,5 @@
-﻿using ApplicationSharedKernel.HelperClasses;
-using ApplicationSharedKernel.Interfaces;
-using AutoMapper;
+﻿using AutoMapper;
 using Identity.Shared.Constants;
-using InfrastructureSharedKernel.SpecificationHelper;
 using MassTransit.EntityFrameworkCoreIntegration;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +8,9 @@ using SagaOrchestrationStateMachines.Domain.Specifications.VtuDataSaga;
 using SagaOrchestrationStateMachines.Infrastructure.Persistence;
 using SagaOrchestrationStateMachines.Infrastructure.VtuDataOrderedSagaOrchestrator;
 using SagaOrchestrationStateMachines.Shared.DTO;
+using SharedKernel.Application.HelperClasses;
+using SharedKernel.Application.Interfaces;
+using SharedKernel.Infrastructure.SpecificationHelper;
 
 namespace SagaOrchestrationStateMachines.Application.Features.VtuDataSaga.Queries.GetAllSagaInstance;
 

@@ -11,9 +11,9 @@ public class ApplicationUserDto
     public string Gender { get; set; }
     public DateOnly? DateOfBirth { get; set; }
     public string? Nationality { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-    public DateTime LastLogin { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
+    public DateTimeOffset LastLogin { get; set; }
     public string? AccessToken { get; set; }
     public string? RefreshToken { get; set; }
     public bool IsTwoFacAuthEnabled { get; set; }

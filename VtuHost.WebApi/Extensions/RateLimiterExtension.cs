@@ -1,7 +1,7 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using Identity.Domain.Entities;
+﻿using Identity.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using SharedKernel.Application.Interfaces;
 using System.Globalization;
 using System.Security.Claims;
 using System.Threading.RateLimiting;

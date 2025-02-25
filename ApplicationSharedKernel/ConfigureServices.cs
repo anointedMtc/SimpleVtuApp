@@ -1,12 +1,11 @@
-﻿using ApplicationSharedKernel.Behaviours;
-using ApplicationSharedKernel.Interfaces;
-using ApplicationSharedKernel.Services;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Application.Behaviours;
+using SharedKernel.Application.Interfaces;
 using SharedKernel.Application.Services;
 using System.Reflection;
 
-namespace ApplicationSharedKernel;
+namespace SharedKernel.Application;
 
 public static class ConfigureServices
 {

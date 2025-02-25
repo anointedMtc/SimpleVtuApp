@@ -1,6 +1,6 @@
-﻿using DomainSharedKernel;
-using DomainSharedKernel.Interfaces;
+﻿using SharedKernel.Domain;
 using SharedKernel.Domain.Exceptions;
+using SharedKernel.Domain.Interfaces;
 using VtuApp.Domain.Events;
 using VtuApp.Domain.Exceptions;
 using VtuApp.Shared.Constants;

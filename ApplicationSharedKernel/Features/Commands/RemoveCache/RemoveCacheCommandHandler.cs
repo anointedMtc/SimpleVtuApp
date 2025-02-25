@@ -1,7 +1,7 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using Identity.Shared.Constants;
+﻿using Identity.Shared.Constants;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Application.Interfaces;
 
 namespace SharedKernel.Application.Features.Commands.RemoveCache;
 

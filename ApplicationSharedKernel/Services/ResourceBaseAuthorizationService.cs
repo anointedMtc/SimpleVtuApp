@@ -1,8 +1,8 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using Identity.Shared.Constants;
+﻿using Identity.Shared.Constants;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Application.Interfaces;
 
-namespace ApplicationSharedKernel.Services;
+namespace SharedKernel.Application.Services;
 
 public class ResourceBaseAuthorizationService : IResourceBaseAuthorizationService
 {
@@ -37,10 +37,10 @@ public class ResourceBaseAuthorizationService : IResourceBaseAuthorizationServic
             return true;
         }
 
-        if ((resourceOperation.Equals(ResourceOperation.Assign, StringComparison.OrdinalIgnoreCase) || 
-            resourceOperation.Equals(ResourceOperation.UnAssign, StringComparison.OrdinalIgnoreCase) || 
-            resourceOperation.Equals(ResourceOperation.LockOut, StringComparison.OrdinalIgnoreCase) || 
-            resourceOperation.Equals(ResourceOperation.Unlock, StringComparison.OrdinalIgnoreCase) || 
+        if ((resourceOperation.Equals(ResourceOperation.Assign, StringComparison.OrdinalIgnoreCase) ||
+            resourceOperation.Equals(ResourceOperation.UnAssign, StringComparison.OrdinalIgnoreCase) ||
+            resourceOperation.Equals(ResourceOperation.LockOut, StringComparison.OrdinalIgnoreCase) ||
+            resourceOperation.Equals(ResourceOperation.Unlock, StringComparison.OrdinalIgnoreCase) ||
             resourceOperation.Equals(ResourceOperation.AdminAndAbove, StringComparison.OrdinalIgnoreCase))
             && user.IsInRole(AppUserRoles.Admin))
         {
@@ -48,14 +48,14 @@ public class ResourceBaseAuthorizationService : IResourceBaseAuthorizationServic
             return true;
         }
 
-        if ((resourceOperation.Equals(ResourceOperation.Create, StringComparison.OrdinalIgnoreCase) || 
-            resourceOperation.Equals(ResourceOperation.Update, StringComparison.OrdinalIgnoreCase)  || 
-            resourceOperation.Equals(ResourceOperation.Delete, StringComparison.OrdinalIgnoreCase) || 
-            resourceOperation.Equals(ResourceOperation.Assign, StringComparison.OrdinalIgnoreCase) || 
-            resourceOperation.Equals(ResourceOperation.UnAssign, StringComparison.OrdinalIgnoreCase) || 
-            resourceOperation.Equals(ResourceOperation.LockOut, StringComparison.OrdinalIgnoreCase)  || 
-            resourceOperation.Equals(ResourceOperation.Unlock, StringComparison.OrdinalIgnoreCase) || 
-            resourceOperation.Equals(ResourceOperation.AdminAndAbove, StringComparison.OrdinalIgnoreCase) || 
+        if ((resourceOperation.Equals(ResourceOperation.Create, StringComparison.OrdinalIgnoreCase) ||
+            resourceOperation.Equals(ResourceOperation.Update, StringComparison.OrdinalIgnoreCase) ||
+            resourceOperation.Equals(ResourceOperation.Delete, StringComparison.OrdinalIgnoreCase) ||
+            resourceOperation.Equals(ResourceOperation.Assign, StringComparison.OrdinalIgnoreCase) ||
+            resourceOperation.Equals(ResourceOperation.UnAssign, StringComparison.OrdinalIgnoreCase) ||
+            resourceOperation.Equals(ResourceOperation.LockOut, StringComparison.OrdinalIgnoreCase) ||
+            resourceOperation.Equals(ResourceOperation.Unlock, StringComparison.OrdinalIgnoreCase) ||
+            resourceOperation.Equals(ResourceOperation.AdminAndAbove, StringComparison.OrdinalIgnoreCase) ||
             resourceOperation.Equals(ResourceOperation.GodsEyeOnly, StringComparison.OrdinalIgnoreCase))
             && user.IsInRole(AppUserRoles.GodsEye))
         {

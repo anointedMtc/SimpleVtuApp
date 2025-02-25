@@ -1,8 +1,8 @@
-﻿using ApplicationSharedKernel.Exceptions;
-using Identity.Application.Exceptions;
+﻿using Identity.Application.Exceptions;
 using Identity.Domain.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using SharedKernel.Application.Exceptions;
 using SharedKernel.Domain.Exceptions;
 using VtuApp.Application.Exceptions;
 using VtuApp.Domain.Exceptions;

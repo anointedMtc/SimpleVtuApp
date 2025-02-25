@@ -1,6 +1,6 @@
-﻿using ApplicationSharedKernel.HelperClasses;
-using ApplicationSharedKernel.Interfaces;
-using SagaOrchestrationStateMachines.Application.HelperClasses;
+﻿using SagaOrchestrationStateMachines.Application.HelperClasses;
+using SharedKernel.Application.HelperClasses;
+using SharedKernel.Application.Interfaces;
 using SharedKernel.Domain.HelperClasses;
 
 namespace SagaOrchestrationStateMachines.Application.Features.VtuAirtimeSaga.Queries.GetAllSagaInstance;

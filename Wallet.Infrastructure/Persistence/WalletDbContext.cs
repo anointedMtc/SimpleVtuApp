@@ -1,6 +1,6 @@
-﻿using InfrastructureSharedKernel.Persistence.Interceptors;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel.Infrastructure.Persistence.Interceptors;
 using System.Reflection;
 using Wallet.Domain.Entities;
 using Wallet.Domain.Entities.WalletAggregate;
@@ -92,9 +92,9 @@ public class WalletDbContext : DbContext
 
 
 
-    public override int SaveChanges()
-    {
-        return SaveChangesAsync().GetAwaiter().GetResult();
-    }
+    //public override int SaveChanges()
+    //{
+    //    return SaveChangesAsync().GetAwaiter().GetResult();
+    //}
 
 }

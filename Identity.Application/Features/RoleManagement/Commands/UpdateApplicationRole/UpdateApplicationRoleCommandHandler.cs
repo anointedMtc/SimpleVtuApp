@@ -1,11 +1,11 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using AutoMapper;
+﻿using AutoMapper;
 using Identity.Application.Exceptions;
 using Identity.Domain.Entities;
 using Identity.Shared.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Application.Interfaces;
 
 namespace Identity.Application.Features.RoleManagement.Commands.UpdateApplicationRole;
 

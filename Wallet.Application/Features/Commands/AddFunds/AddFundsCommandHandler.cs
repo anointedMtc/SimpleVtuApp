@@ -1,6 +1,6 @@
-﻿using DomainSharedKernel.Interfaces;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Domain.Interfaces;
 using Wallet.Domain.Entities.WalletAggregate;
 
 namespace Wallet.Application.Features.Commands.AddFunds;

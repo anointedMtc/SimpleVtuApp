@@ -1,7 +1,4 @@
-﻿using ApplicationSharedKernel.HelperClasses;
-using ApplicationSharedKernel.Interfaces;
-using AutoMapper;
-using DomainSharedKernel.Interfaces;
+﻿using AutoMapper;
 using Identity.Application.Exceptions;
 using Identity.Application.Specifications;
 using Identity.Domain.Entities;
@@ -9,6 +6,9 @@ using Identity.Shared.Constants;
 using Identity.Shared.DTO;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Application.HelperClasses;
+using SharedKernel.Application.Interfaces;
+using SharedKernel.Domain.Interfaces;
 
 namespace Identity.Application.Features.UserManagementEndpoints.Queries.GetAllApplicationUsers;
 

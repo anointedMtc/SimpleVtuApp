@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using DomainSharedKernel.Interfaces;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Notification.Application.IntegrationEvents.SagaStateMachines.VtuAirtimeOrderedSagaOrchestrator;
@@ -8,6 +7,7 @@ using Notification.Domain.Entities;
 using Notification.Shared.DTO;
 using SagaOrchestrationStateMachines.Shared.IntegrationEvents.VtuAirtimeSaga;
 using SagaOrchestrationStateMachines.Shared.IntegrationEvents.VtuDataSaga;
+using SharedKernel.Domain.Interfaces;
 
 namespace Notification.Application.IntegrationEvents.SagaStateMachines.VtuDataOrderedSagaOrchestrator;
 

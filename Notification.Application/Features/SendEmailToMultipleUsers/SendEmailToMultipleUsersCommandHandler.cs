@@ -1,7 +1,4 @@
-﻿using ApplicationSharedKernel.Exceptions;
-using ApplicationSharedKernel.Interfaces;
-using AutoMapper;
-using DomainSharedKernel.Interfaces;
+﻿using AutoMapper;
 using Identity.Shared.Constants;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -9,6 +6,9 @@ using Notification.Application.Features.SendEmailToSingleUser;
 using Notification.Application.Interfaces;
 using Notification.Domain.Entities;
 using Notification.Shared.DTO;
+using SharedKernel.Application.Exceptions;
+using SharedKernel.Application.Interfaces;
+using SharedKernel.Domain.Interfaces;
 
 namespace Notification.Application.Features.SendEmailToMultipleUsers;
 
@@ -80,7 +80,18 @@ public class SendEmailToMultipleUsersCommandHandler : IRequestHandler<SendEmailT
 
         foreach (var item in emailMetadataList)
         {
-            var emailToSave = _mapper.Map<EmailEntity>(item);
+            //var emailToSave = _mapper.Map<EmailEntity>(item);
+
+            var emailToSave = new EmailEntity(
+                item.ToAddress,
+                item.Subject,
+                item.Body,
+                item.AttachmentPath,
+                item.CC,
+                item.BCC,
+                item.Sender,
+                item.EventType);
+
             await _emailRepository.AddAsync(emailToSave);
         }
 

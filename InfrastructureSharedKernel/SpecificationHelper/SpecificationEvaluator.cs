@@ -1,8 +1,7 @@
-﻿using DomainSharedKernel;
-using DomainSharedKernel.Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using SharedKernel.Domain.Interfaces;
 
-namespace InfrastructureSharedKernel.SpecificationHelper;
+namespace SharedKernel.Infrastructure.SpecificationHelper;
 
 // this class is in this layer because it has a dependency on EntityFrameworkCore
 public class SpecificationEvaluator<TEntity> where TEntity : class  // baseEntity... ideally the constraint should be where TEntity : BaseEntity but because we didn't implement it in ApplicationUser and ApplicationRole, we go for class

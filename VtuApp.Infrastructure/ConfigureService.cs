@@ -1,8 +1,8 @@
-﻿using DomainSharedKernel.Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
+using SharedKernel.Domain.Interfaces;
 using VtuApp.Application.Interfaces.ExternalServices.VtuNationApi;
 using VtuApp.Infrastructure.ExternalServices.VtuNationApi;
 using VtuApp.Infrastructure.Persistence;

@@ -1,7 +1,7 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using InfrastructureSharedKernel.Caching;
-using InfrastructureSharedKernel.Messaging;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Application.Interfaces;
+using SharedKernel.Infrastructure.Caching;
+using SharedKernel.Infrastructure.Messaging;
 
 namespace SharedKernel.Infrastructure;
 

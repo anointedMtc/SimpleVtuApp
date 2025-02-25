@@ -1,5 +1,4 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using AutoMapper;
+﻿using AutoMapper;
 using Identity.Application.Exceptions;
 using Identity.Application.Interfaces;
 using Identity.Domain.Entities;
@@ -8,6 +7,7 @@ using Identity.Shared.IntegrationEvents;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Application.Interfaces;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -15,30 +15,20 @@ namespace Identity.Application.Features.UsersEndpoints.AuthenticateUser;
 
 public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCommand, AuthenticateUserResponse>
 {
-    private readonly IMapper _mapper;
     private readonly ILogger _logger;
-    private readonly IPublisher _publisher;
-
     private readonly ITokenService _tokenService;
-    private readonly IUserContext _userContext;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly IMassTransitService _massTransitService;
 
 
-    public AuthenticateUserCommandHandler(IMapper mapper,
-        ILogger<AuthenticateUserCommandHandler> logger, IPublisher publisher, ITokenService tokenService,
-        IUserContext userContext, UserManager<ApplicationUser> userManager,
-        RoleManager<ApplicationRole> roleManager,
+    public AuthenticateUserCommandHandler(
+        ILogger<AuthenticateUserCommandHandler> logger, ITokenService tokenService,
+        UserManager<ApplicationUser> userManager,
         IMassTransitService massTransitService)
     {
-        _mapper = mapper;
         _logger = logger;
-        _publisher = publisher;
         _tokenService = tokenService;
-        _userContext = userContext;
         _userManager = userManager;
-        _roleManager = roleManager;
         _massTransitService = massTransitService;
     }
     public async Task<AuthenticateUserResponse> Handle(AuthenticateUserCommand request, CancellationToken cancellationToken)

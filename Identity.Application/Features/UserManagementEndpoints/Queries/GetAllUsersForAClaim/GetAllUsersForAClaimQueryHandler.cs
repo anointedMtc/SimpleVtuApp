@@ -5,13 +5,13 @@ using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using Identity.Shared.DTO;
 using Identity.Application.Features.UserManagementEndpoints.Queries.GetAllApplicationUsers;
-using ApplicationSharedKernel.HelperClasses;
-using DomainSharedKernel.Interfaces;
 using Identity.Domain.Entities;
-using ApplicationSharedKernel.Interfaces;
 using Identity.Shared.Constants;
 using Identity.Application.Exceptions;
 using Identity.Application.Specifications;
+using SharedKernel.Domain.Interfaces;
+using SharedKernel.Application.Interfaces;
+using SharedKernel.Application.HelperClasses;
 
 namespace Identity.Application.Features.UserManagementEndpoints.Queries.GetAllUsersForAClaim;
 

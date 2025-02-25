@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 
-namespace ApplicationSharedKernel.Behaviours;
+namespace SharedKernel.Application.Behaviours;
 
 public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
      where TRequest : notnull
@@ -98,6 +98,6 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
 
     }
 
-   
+
 }
 

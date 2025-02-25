@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
 
-namespace ApplicationSharedKernel.Exceptions;
+namespace SharedKernel.Application.Exceptions;
 
 public class ValidationException : Exception
 {

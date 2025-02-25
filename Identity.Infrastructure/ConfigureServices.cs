@@ -1,5 +1,4 @@
-﻿using DomainSharedKernel.Interfaces;
-using Identity.Application.Interfaces;
+﻿using Identity.Application.Interfaces;
 using Identity.Domain.Entities;
 using Identity.Infrastructure.Authorization;
 using Identity.Infrastructure.Models;
@@ -15,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using SharedKernel.Domain.Interfaces;
 using System.Text;
 using System.Text.Json;
 
@@ -54,10 +54,10 @@ public static class ConfigureServices
             opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);   
             opt.Lockout.MaxFailedAccessAttempts = 3;                              
         })
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders()      
-            .AddPasswordValidator<CustomPasswordValidator<ApplicationUser>>()
-            .AddTokenProvider<EmailConfirmationTokenProvider<ApplicationUser>>("emailconfirmation");
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders()      
+        .AddPasswordValidator<CustomPasswordValidator<ApplicationUser>>()
+        .AddTokenProvider<EmailConfirmationTokenProvider<ApplicationUser>>("emailconfirmation");
 
         services.Configure<DataProtectionTokenProviderOptions>(opt =>
             opt.TokenLifespan = TimeSpan.FromHours(2));                   

@@ -1,5 +1,5 @@
-﻿using DomainSharedKernel;
-using DomainSharedKernel.Interfaces;
+﻿using SharedKernel.Domain;
+using SharedKernel.Domain.Interfaces;
 
 namespace Notification.Domain.Entities;
 

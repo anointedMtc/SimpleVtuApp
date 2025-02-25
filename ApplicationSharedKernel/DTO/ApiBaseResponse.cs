@@ -1,4 +1,4 @@
-﻿namespace ApplicationSharedKernel.DTO;
+﻿namespace SharedKernel.Application.DTO;
 
 public class ApiBaseResponse
 {

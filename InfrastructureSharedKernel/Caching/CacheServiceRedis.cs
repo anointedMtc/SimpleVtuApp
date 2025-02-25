@@ -1,11 +1,11 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using Microsoft.Extensions.Caching.Distributed;
+﻿using Microsoft.Extensions.Caching.Distributed;
 using System.Collections.Concurrent;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Text;
+using SharedKernel.Application.Interfaces;
 
-namespace InfrastructureSharedKernel.Caching;
+namespace SharedKernel.Infrastructure.Caching;
 
 public class CacheServiceRedis : ICacheServiceRedis
 {
@@ -30,7 +30,7 @@ public class CacheServiceRedis : ICacheServiceRedis
             return null;
         }
 
-        T? value = JsonSerializer.Deserialize<T>(cachedValue, serializerOptions);   
+        T? value = JsonSerializer.Deserialize<T>(cachedValue, serializerOptions);
 
         return value;
     }
@@ -112,7 +112,7 @@ public class CacheServiceRedis : ICacheServiceRedis
     // NO.5
     public async Task RemoveByPrefixAsync(string prefixKey, CancellationToken cancellationToken = default)
     {
-        
+
         IEnumerable<Task> task = CacheKeys
             .Keys
             .Where(k => k.StartsWith(prefixKey))

@@ -1,6 +1,6 @@
-﻿using DomainSharedKernel.Interfaces;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Domain.Interfaces;
 using Wallet.Application.Exceptions;
 using Wallet.Domain.Entities.WalletAggregate;
 using Wallet.Domain.Events;

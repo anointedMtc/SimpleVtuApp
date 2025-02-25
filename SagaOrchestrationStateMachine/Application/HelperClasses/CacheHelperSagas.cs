@@ -13,7 +13,7 @@ public static class CacheHelperSagas
 
     public static string GenerateGetAllUserCreatedSagaCacheKey(PaginationFilter paginationFilter)
     {
-        return string.Format(_getAllUserCreatedSagaKeyTemplate, paginationFilter.Search, paginationFilter.Sort, paginationFilter.PageNumber, paginationFilter.PageSize);
+        return string.Format(_getAllUserCreatedSagaKeyTemplate, paginationFilter.Search ?? "defaultSearch", paginationFilter.Sort ?? "defaultSort", paginationFilter.PageNumber , paginationFilter.PageSize);
     }
 
     public static string GenerateGetAllVtuAirtimeSagaCacheKey(PaginationFilter paginationFilter)

@@ -1,6 +1,6 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Application.Interfaces;
 using VtuApp.Domain.Events;
 using VtuApp.Shared.IntegrationEvents;
 

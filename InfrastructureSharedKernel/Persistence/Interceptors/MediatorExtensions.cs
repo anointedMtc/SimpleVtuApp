@@ -1,8 +1,8 @@
-﻿using DomainSharedKernel;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel.Domain;
 
-namespace InfrastructureSharedKernel.Persistence.Interceptors;
+namespace SharedKernel.Infrastructure.Persistence.Interceptors;
 
 public static class MediatorExtensions
 {

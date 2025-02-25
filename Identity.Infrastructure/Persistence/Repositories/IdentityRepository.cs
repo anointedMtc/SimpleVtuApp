@@ -1,6 +1,6 @@
-﻿using DomainSharedKernel.Interfaces;
-using InfrastructureSharedKernel.SpecificationHelper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using SharedKernel.Domain.Interfaces;
+using SharedKernel.Infrastructure.SpecificationHelper;
 
 namespace Identity.Infrastructure.Persistence.Repositories;
 
@@ -17,7 +17,7 @@ public class IdentityRepository<T> : IRepository<T> where T : class, IAggregateR
     public async Task<IEnumerable<T>> GetAllAsync(ISpecification<T> specification = null)
     {
         // because I know i won't change the entites gotten from this...
-        return ApplySpecification(specification).AsNoTracking();
+        return ApplySpecification(specification);
     }
 
 
@@ -30,7 +30,7 @@ public class IdentityRepository<T> : IRepository<T> where T : class, IAggregateR
     public async Task<int> CountAsync(ISpecification<T> specification)
     {
         // because I know i won't change the entites gotten from this...
-        return await ApplySpecification(specification).AsNoTracking().CountAsync();
+        return await ApplySpecification(specification).CountAsync();
     }
 
     private IQueryable<T> ApplySpecification(ISpecification<T> spec)
@@ -69,7 +69,7 @@ public class IdentityRepository<T> : IRepository<T> where T : class, IAggregateR
 
     public async Task<IEnumerable<T>> GetAllAsync()
     {
-        return await _applicationDbContext.Set<T>().AsNoTracking().ToListAsync();
+        return await _applicationDbContext.Set<T>().ToListAsync();
     }
 
 }

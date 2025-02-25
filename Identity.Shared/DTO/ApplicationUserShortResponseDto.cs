@@ -11,8 +11,8 @@ public class ApplicationUserShortResponseDto
     public string Gender { get; set; }
     public DateOfBirthResponseDto DateOfBirth { get; set; }
     public string? Nationality { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime LastLogin { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset LastLogin { get; set; }
     //public List<ApplicationRoleForUserResponseDto> UserRoles { get; set; }
 
 }

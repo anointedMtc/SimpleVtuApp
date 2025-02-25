@@ -1,14 +1,14 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using MassTransit;
+﻿using MassTransit;
+using SharedKernel.Application.Interfaces;
 
-namespace InfrastructureSharedKernel.Messaging;
+namespace SharedKernel.Infrastructure.Messaging;
 
 public class MassTransitService : IMassTransitService
 {
     private readonly ISendEndpointProvider _sendEndpointProvider;
     private readonly IPublishEndpoint _publishEndpoint;
 
-    
+
     public MassTransitService(ISendEndpointProvider sendEndpointProvider, IPublishEndpoint publishEndpoint)
     {
         _sendEndpointProvider = sendEndpointProvider;

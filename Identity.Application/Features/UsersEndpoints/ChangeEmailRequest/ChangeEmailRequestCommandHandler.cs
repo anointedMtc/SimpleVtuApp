@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using System.Text;
 using Identity.Domain.Entities;
-using ApplicationSharedKernel.Interfaces;
 using Identity.Application.Exceptions;
 using Identity.Shared.IntegrationEvents;
+using SharedKernel.Application.Interfaces;
 
 namespace Identity.Application.Features.UsersEndpoints.ChangeEmailRequest;
 

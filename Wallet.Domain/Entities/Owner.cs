@@ -1,5 +1,5 @@
-﻿using DomainSharedKernel;
-using DomainSharedKernel.Interfaces;
+﻿using SharedKernel.Domain;
+using SharedKernel.Domain.Interfaces;
 using Wallet.Domain.Entities.WalletAggregate;
 using Wallet.Domain.Events;
 

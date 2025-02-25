@@ -26,7 +26,11 @@ public static class HealthCheckExtension
          //.AddDbContextCheck<VtuAirtimeOrderedSagaDbContext>()    
          //.AddDbContextCheck<VtuDataOrderedSagaDbContext>()
 
-         .AddSqlServer(configuration.GetConnectionString("cleanarchskeletonDb")!, name: "Sql Health", tags: ["database", "sqlServer", "custom", "itCanHaveMultipleNames"]);    
+         .AddSqlServer(configuration.GetConnectionString("IdentityModuleDb")!, name: "IdentityModuleDb-Sql Health", tags: ["database", "sqlServer", "custom", "itCanHaveMultipleNames"])   
+         .AddSqlServer(configuration.GetConnectionString("NotificationModuleDb")!, name: "NotificationModuleDb-Sql Health", tags: ["database", "sqlServer", "custom", "itCanHaveMultipleNames"])    
+         .AddSqlServer(configuration.GetConnectionString("VtuAppModuleDb")!, name: "VtuAppModuleDb-Sql Health", tags: ["database", "sqlServer", "custom", "itCanHaveMultipleNames"])    
+         .AddSqlServer(configuration.GetConnectionString("WalletModuleDb")!, name: "WalletModuleDb-Sql Health", tags: ["database", "sqlServer", "custom", "itCanHaveMultipleNames"])
+         .AddSqlServer(configuration.GetConnectionString("SagaStateMachinesModuleDb")!, name: "SagaStateMachinesModuleDb-Sql Health", tags: ["database", "sqlServer", "custom", "itCanHaveMultipleNames"]);
 
         services.AddHealthChecksUI(options =>
         {

@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using DomainSharedKernel.Interfaces;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Notification.Application.Interfaces;
 using Notification.Domain.Entities;
 using Notification.Shared.DTO;
+using SharedKernel.Domain.Interfaces;
 using VtuApp.Shared.IntegrationEvents;
 
 namespace Notification.Application.IntegrationEvents.VtuAppModule;

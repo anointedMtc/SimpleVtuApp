@@ -1,7 +1,7 @@
-﻿using DomainSharedKernel.Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Domain.Interfaces;
 using Wallet.Infrastructure.Persistence;
 using Wallet.Infrastructure.Persistence.Repositories;
 

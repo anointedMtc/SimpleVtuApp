@@ -1,11 +1,11 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using Identity.Domain.Entities;
+﻿using Identity.Domain.Entities;
 using Identity.Shared.Constants;
 using Identity.Shared.IntegrationEvents;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Application.Interfaces;
 using System.Text;
 
 namespace Identity.Application.Features.UsersEndpoints.EmailConfirmation;

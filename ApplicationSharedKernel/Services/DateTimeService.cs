@@ -1,6 +1,6 @@
-﻿using ApplicationSharedKernel.Interfaces;
+﻿using SharedKernel.Application.Interfaces;
 
-namespace ApplicationSharedKernel.Services;
+namespace SharedKernel.Application.Services;
 
 public class DateTimeService : IDateTimeService
 {

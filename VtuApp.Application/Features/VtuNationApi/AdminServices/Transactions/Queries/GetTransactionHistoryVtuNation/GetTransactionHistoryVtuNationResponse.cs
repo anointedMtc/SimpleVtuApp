@@ -1,4 +1,4 @@
-﻿using ApplicationSharedKernel.DTO;
+﻿using SharedKernel.Application.DTO;
 using VtuApp.Shared.DTO.VtuNationApi.AdminServices.Transaction;
 
 namespace VtuApp.Application.Features.VtuNationApi.AdminServices.Transactions.Queries.GetTransactionHistoryVtuNation;

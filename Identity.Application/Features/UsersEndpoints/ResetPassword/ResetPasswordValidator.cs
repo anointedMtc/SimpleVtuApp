@@ -1,5 +1,5 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using FluentValidation;
+﻿using FluentValidation;
+using SharedKernel.Application.Interfaces;
 
 namespace Identity.Application.Features.UsersEndpoints.ResetPassword;
 

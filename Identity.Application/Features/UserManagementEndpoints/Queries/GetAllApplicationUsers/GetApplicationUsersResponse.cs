@@ -1,5 +1,5 @@
-﻿using ApplicationSharedKernel.DTO;
-using Identity.Shared.DTO;
+﻿using Identity.Shared.DTO;
+using SharedKernel.Application.DTO;
 
 namespace Identity.Application.Features.UserManagementEndpoints.Queries.GetAllApplicationUsers;
 

@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using DomainSharedKernel.Interfaces;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Notification.Application.Interfaces;
 using Notification.Domain.Entities;
 using Notification.Shared.DTO;
 using SagaOrchestrationStateMachines.Shared.IntegrationEvents.UserCreatedSaga;
+using SharedKernel.Domain.Interfaces;
 
 namespace Notification.Application.IntegrationEvents.SagaStateMachines.UserCreatedSagaOrchestrator;
 

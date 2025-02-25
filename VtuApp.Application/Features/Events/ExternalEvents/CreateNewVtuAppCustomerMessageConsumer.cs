@@ -1,6 +1,6 @@
-﻿using DomainSharedKernel.Interfaces;
-using MassTransit;
+﻿using MassTransit;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Domain.Interfaces;
 using VtuApp.Application.Exceptions;
 using VtuApp.Domain.Entities.VtuModelAggregate;
 using VtuApp.Domain.Specifications;

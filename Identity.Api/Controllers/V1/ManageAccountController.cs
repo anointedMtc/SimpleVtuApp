@@ -1,4 +1,6 @@
-﻿namespace Identity.Api.Controllers.V1;
+﻿using SharedKernel.Application.HelperClasses;
+
+namespace Identity.Api.Controllers.V1;
 
 [Authorize]
 [ApiVersion("1.0")]

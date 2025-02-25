@@ -1,4 +1,4 @@
-﻿using DomainSharedKernel;
+﻿using SharedKernel.Domain;
 using VtuApp.Shared.Constants;
 
 namespace VtuApp.Domain.Entities.VtuModelAggregate;

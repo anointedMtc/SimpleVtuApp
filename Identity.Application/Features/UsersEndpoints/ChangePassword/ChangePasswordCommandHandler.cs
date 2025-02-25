@@ -1,9 +1,9 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using Identity.Application.Exceptions;
+﻿using Identity.Application.Exceptions;
 using Identity.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Application.Interfaces;
 
 namespace Identity.Application.Features.UsersEndpoints.ChangePassword;
 

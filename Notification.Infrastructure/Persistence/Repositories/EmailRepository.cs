@@ -1,6 +1,6 @@
-﻿using DomainSharedKernel.Interfaces;
-using InfrastructureSharedKernel.SpecificationHelper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using SharedKernel.Domain.Interfaces;
+using SharedKernel.Infrastructure.SpecificationHelper;
 
 namespace Notification.Infrastructure.Persistence.Repositories;
 

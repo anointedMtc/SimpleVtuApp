@@ -57,11 +57,11 @@ public sealed class UserCreatedSagaStateMachine : MassTransitStateMachine<UserCr
 
             s.Received = r => r.CorrelateById(context => context.Message.ApplicationUserId);
 
-            s.Received = r => r.OnMissingInstance(m => m.Redeliver(r =>
-            {
-                r.Interval(5, 1000);
-                r.OnRedeliveryLimitReached(n => n.Fault());
-            }));
+            //s.Received = r => r.OnMissingInstance(m => m.Redeliver(r =>
+            //{
+            //    r.Interval(5, 1000);
+            //    r.OnRedeliveryLimitReached(n => n.Fault());
+            //}));
         });
 
         Event(() => CreateNewWalletOwnerMessageFaulted, x => x

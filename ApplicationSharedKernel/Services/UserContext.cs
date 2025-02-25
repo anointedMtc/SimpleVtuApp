@@ -1,6 +1,6 @@
-﻿using ApplicationSharedKernel.HelperClasses;
-using ApplicationSharedKernel.Interfaces;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using SharedKernel.Application.HelperClasses;
+using SharedKernel.Application.Interfaces;
 using System.Globalization;
 using System.Security.Claims;
 

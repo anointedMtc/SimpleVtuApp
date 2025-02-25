@@ -1,5 +1,5 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using MediatR;
+﻿using MediatR;
+using SharedKernel.Application.Interfaces;
 
 namespace Identity.Application.Features.RoleManagement.Queries.GetRoleById;
 

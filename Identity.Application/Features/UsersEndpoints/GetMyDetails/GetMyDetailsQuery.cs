@@ -1,5 +1,4 @@
-﻿
-using ApplicationSharedKernel.Interfaces;
+﻿using SharedKernel.Application.Interfaces;
 
 namespace Identity.Application.Features.UsersEndpoints.GetMyDetails;
 

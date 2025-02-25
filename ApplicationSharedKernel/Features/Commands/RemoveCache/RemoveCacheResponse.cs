@@ -1,4 +1,4 @@
-﻿using ApplicationSharedKernel.DTO;
+﻿using SharedKernel.Application.DTO;
 
 namespace SharedKernel.Application.Features.Commands.RemoveCache;
 

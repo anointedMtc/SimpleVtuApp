@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using DomainSharedKernel.Interfaces;
-using InfrastructureSharedKernel.SpecificationHelper;
 using MassTransit.EntityFrameworkCoreIntegration;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +7,8 @@ using SagaOrchestrationStateMachines.Domain.Specifications.VtuDataSaga;
 using SagaOrchestrationStateMachines.Infrastructure.Persistence;
 using SagaOrchestrationStateMachines.Infrastructure.VtuDataOrderedSagaOrchestrator;
 using SagaOrchestrationStateMachines.Shared.DTO;
+using SharedKernel.Domain.Interfaces;
+using SharedKernel.Infrastructure.SpecificationHelper;
 
 namespace SagaOrchestrationStateMachines.Application.Features.VtuDataSaga.Queries.GetSingleInstance;
 

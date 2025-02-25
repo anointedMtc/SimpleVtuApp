@@ -1,5 +1,4 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using AutoMapper;
+﻿using AutoMapper;
 using Identity.Application.Interfaces;
 using Identity.Domain.Entities;
 using Identity.Shared.Constants;
@@ -9,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Notification.Shared.DTO;
+using SharedKernel.Application.Interfaces;
 using System.Text;
 using System.Text.Encodings.Web;
 

@@ -1,9 +1,9 @@
-﻿using InfrastructureSharedKernel.Persistence.Interceptors;
-using Identity.Domain.Entities;
+﻿using Identity.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using SharedKernel.Infrastructure.Persistence.Interceptors;
 
 namespace Identity.Infrastructure.Persistence;
 
@@ -42,9 +42,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
 
 
 
-    public override int SaveChanges()
-    {
-        return SaveChangesAsync().GetAwaiter().GetResult();
-    }
+    //public override int SaveChanges()
+    //{
+    //    return SaveChangesAsync().GetAwaiter().GetResult();
+    //}
 
 }

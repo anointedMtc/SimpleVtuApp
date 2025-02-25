@@ -1,6 +1,6 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using ExternalServices.Application.TypiCodeService.Interfaces;
+﻿using ExternalServices.Application.TypiCodeService.Interfaces;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Application.Interfaces;
 
 namespace ExternalServices.Application.TypiCodeService.Services;
 

@@ -1,5 +1,5 @@
-﻿using DomainSharedKernel.Interfaces;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using SharedKernel.Domain.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Identity.Domain.Entities;

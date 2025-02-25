@@ -1,4 +1,4 @@
-﻿using ApplicationSharedKernel.Interfaces;
+﻿using SharedKernel.Application.Interfaces;
 
 namespace Identity.Application.Features.RoleManagement.Queries.GetRoleByName;
 

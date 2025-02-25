@@ -1,7 +1,7 @@
-﻿using ApplicationSharedKernel;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Api.Controllers;
+using SharedKernel.Application;
 using SharedKernel.Infrastructure;
 
 namespace SharedKernel.Api;

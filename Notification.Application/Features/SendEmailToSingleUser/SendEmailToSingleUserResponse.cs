@@ -1,4 +1,4 @@
-﻿using ApplicationSharedKernel.DTO;
+﻿using SharedKernel.Application.DTO;
 
 namespace Notification.Application.Features.SendEmailToSingleUser;
 

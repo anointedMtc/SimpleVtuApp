@@ -1,5 +1,5 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using SharedKernel.Application.Interfaces;
 using VtuApp.Application.Interfaces.ExternalServices.VtuNationApi;
 using VtuApp.Shared.DTO.VtuNationApi.AdminServices;
 

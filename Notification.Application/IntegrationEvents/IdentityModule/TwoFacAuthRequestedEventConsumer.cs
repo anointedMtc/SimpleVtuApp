@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using DomainSharedKernel.Interfaces;
 using Identity.Shared.IntegrationEvents;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Notification.Application.Interfaces;
 using Notification.Domain.Entities;
 using Notification.Shared.DTO;
+using SharedKernel.Domain.Interfaces;
 
 namespace Notification.Application.IntegrationEvents.IdentityModule;
 
@@ -35,16 +35,34 @@ public class TwoFacAuthRequestedEventConsumer : IConsumer<TwoFacAuthRequestedEve
             DateTimeOffset.UtcNow
         );
 
-        var message = new EmailDto(context.Message.Email!, "Authentication token", $"Dear {context.Message.FirstName}, " +
+        var receiver = context.Message.Email;
+        var subject = "Authentication token";
+        var emailBody = $"Dear {context.Message.FirstName}, " +
             $"<br>" +
             $"<br> Kindly use this OTP to complete your login request.<br><br> {context.Message.TokenFor2Fac}" +
             $"<br><br> But if you didn't request for this, kindly ignore. " +
-            $"<br><br> Thanks. <br><br> anointedMtc");
+            $"<br><br> Thanks. <br><br> anointedMtc";
+
+        //var message = new EmailDto(context.Message.Email!, "Authentication token", $"Dear {context.Message.FirstName}, " +
+        //    $"<br>" +
+        //    $"<br> Kindly use this OTP to complete your login request.<br><br> {context.Message.TokenFor2Fac}" +
+        //    $"<br><br> But if you didn't request for this, kindly ignore. " +
+        //    $"<br><br> Thanks. <br><br> anointedMtc");
+
+        var message = new EmailDto(receiver, subject, emailBody);
 
         await _emailService.Send(message);
 
-        var emailToSave = _mapper.Map<EmailEntity>(message);
-        emailToSave.EventType = nameof(TwoFacAuthRequestedEventConsumer);
+        //var emailToSave = _mapper.Map<EmailEntity>(message);
+
+        //var emailToSave = new EmailEntity(receiver, subject, emailBody);
+        //emailToSave.EventType = nameof(TwoFacAuthRequestedEventConsumer);
+
+        var emailToSave = new EmailEntity(receiver, subject, emailBody)
+        {
+            EventType = nameof(TwoFacAuthRequestedEventConsumer)
+        };
+
         await _emailRepository.AddAsync(emailToSave);
 
         _logger.LogInformation("Successfully sent and saved email to User with Id {UserId} by {typeOfEvent} at {Time}",

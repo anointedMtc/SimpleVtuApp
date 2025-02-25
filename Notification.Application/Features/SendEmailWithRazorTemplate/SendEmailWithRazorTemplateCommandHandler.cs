@@ -1,13 +1,13 @@
-﻿using ApplicationSharedKernel.Exceptions;
-using ApplicationSharedKernel.Interfaces;
-using AutoMapper;
-using DomainSharedKernel.Interfaces;
+﻿using AutoMapper;
 using Identity.Shared.Constants;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Notification.Application.Interfaces;
 using Notification.Domain.Entities;
 using Notification.Shared.DTO;
+using SharedKernel.Application.Exceptions;
+using SharedKernel.Application.Interfaces;
+using SharedKernel.Domain.Interfaces;
 
 namespace Notification.Application.Features.SendEmailWithRazorTemplate;
 
@@ -80,7 +80,18 @@ public class SendEmailWithRazorTemplateCommandHandler : IRequestHandler<SendEmai
         // new property <PreserveCompilationContext>true</PreserveCompilationContext>
 
 
-        var emailToSave = _mapper.Map<EmailEntity>(request.EmailDto);
+        //var emailToSave = _mapper.Map<EmailEntity>(request.EmailDto);
+
+        var emailToSave = new EmailEntity(
+           request.EmailDto.ToAddress,
+           request.EmailDto.Subject,
+           request.EmailDto.Body,
+           request.EmailDto.AttachmentPath,
+           request.EmailDto.CC,
+           request.EmailDto.BCC,
+           request.EmailDto.Sender,
+           request.EmailDto.EventType);
+
         await _emailRepository.AddAsync(emailToSave);
 
         sendEmailWithRazorTemplateResponse.Success = true;

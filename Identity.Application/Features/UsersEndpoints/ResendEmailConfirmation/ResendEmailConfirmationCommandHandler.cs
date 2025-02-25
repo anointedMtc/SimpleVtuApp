@@ -1,11 +1,11 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using Identity.Application.Exceptions;
+﻿using Identity.Application.Exceptions;
 using Identity.Domain.Entities;
 using Identity.Shared.IntegrationEvents;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Application.Interfaces;
 using System.Text;
 using System.Text.Encodings.Web;
 

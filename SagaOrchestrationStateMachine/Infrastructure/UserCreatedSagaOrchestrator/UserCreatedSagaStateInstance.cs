@@ -1,5 +1,5 @@
-﻿using DomainSharedKernel.Interfaces;
-using MassTransit;
+﻿using MassTransit;
+using SharedKernel.Domain.Interfaces;
 
 namespace SagaOrchestrationStateMachines.Infrastructure.UserCreatedSagaOrchestrator;
 

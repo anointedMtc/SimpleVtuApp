@@ -1,8 +1,8 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Application.Interfaces;
 
-namespace ApplicationSharedKernel.Behaviours;
+namespace SharedKernel.Application.Behaviours;
 
 internal sealed class QueryCachingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : ICachedQuery

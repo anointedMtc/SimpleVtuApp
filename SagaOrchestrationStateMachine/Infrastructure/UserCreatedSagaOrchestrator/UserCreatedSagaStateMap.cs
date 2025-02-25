@@ -12,6 +12,8 @@ public sealed class UserCreatedSagaStateMap : SagaClassMap<UserCreatedSagaStateI
 
         entity.Property(x => x.ApplicationUserId).HasMaxLength(64);
 
+        entity.Property(x => x.RegisterationBonus).HasColumnType("decimal (18,2)");
+
 
 
         entity.Property(x => x.RowVersion).IsRowVersion();

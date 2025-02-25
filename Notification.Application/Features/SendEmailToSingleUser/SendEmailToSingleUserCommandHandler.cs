@@ -1,13 +1,13 @@
-﻿using ApplicationSharedKernel.Exceptions;
-using ApplicationSharedKernel.Interfaces;
+﻿using SharedKernel.Application.Exceptions;
 using AutoMapper;
-using DomainSharedKernel.Interfaces;
 using Identity.Shared.Constants;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Notification.Application.Interfaces;
 using Notification.Domain.Entities;
 using Notification.Shared.DTO;
+using SharedKernel.Application.Interfaces;
+using SharedKernel.Domain.Interfaces;
 
 namespace Notification.Application.Features.SendEmailToSingleUser;
 
@@ -73,7 +73,18 @@ public class SendEmailToSingleUserCommandHandler : IRequestHandler<SendEmailToSi
 
         await _emailService.Send(emailMetadata);
         
-        var emailToSave = _mapper.Map<EmailEntity>(request.EmailDto);
+        //var emailToSave = _mapper.Map<EmailEntity>(request.EmailDto);
+
+        var emailToSave = new EmailEntity(
+            request.EmailDto.ToAddress,
+            request.EmailDto.Subject,
+            request.EmailDto.Body,
+            request.EmailDto.AttachmentPath,
+            request.EmailDto.CC,
+            request.EmailDto.BCC,
+            request.EmailDto.Sender,
+            request.EmailDto.EventType);
+
         await _emailRepository.AddAsync(emailToSave);
 
         sendEmailToSingleUserResponse.Success = true;

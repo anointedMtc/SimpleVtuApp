@@ -1,6 +1,6 @@
-﻿using ApplicationSharedKernel.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Application.Interfaces;
 
 namespace Identity.Infrastructure.Authorization;
 

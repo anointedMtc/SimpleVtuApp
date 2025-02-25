@@ -1,4 +1,4 @@
-﻿using DomainSharedKernel;
+﻿using SharedKernel.Domain;
 using SharedKernel.Domain.Exceptions;
 using System.Globalization;
 

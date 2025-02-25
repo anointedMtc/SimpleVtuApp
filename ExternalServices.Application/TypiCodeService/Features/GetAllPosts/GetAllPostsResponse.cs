@@ -1,5 +1,5 @@
-﻿using ApplicationSharedKernel.DTO;
-using ExternalServices.Application.TypiCodeService.Interfaces;
+﻿using ExternalServices.Application.TypiCodeService.Interfaces;
+using SharedKernel.Application.DTO;
 
 namespace ExternalServices.Application.TypiCodeService.Features.GetAllPosts;
 

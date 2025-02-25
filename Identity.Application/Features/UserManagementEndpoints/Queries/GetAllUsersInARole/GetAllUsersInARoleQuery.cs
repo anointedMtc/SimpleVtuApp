@@ -1,6 +1,6 @@
-﻿using ApplicationSharedKernel.HelperClasses;
-using ApplicationSharedKernel.Interfaces;
-using Identity.Application.HelperClasses;
+﻿using Identity.Application.HelperClasses;
+using SharedKernel.Application.HelperClasses;
+using SharedKernel.Application.Interfaces;
 using SharedKernel.Domain.HelperClasses;
 
 namespace Identity.Application.Features.UserManagementEndpoints.Queries.GetAllUsersInARole;

@@ -1,6 +1,6 @@
-﻿using ApplicationSharedKernel.HelperClasses;
+﻿using SharedKernel.Application.HelperClasses;
 
-namespace ApplicationSharedKernel.Interfaces;
+namespace SharedKernel.Application.Interfaces;
 
 public interface IUserContext
 {

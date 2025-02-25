@@ -1,4 +1,4 @@
-﻿using DomainSharedKernel.Interfaces;
+﻿using SharedKernel.Domain.Interfaces;
 using VtuApp.Domain.Entities.VtuModelAggregate;
 
 namespace VtuApp.Domain.Events;

@@ -45,11 +45,11 @@ public sealed class VtuAirtimeOrderedSagaStateMachine : MassTransitStateMachine<
 
             s.Received = r => r.CorrelateById(context => context.Message.VtuTransactionId);
 
-            s.Received = r => r.OnMissingInstance(m => m.Redeliver(r =>
-            {
-                r.Interval(5, 1000);
-                r.OnRedeliveryLimitReached(n => n.Fault());
-            }));
+            //s.Received = r => r.OnMissingInstance(m => m.Redeliver(r =>
+            //{
+            //    r.Interval(5, 1000);
+            //    r.OnRedeliveryLimitReached(n => n.Fault());
+            //}));
         });
         Event(() => BuyAirtimeForCustomerSecondReTryFailedEvent, x =>
         {

@@ -1,7 +1,7 @@
-﻿using DomainSharedKernel.Interfaces;
-using InfrastructureSharedKernel.SpecificationHelper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SagaOrchestrationStateMachines.Domain.Interfaces;
+using SharedKernel.Domain.Interfaces;
+using SharedKernel.Infrastructure.SpecificationHelper;
 
 namespace SagaOrchestrationStateMachines.Infrastructure.Persistence.Repository;
 

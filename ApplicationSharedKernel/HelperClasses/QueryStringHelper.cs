@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
 
-namespace ApplicationSharedKernel.HelperClasses;
+namespace SharedKernel.Application.HelperClasses;
 
 public class QueryStringHelper
 {

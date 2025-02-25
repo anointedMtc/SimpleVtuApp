@@ -1,4 +1,4 @@
-﻿using ApplicationSharedKernel.DTO;
+﻿using SharedKernel.Application.DTO;
 using Wallet.Shared.DTO;
 
 namespace Wallet.Application.Features.Queries.GetWalletById;

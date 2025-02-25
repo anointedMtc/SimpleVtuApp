@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using DomainSharedKernel.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Domain.Interfaces;
 using Wallet.Domain.Entities.WalletAggregate;
 using Wallet.Shared.DTO;
 

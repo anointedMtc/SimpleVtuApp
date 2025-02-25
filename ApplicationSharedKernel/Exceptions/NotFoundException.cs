@@ -1,4 +1,4 @@
-﻿namespace ApplicationSharedKernel.Exceptions;
+﻿namespace SharedKernel.Application.Exceptions;
 
 public class NotFoundException : Exception
 {

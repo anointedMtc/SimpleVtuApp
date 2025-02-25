@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using DomainSharedKernel.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using InfrastructureSharedKernel.SpecificationHelper;
 using Microsoft.EntityFrameworkCore;
 using SagaOrchestrationStateMachines.Shared.DTO;
 using SagaOrchestrationStateMachines.Infrastructure.Persistence;
@@ -10,6 +8,8 @@ using SagaOrchestrationStateMachines.Domain.Specifications.VtuAirtimeSaga;
 using SagaOrchestrationStateMachines.Infrastructure.VtuAirtimeOrderedSagaOrchestrator;
 using MassTransit.EntityFrameworkCoreIntegration;
 using SagaOrchestrationStateMachines.Domain.Interfaces;
+using SharedKernel.Infrastructure.SpecificationHelper;
+using SharedKernel.Domain.Interfaces;
 
 namespace SagaOrchestrationStateMachines.Application.Features.VtuAirtimeSaga.Queries.GetSingleInstance;
 

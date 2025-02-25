@@ -1,5 +1,5 @@
-﻿using DomainSharedKernel.Interfaces;
-using MassTransit;
+﻿using MassTransit;
+using SharedKernel.Domain.Interfaces;
 using VtuApp.Shared.Constants;
 
 namespace SagaOrchestrationStateMachines.Infrastructure.VtuDataOrderedSagaOrchestrator;

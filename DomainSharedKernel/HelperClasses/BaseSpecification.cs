@@ -1,4 +1,4 @@
-﻿using DomainSharedKernel.Interfaces;
+﻿using SharedKernel.Domain.Interfaces;
 using System.Linq.Expressions;
 
 namespace SharedKernel.Domain.HelperClasses;

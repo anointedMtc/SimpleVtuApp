@@ -24,7 +24,6 @@ global using Asp.Versioning;
 
 
 // MANAGE_ACCOUNT_CONTROLLER
-global using ApplicationSharedKernel.HelperClasses;
 global using Identity.Application.Features.UserManagementEndpoints.Commands.AddUserClaim;
 global using Identity.Application.Features.UserManagementEndpoints.Commands.AssignUserRole;
 global using Identity.Application.Features.UserManagementEndpoints.Commands.DeleteAllClaimsForAUser;
