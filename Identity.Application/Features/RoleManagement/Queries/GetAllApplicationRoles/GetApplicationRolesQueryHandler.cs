@@ -2,6 +2,7 @@
 using Identity.Application.Exceptions;
 using Identity.Application.Specifications;
 using Identity.Domain.Entities;
+using Identity.Domain.Interfaces;
 using Identity.Shared.Constants;
 using Identity.Shared.DTO;
 using MediatR;
@@ -22,11 +23,14 @@ public class GetApplicationRolesQueryHandler : IRequestHandler<GetApplicationRol
     private readonly IResourceBaseAuthorizationService _resourceBaseAuthorizationService;
     private readonly IUserContext _userContext;
 
+    private readonly ISpecificationHelperIdentity<ApplicationRole> _specificationHelperIdentity;
+
     public GetApplicationRolesQueryHandler(IRepository<ApplicationRole> repository,
         IMapper mapper, ILogger<GetApplicationRolesQueryHandler> logger,
         RoleManager<ApplicationRole> roleManager,
         IResourceBaseAuthorizationService resourceBaseAuthorizationService,
-        IUserContext userContext)
+        IUserContext userContext,
+        ISpecificationHelperIdentity<ApplicationRole> specificationHelperIdentity)
     {
         _repository = repository;
         _mapper = mapper;
@@ -34,6 +38,7 @@ public class GetApplicationRolesQueryHandler : IRequestHandler<GetApplicationRol
         _roleManager = roleManager;
         _resourceBaseAuthorizationService = resourceBaseAuthorizationService;
         _userContext = userContext;
+        _specificationHelperIdentity = specificationHelperIdentity;
     }
 
     public async Task<Pagination<GetApplicationRolesResponse>> Handle(GetApplicationRolesQuery request, CancellationToken cancellationToken)
@@ -54,7 +59,8 @@ public class GetApplicationRolesQueryHandler : IRequestHandler<GetApplicationRol
 
         var spec = new ApplicationRoleSpecification(request.PaginationFilterAppUser);
 
-        var data = await _repository.GetAllAsync(spec);
+        //var data = await _repository.GetAllAsync(spec);
+        var data = await _specificationHelperIdentity.GetAllAsync(spec);
 
         if (!data.Any())
         {
@@ -68,9 +74,11 @@ public class GetApplicationRolesQueryHandler : IRequestHandler<GetApplicationRol
                 DateTime.UtcNow);
 
             return new Pagination<GetApplicationRolesResponse>(request.PaginationFilterAppUser.PageNumber, request.PaginationFilterAppUser.PageSize, totalRoles, getApplicationRoleResponse);
+
         }
 
-        totalRoles = await _repository.CountAsync(spec);
+        //totalRoles = await _repository.CountAsync(spec);
+        totalRoles = await _specificationHelperIdentity.CountAsync(spec);
 
         getApplicationRoleResponse.ApplicationRoleResponseDto = _mapper.Map<List<ApplicationRoleResponseDto>>(data);
 

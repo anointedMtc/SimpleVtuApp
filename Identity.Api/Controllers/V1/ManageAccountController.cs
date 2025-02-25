@@ -13,7 +13,9 @@ public class ManageAccountController : ApiBaseController
     {
         var result = await Mediator.Send(new GetApplicationUsersQuery(paginationFilterAppUser));
 
-        return Ok(result);
+        var endpointUrl = $"{Request.Scheme}://{Request.Host}{Request.Path.Value}";
+
+        return new Pagination<GetApplicationUsersResponse>(paginationFilterAppUser, result.TotalRecords, result.Data, endpointUrl);
     }
 
 
@@ -22,7 +24,9 @@ public class ManageAccountController : ApiBaseController
     {
         var result = await Mediator.Send(new GetAllUsersInARoleQuery(paginationFilterAppUser));
 
-        return Ok(result);
+        var endpointUrl = $"{Request.Scheme}://{Request.Host}{Request.Path.Value}";
+
+        return new Pagination<GetAllUsersInARoleResponse>(paginationFilterAppUser, result.TotalRecords, result.Data, endpointUrl);
     }
 
 
@@ -31,7 +35,9 @@ public class ManageAccountController : ApiBaseController
     {
         var result = await Mediator.Send(new GetAllUsersForAClaimQuery(paginationFilterAppUser) { GetAllUsersForAClaimRequestDto = getAllUsersForAClaimRequestDto });
 
-        return Ok(result);
+        var endpointUrl = $"{Request.Scheme}://{Request.Host}{Request.Path.Value}";
+
+        return new Pagination<GetAllUsersForAClaimResponse>(paginationFilterAppUser, result.TotalRecords, result.Data, endpointUrl);
     }
 
 

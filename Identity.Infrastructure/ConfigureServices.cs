@@ -1,5 +1,6 @@
 ﻿using Identity.Application.Interfaces;
 using Identity.Domain.Entities;
+using Identity.Domain.Interfaces;
 using Identity.Infrastructure.Authorization;
 using Identity.Infrastructure.Models;
 using Identity.Infrastructure.Persistence;
@@ -29,10 +30,12 @@ public static class ConfigureServices
                 + "'DefaultConnection' not found.");
 
 
-        services.AddDbContext<ApplicationDbContext>(options =>
+        services.AddDbContext<IdentityAuthDbContext>(options =>
                 options.UseSqlServer(connectionString, o => o.EnableRetryOnFailure()));
 
-        services.AddScoped(typeof(IRepository<>), typeof(IdentityRepository<>));
+        services.AddScoped(typeof(IRepository<>), typeof(IdentityAuthRepository<>));
+
+        services.AddScoped(typeof(ISpecificationHelperIdentity<>), typeof(SpecificationHelperIdentity<>));
 
         services.AddScoped<ApplicationDbContextInitializer>();
 
@@ -54,7 +57,7 @@ public static class ConfigureServices
             opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);   
             opt.Lockout.MaxFailedAccessAttempts = 3;                              
         })
-        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddEntityFrameworkStores<IdentityAuthDbContext>()
         .AddDefaultTokenProviders()      
         .AddPasswordValidator<CustomPasswordValidator<ApplicationUser>>()
         .AddTokenProvider<EmailConfirmationTokenProvider<ApplicationUser>>("emailconfirmation");

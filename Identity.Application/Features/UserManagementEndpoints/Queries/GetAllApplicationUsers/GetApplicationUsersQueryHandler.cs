@@ -2,6 +2,7 @@
 using Identity.Application.Exceptions;
 using Identity.Application.Specifications;
 using Identity.Domain.Entities;
+using Identity.Domain.Interfaces;
 using Identity.Shared.Constants;
 using Identity.Shared.DTO;
 using MediatR;
@@ -20,16 +21,20 @@ public class GetApplicationUsersQueryHandler : IRequestHandler<GetApplicationUse
     private readonly IResourceBaseAuthorizationService _resourceBaseAuthorizationService;
     private readonly IUserContext _userContext;
 
+    private readonly ISpecificationHelperIdentity<ApplicationUser> _specificationHelperIdentity;
     public GetApplicationUsersQueryHandler(IRepository<ApplicationUser> repository,
         IMapper mapper, ILogger<GetApplicationUsersQueryHandler> logger,
         IResourceBaseAuthorizationService resourceBaseAuthorizationService,
-        IUserContext userContext)
+        IUserContext userContext,
+        ISpecificationHelperIdentity<ApplicationUser> specificationHelperIdentity)
     {
         _repository = repository;
         _mapper = mapper;
         _logger = logger;
         _resourceBaseAuthorizationService = resourceBaseAuthorizationService;
         _userContext = userContext;
+
+        _specificationHelperIdentity = specificationHelperIdentity;
     }
 
     public async Task<Pagination<GetApplicationUsersResponse>> Handle(GetApplicationUsersQuery request, CancellationToken cancellationToken)
@@ -50,7 +55,12 @@ public class GetApplicationUsersQueryHandler : IRequestHandler<GetApplicationUse
 
         var spec = new ApplicationUserSpecification(request.PaginationFilterAppUser);
 
-        var data = await _repository.GetAllAsync(spec);
+        //var data = await _repository.GetAllAsync(spec);
+
+        //var data = SpecificationEvaluator<VtuDataOrderedSagaStateInstance>.GetQuery(_sagaStateMachineDbContext.Set<VtuDataOrderedSagaStateInstance>().AsQueryable().AsNoTracking(), spec);
+        //totalUsers = await SpecificationEvaluator<VtuDataOrderedSagaStateInstance>.GetQuery(_sagaStateMachineDbContext.Set<VtuDataOrderedSagaStateInstance>().AsQueryable().AsNoTracking(), spec).CountAsync(cancellationToken);
+
+        var data = await _specificationHelperIdentity.GetAllAsync(spec);
 
         if (!data.Any())
         {
@@ -66,7 +76,8 @@ public class GetApplicationUsersQueryHandler : IRequestHandler<GetApplicationUse
             return new Pagination<GetApplicationUsersResponse>(request.PaginationFilterAppUser.PageNumber, request.PaginationFilterAppUser.PageSize, totalUsers, getApplicationUsersResponse);
         }
 
-        totalUsers = await _repository.CountAsync(spec);
+        //totalUsers = await _repository.CountAsync(spec);
+        totalUsers = await _specificationHelperIdentity.CountAsync(spec);
 
         getApplicationUsersResponse.ApplicationUserShortResponseDto = _mapper.Map<List<ApplicationUserShortResponseDto>>(data);
 

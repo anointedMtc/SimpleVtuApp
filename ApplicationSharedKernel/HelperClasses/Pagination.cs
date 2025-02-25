@@ -48,7 +48,7 @@ public class Pagination<T> where T : class
     }
 
 
-    public Pagination(PaginationFilter paginationFilter, int totalRecords, T data)
+    public Pagination(PaginationFilter paginationFilter, int totalRecords, T data, string route)
     {
         PageNumber = paginationFilter.PageNumber;
         PageSize = paginationFilter.PageSize;
@@ -56,7 +56,6 @@ public class Pagination<T> where T : class
         Data = data;
         TotalPages = (int)Math.Ceiling(totalRecords / (double)paginationFilter.PageSize);
 
-        var requestEndpointUrl = $"{_contextAccessor?.HttpContext.Request.Scheme}://{_contextAccessor?.HttpContext.Request.Host}{_contextAccessor?.HttpContext.Request.Path.Value}";
 
 
         var queryNextPage = new Dictionary<string, string?>
@@ -95,15 +94,15 @@ public class Pagination<T> where T : class
 
 
         NextPage = paginationFilter.PageNumber >= 1 && paginationFilter.PageNumber < TotalPages
-        ? QueryStringHelper.BuildPageUrl(requestEndpointUrl, queryNextPage) : null!;
+        ? QueryStringHelper.BuildPageUrl(route, queryNextPage) : null!;
 
         PreviousPage = paginationFilter.PageNumber - 1 >= 1 && paginationFilter.PageNumber <= TotalPages
-            ? QueryStringHelper.BuildPageUrl(requestEndpointUrl, queryPreviousPage) : null!;
+            ? QueryStringHelper.BuildPageUrl(route, queryPreviousPage) : null!;
 
-        FirstPage = QueryStringHelper.BuildPageUrl(requestEndpointUrl, queryFirstPage);
+        FirstPage = QueryStringHelper.BuildPageUrl(route, queryFirstPage);
 
         LastPage = paginationFilter.PageNumber >= 1 && paginationFilter.PageNumber < TotalPages
-            ? QueryStringHelper.BuildPageUrl(requestEndpointUrl, queryLastPage) : null!;
+            ? QueryStringHelper.BuildPageUrl(route, queryLastPage) : null!;
 
     }
 }

@@ -7,9 +7,9 @@ public class ApplicationRoleSpecification : BaseSpecification<ApplicationRole>
 {
     public ApplicationRoleSpecification(PaginationFilter paginationFilterAppUser)
     : base(x =>
-            string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Id.Contains(paginationFilterAppUser.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Name!.Contains(paginationFilterAppUser.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Description!.Contains(paginationFilterAppUser.Search, StringComparison.OrdinalIgnoreCase)
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Id.Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Name!.Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Description!.Contains(paginationFilterAppUser.Search))
     )
     {
 

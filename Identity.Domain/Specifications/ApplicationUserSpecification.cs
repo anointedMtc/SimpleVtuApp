@@ -7,17 +7,17 @@ public class ApplicationUserSpecification : BaseSpecification<ApplicationUser>
 {
     public ApplicationUserSpecification(PaginationFilter paginationFilterAppUser)
     : base(x =>
-            string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Id.Contains(paginationFilterAppUser.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.FirstName.Contains(paginationFilterAppUser.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.LastName.Contains(paginationFilterAppUser.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Email!.Contains(paginationFilterAppUser.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.ConstUserName.Contains(paginationFilterAppUser.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.UserName!.Contains(paginationFilterAppUser.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Gender.Contains(paginationFilterAppUser.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Nationality!.Contains(paginationFilterAppUser.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.DateOfBirth.HasValue.ToString().Contains(paginationFilterAppUser.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.LastLogin.ToString().Contains(paginationFilterAppUser.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.UpdatedAt.ToString().Contains(paginationFilterAppUser.Search, StringComparison.OrdinalIgnoreCase)
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Id.Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.FirstName.Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.LastName.Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Email!.Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.ConstUserName.Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.UserName!.Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Gender.Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Nationality!.Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.DateOfBirth.HasValue.ToString().Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.LastLogin.ToString().Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.UpdatedAt.ToString().Contains(paginationFilterAppUser.Search))
 
     )
     {

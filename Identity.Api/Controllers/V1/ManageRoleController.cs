@@ -13,7 +13,9 @@ public class ManageRoleController : ApiBaseController
     {
         var result = await Mediator.Send(new GetApplicationRolesQuery(paginationFilterAppUser));
 
-        return Ok(result);
+        var endpointUrl = $"{Request.Scheme}://{Request.Host}{Request.Path.Value}";
+
+        return new Pagination<GetApplicationRolesResponse>(paginationFilterAppUser, result.TotalRecords, result.Data, endpointUrl);
     }
 
 

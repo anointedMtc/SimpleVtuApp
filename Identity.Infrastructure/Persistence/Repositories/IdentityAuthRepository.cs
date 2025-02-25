@@ -4,13 +4,13 @@ using SharedKernel.Infrastructure.SpecificationHelper;
 
 namespace Identity.Infrastructure.Persistence.Repositories;
 
-public class IdentityRepository<T> : IRepository<T> where T : class, IAggregateRoot
+public class IdentityAuthRepository<T> : IRepository<T> where T : class, IAggregateRoot
 {
-    private readonly ApplicationDbContext _applicationDbContext; 
+    private readonly IdentityAuthDbContext _identityAuthDbContext; 
 
-    public IdentityRepository(ApplicationDbContext applicationDbContext)
+    public IdentityAuthRepository(IdentityAuthDbContext identityAuthDbContext)
     {
-        _applicationDbContext = applicationDbContext;
+        _identityAuthDbContext = identityAuthDbContext;
     }
 
 
@@ -36,40 +36,40 @@ public class IdentityRepository<T> : IRepository<T> where T : class, IAggregateR
     private IQueryable<T> ApplySpecification(ISpecification<T> spec)
     {
         // it is possible to add the AsNoTracking here, but then that means it would also affect the FindAsyn() method... which we don't want
-        return SpecificationEvaluator<T>.GetQuery(_applicationDbContext.Set<T>().AsQueryable(), spec);
+        return SpecificationEvaluator<T>.GetQuery(_identityAuthDbContext.Set<T>().AsQueryable(), spec);
 
     }
 
 
     public async Task<T> AddAsync(T entity)
     {
-        await _applicationDbContext.Set<T>().AddAsync(entity);
-        await _applicationDbContext.SaveChangesAsync();
+        await _identityAuthDbContext.Set<T>().AddAsync(entity);
+        await _identityAuthDbContext.SaveChangesAsync();
         return entity;
     }
 
     public async Task UpdateAsync(T entity)
     {
-        _applicationDbContext.Entry(entity).State = EntityState.Modified;
-        await _applicationDbContext.SaveChangesAsync();
+        _identityAuthDbContext.Entry(entity).State = EntityState.Modified;
+        await _identityAuthDbContext.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(T entity)
     {
-        _applicationDbContext.Set<T>().Remove(entity);
-        await _applicationDbContext.SaveChangesAsync();
+        _identityAuthDbContext.Set<T>().Remove(entity);
+        await _identityAuthDbContext.SaveChangesAsync();
     }
 
 
     public async Task<T?> GetByIdAsync(Guid id)
     {
-        T? result = await _applicationDbContext.Set<T>().FindAsync(id);
+        T? result = await _identityAuthDbContext.Set<T>().FindAsync(id);
         return result;
     }
 
     public async Task<IEnumerable<T>> GetAllAsync()
     {
-        return await _applicationDbContext.Set<T>().ToListAsync();
+        return await _identityAuthDbContext.Set<T>().ToListAsync();
     }
 
 }

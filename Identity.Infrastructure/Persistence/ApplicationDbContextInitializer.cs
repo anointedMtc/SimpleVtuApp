@@ -9,13 +9,13 @@ namespace Identity.Infrastructure.Persistence;
 public class ApplicationDbContextInitializer
 {
     private readonly ILogger<ApplicationDbContextInitializer> _logger;
-    private readonly ApplicationDbContext _applicationDbContext; 
+    private readonly IdentityAuthDbContext _applicationDbContext; 
 
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<ApplicationRole> _roleManager;
 
     public ApplicationDbContextInitializer(ILogger<ApplicationDbContextInitializer> logger,
-        ApplicationDbContext applicationDbContext,
+        IdentityAuthDbContext applicationDbContext,
         UserManager<ApplicationUser> userManager,
         RoleManager<ApplicationRole> roleManager)
     {

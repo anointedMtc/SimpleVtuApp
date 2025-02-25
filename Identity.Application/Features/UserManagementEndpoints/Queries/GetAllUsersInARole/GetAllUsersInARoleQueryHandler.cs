@@ -3,6 +3,7 @@ using Identity.Application.Exceptions;
 using Identity.Application.Features.UserManagementEndpoints.Queries.GetAllApplicationUsers;
 using Identity.Application.Specifications;
 using Identity.Domain.Entities;
+using Identity.Domain.Interfaces;
 using Identity.Shared.Constants;
 using Identity.Shared.DTO;
 using MediatR;
@@ -23,9 +24,14 @@ public class GetAllUsersInARoleQueryHandler : IRequestHandler<GetAllUsersInARole
     private readonly IResourceBaseAuthorizationService _resourceBaseAuthorizationService;
     private readonly IUserContext _userContext;
 
+    private readonly ISpecificationHelperIdentity<ApplicationUser> _specificationHelperIdentity;
+
     public GetAllUsersInARoleQueryHandler(IRepository<ApplicationUser> repository,
         IMapper mapper, ILogger<GetAllUsersInARoleQueryHandler> logger,
-        UserManager<ApplicationUser> userManager, IResourceBaseAuthorizationService resourceBaseAuthorizationService, IUserContext userContext)
+        UserManager<ApplicationUser> userManager, 
+        IResourceBaseAuthorizationService resourceBaseAuthorizationService, 
+        IUserContext userContext,
+        ISpecificationHelperIdentity<ApplicationUser> specificationHelperIdentity)
     {
         _repository = repository;
         _mapper = mapper;
@@ -33,6 +39,7 @@ public class GetAllUsersInARoleQueryHandler : IRequestHandler<GetAllUsersInARole
         _userManager = userManager;
         _resourceBaseAuthorizationService = resourceBaseAuthorizationService;
         _userContext = userContext;
+        _specificationHelperIdentity = specificationHelperIdentity;
     }
     public async Task<Pagination<GetAllUsersInARoleResponse>> Handle(GetAllUsersInARoleQuery request, CancellationToken cancellationToken)
     {
@@ -68,7 +75,8 @@ public class GetAllUsersInARoleQueryHandler : IRequestHandler<GetAllUsersInARole
             return new Pagination<GetAllUsersInARoleResponse>(request.PaginationFilterAppUser.PageNumber, request.PaginationFilterAppUser.PageSize, totalUsers, getAllUsersInARoleResponse);
         }
 
-        totalUsers = await _repository.CountAsync(spec);
+        //totalUsers = await _repository.CountAsync(spec);
+        totalUsers = await _specificationHelperIdentity.CountAsync(spec);
 
         getAllUsersInARoleResponse.ApplicationUserShortResponseDto = _mapper.Map<List<ApplicationUserShortResponseDto>>(data);
 

@@ -13,11 +13,11 @@ public static class ConfigureIdentityDbStartUpExtensions
     {
         using var scope = host.Services.CreateScope();
         var services = scope.ServiceProvider;
-        var _context = services.GetRequiredService<ApplicationDbContext>();
+        var _context = services.GetRequiredService<IdentityAuthDbContext>();
         // for logging
         var hostEnvironment = services.GetService<IHostEnvironment>();
         var loggerFactory = services.GetRequiredService<ILoggerFactory>();
-        var _logger = loggerFactory.CreateLogger<ApplicationDbContext>();
+        var _logger = loggerFactory.CreateLogger<IdentityAuthDbContext>();
 
         var _dbSeeder = services.GetRequiredService<ApplicationDbContextInitializer>();
 

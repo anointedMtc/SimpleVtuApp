@@ -8,17 +8,17 @@ public sealed class GetAllUserCreatedSagaOrchestratorInstanceSpecification
 {
     public GetAllUserCreatedSagaOrchestratorInstanceSpecification(PaginationFilter paginationFilter)
         : base(x =>
-            string.IsNullOrEmpty(paginationFilter.Search) || x.CorrelationId.ToString().Contains(paginationFilter.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilter.Search) || x.CurrentState.Contains(paginationFilter.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilter.Search) || x.ApplicationUserId.ToString().Contains(paginationFilter.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilter.Search) || x.FirstName.Contains(paginationFilter.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilter.Search) || x.LastName.Contains(paginationFilter.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilter.Search) || x.Email.Contains(paginationFilter.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilter.Search) || x.PhoneNumber.Contains(paginationFilter.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilter.Search) || x.RegisterationBonus.ToString().Contains(paginationFilter.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilter.Search) || x.CreatedAt.ToString().Contains(paginationFilter.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilter.Search) || x.UserCreatedInAllModulesEventStatus.ToString().Contains(paginationFilter.Search, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrEmpty(paginationFilter.Search) || x.NotifyApplicationUserScheduleEventTokenId.ToString()!.Contains(paginationFilter.Search, StringComparison.OrdinalIgnoreCase)
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.CorrelationId.ToString().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.CurrentState.Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.ApplicationUserId.ToString().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.FirstName.Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.LastName.Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.Email.Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.PhoneNumber.Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.RegisterationBonus.ToString().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.CreatedAt.ToString().Contains(paginationFilter.Search)) 
+            //(string.IsNullOrEmpty(paginationFilter.Search) || x.UserCreatedInAllModulesEventStatus.ToString().Contains(paginationFilter.Search)) 
+            //(string.IsNullOrEmpty(paginationFilter.Search) || x.NotifyApplicationUserScheduleEventTokenId.ToString()!.Contains(paginationFilter.Search))
         )
     {
         if (!string.IsNullOrEmpty(paginationFilter.Sort))

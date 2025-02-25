@@ -7,10 +7,10 @@ using SharedKernel.Infrastructure.Persistence.Interceptors;
 
 namespace Identity.Infrastructure.Persistence;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+public class IdentityAuthDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
 {
     private readonly IMediator _mediator;
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,
+    public IdentityAuthDbContext(DbContextOptions<IdentityAuthDbContext> options,
         IMediator mediator) : base(options)
     {
         _mediator = mediator;

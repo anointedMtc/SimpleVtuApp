@@ -1,7 +1,7 @@
 ﻿namespace VtuApp.Api.Controllers.V1;
 
 [ApiVersion("1.0")]
-public class UserServicesVtuNationController : ApiBaseController
+public class VtuNationUserServicesController : ApiBaseController
 {
     [Authorize]
     [HttpPost("buy-airtime-vtuNation")]

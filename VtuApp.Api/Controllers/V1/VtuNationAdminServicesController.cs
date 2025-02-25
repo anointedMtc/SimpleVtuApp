@@ -2,7 +2,7 @@
 
 [Authorize]
 [ApiVersion("1.0")]
-public class AdminServicesVtuNationController : ApiBaseController
+public class VtuNationAdminServicesController : ApiBaseController
 {
     // ACCOUNT
     [HttpPost("confirm-email-vtuNation")]

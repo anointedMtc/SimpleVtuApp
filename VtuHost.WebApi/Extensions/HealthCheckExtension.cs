@@ -21,7 +21,7 @@ public static class HealthCheckExtension
          .AddDbContextCheck<WalletDbContext>()    
          .AddDbContextCheck<VtuDbContext>()    
          .AddDbContextCheck<EmailDbContext>()    
-         .AddDbContextCheck<ApplicationDbContext>()    
+         .AddDbContextCheck<IdentityAuthDbContext>()    
          .AddDbContextCheck<SagaStateMachineDbContext>()    
          //.AddDbContextCheck<VtuAirtimeOrderedSagaDbContext>()    
          //.AddDbContextCheck<VtuDataOrderedSagaDbContext>()

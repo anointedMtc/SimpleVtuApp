@@ -19,7 +19,7 @@ public static class ConfigureServices
         AddSettingsJsonFile(builder.Configuration);
 
         builder.Services.AddControllers()
-                       .AddApplicationPart(typeof(UserServicesVtuNationController).Assembly);
+                       .AddApplicationPart(typeof(VtuNationUserServicesController).Assembly);
 
         builder.Services.AddVtuAppApplicationLayer();
         builder.Services.AddVtuAppInfrastructureLayer(builder.Configuration);
