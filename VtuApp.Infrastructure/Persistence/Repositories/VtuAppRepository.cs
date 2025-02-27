@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SharedKernel.Domain.Interfaces;
 using SharedKernel.Infrastructure.SpecificationHelper;
+using VtuApp.Domain.Interfaces;
 
 namespace VtuApp.Infrastructure.Persistence.Repositories;
 
-public class VtuAppRepository<T> : IRepository<T> where T : class, IAggregateRoot
+public class VtuAppRepository<T> : IVtuAppRepository<T> where T : class, IAggregateRoot
 {
     private readonly VtuDbContext _vtuDbContext;
 

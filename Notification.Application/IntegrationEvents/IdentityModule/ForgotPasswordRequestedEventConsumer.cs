@@ -4,6 +4,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Notification.Application.Interfaces;
 using Notification.Domain.Entities;
+using Notification.Domain.Interfaces;
 using Notification.Shared.DTO;
 using SharedKernel.Domain.Interfaces;
 using System.Text.Encodings.Web;
@@ -14,12 +15,12 @@ public class ForgotPasswordRequestedEventConsumer : IConsumer<ForgotPasswordRequ
 {
     private readonly ILogger<ForgotPasswordRequestedEventConsumer> _logger;
     private readonly IEmailService _emailService;
-    private readonly IRepository<EmailEntity> _emailRepository;
+    private readonly IEmailRepository<EmailEntity> _emailRepository;
     private readonly IMapper _mapper;
 
     public ForgotPasswordRequestedEventConsumer(
         ILogger<ForgotPasswordRequestedEventConsumer> logger, 
-        IEmailService emailService, IRepository<EmailEntity> emailRepository, 
+        IEmailService emailService, IEmailRepository<EmailEntity> emailRepository, 
         IMapper mapper)
     {
         _logger = logger;

@@ -7,6 +7,7 @@ using SharedKernel.Domain.Interfaces;
 using VtuApp.Application.Exceptions;
 using VtuApp.Application.Interfaces.ExternalServices.VtuNationApi;
 using VtuApp.Domain.Entities.VtuModelAggregate;
+using VtuApp.Domain.Interfaces;
 using VtuApp.Domain.Specifications;
 using VtuApp.Shared.Constants;
 using VtuApp.Shared.DTO;
@@ -18,14 +19,14 @@ public sealed class BuyAirtimeVtuNationCommandHandler : IRequestHandler<BuyAirti
 {
     private readonly IGetServicesFromVtuNation _getServicesFromVtuNation;
     private readonly ILogger<BuyAirtimeVtuNationCommandHandler> _logger;
-    private readonly IRepository<Customer> _vtuAppRepository;
+    private readonly IVtuAppRepository<Customer> _vtuAppRepository;
     private readonly IUserContext _userContext;
     private readonly IResourceBaseAuthorizationService _resourceBaseAuthorizationService;
     private readonly IMassTransitService _massTransitService;
 
     public BuyAirtimeVtuNationCommandHandler(IGetServicesFromVtuNation getServicesFromVtuNation, 
-        ILogger<BuyAirtimeVtuNationCommandHandler> logger, 
-        IRepository<Customer> vtuAppRepository, IUserContext userContext, 
+        ILogger<BuyAirtimeVtuNationCommandHandler> logger,
+        IVtuAppRepository<Customer> vtuAppRepository, IUserContext userContext, 
         IResourceBaseAuthorizationService resourceBaseAuthorizationService, 
         IMassTransitService massTransitService)
     {

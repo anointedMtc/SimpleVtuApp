@@ -7,17 +7,17 @@ public class ApplicationUserSpecification : BaseSpecification<ApplicationUser>
 {
     public ApplicationUserSpecification(PaginationFilter paginationFilterAppUser)
     : base(x =>
-            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Id.Contains(paginationFilterAppUser.Search)) ||
-            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.FirstName.Contains(paginationFilterAppUser.Search)) ||
-            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.LastName.Contains(paginationFilterAppUser.Search)) ||
-            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Email!.Contains(paginationFilterAppUser.Search)) ||
-            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.ConstUserName.Contains(paginationFilterAppUser.Search)) ||
-            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.UserName!.Contains(paginationFilterAppUser.Search)) ||
-            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Gender.Contains(paginationFilterAppUser.Search)) ||
-            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Nationality!.Contains(paginationFilterAppUser.Search)) ||
-            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.DateOfBirth.HasValue.ToString().Contains(paginationFilterAppUser.Search)) ||
-            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.LastLogin.ToString().Contains(paginationFilterAppUser.Search)) ||
-            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.UpdatedAt.ToString().Contains(paginationFilterAppUser.Search))
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Id.ToLower().Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.FirstName.ToLower().Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.LastName.ToLower().Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Email!.ToLower().Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.ConstUserName.ToLower().Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.UserName!.ToLower().Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Gender.ToLower().Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.Nationality!.ToLower().Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.DateOfBirth.HasValue.ToString().ToLower().Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.LastLogin.ToString().ToLower().Contains(paginationFilterAppUser.Search)) ||
+            (string.IsNullOrEmpty(paginationFilterAppUser.Search) || x.UpdatedAt.ToString().ToLower().Contains(paginationFilterAppUser.Search))
 
     )
     {
@@ -76,6 +76,10 @@ public class ApplicationUserSpecification : BaseSpecification<ApplicationUser>
                     break; 
 
             }
+        }
+        else
+        {
+            ApplyOrderBy(n => n.Id);
         }
 
         ApplyPaging(paginationFilterAppUser.PageNumber, paginationFilterAppUser.PageSize);

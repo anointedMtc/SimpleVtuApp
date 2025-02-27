@@ -104,7 +104,7 @@ public class GlobalExceptionHandler : IExceptionHandler
             CustomForbiddenException => "Forbidden. You are not allowed to access this resource",
             CustomInternalServerException => "There occured an internal server error",
             CustomNotFoundException => "The specified resource was not found.",
-            CustomUnauthorizedException => "You are not authorized to access this endpoint",
+            CustomUnauthorizedException => exception.Message,
 
             UnauthorizedAccessException => "You are not authorized to access this endpoint",
 

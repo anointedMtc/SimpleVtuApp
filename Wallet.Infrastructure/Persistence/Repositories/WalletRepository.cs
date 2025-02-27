@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SharedKernel.Domain.Interfaces;
 using SharedKernel.Infrastructure.SpecificationHelper;
+using Wallet.Domain.Interfaces;
 
 namespace Wallet.Infrastructure.Persistence.Repositories;
 
-public class WalletRepository<T> : IRepository<T> where T : class, IAggregateRoot
+public class WalletRepository<T> : IWalletRepository<T> where T : class, IAggregateRoot
 {
     private readonly WalletDbContext _walletDbContext;
 

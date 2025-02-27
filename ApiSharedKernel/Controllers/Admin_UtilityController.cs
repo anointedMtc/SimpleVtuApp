@@ -6,7 +6,7 @@ using SharedKernel.Application.Features.Commands.RemoveCache;
 namespace SharedKernel.Api.Controllers;
 
 [ApiVersion("1.0")]
-public sealed class AdminUtilityController : ApiBaseController
+public sealed class Admin_UtilityController : ApiBaseController
 {
     [HttpPost("remove-cache")]
     [Authorize]

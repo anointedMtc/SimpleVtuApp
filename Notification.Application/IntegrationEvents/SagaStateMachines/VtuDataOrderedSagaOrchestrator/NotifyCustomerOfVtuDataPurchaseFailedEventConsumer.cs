@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Notification.Application.IntegrationEvents.SagaStateMachines.VtuAirtimeOrderedSagaOrchestrator;
 using Notification.Application.Interfaces;
 using Notification.Domain.Entities;
+using Notification.Domain.Interfaces;
 using Notification.Shared.DTO;
 using SagaOrchestrationStateMachines.Shared.IntegrationEvents.VtuAirtimeSaga;
 using SagaOrchestrationStateMachines.Shared.IntegrationEvents.VtuDataSaga;
@@ -16,12 +17,12 @@ public sealed class NotifyCustomerOfVtuDataPurchaseFailedEventConsumer
 {
     private readonly ILogger<NotifyCustomerOfVtuDataPurchaseFailedEventConsumer> _logger;
     private readonly IEmailService _emailService;
-    private readonly IRepository<EmailEntity> _emailRepository;
+    private readonly IEmailRepository<EmailEntity> _emailRepository;
     private readonly IMapper _mapper;
 
     public NotifyCustomerOfVtuDataPurchaseFailedEventConsumer(
         ILogger<NotifyCustomerOfVtuDataPurchaseFailedEventConsumer> logger, 
-        IEmailService emailService, IRepository<EmailEntity> emailRepository, 
+        IEmailService emailService, IEmailRepository<EmailEntity> emailRepository, 
         IMapper mapper)
     {
         _logger = logger;

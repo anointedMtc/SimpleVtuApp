@@ -1,22 +1,22 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using SharedKernel.Domain.Interfaces;
 using Wallet.Domain.Entities.WalletAggregate;
+using Wallet.Domain.Interfaces;
 using Wallet.Shared.DTO;
 
 namespace Wallet.Application.Features.Queries.GetWalletById;
 
 public class GetWalletByIdQueryHandler : IRequestHandler<GetWalletByIdQuery, GetWalletByIdResponse>
 {
-    private readonly IRepository<WalletDomainEntity> _repository;
+    private readonly IWalletRepository<WalletDomainEntity> _walletRepository;
     private readonly ILogger<GetWalletByIdQueryHandler> _logger;
     private readonly IMapper _mapper;
 
-    public GetWalletByIdQueryHandler(IRepository<WalletDomainEntity> repository,
+    public GetWalletByIdQueryHandler(IWalletRepository<WalletDomainEntity> walletRepository,
         ILogger<GetWalletByIdQueryHandler> logger, IMapper mapper)
     {
-        _repository = repository;
+        _walletRepository = walletRepository;
         _logger = logger;
         _mapper = mapper;
     }
@@ -27,7 +27,7 @@ public class GetWalletByIdQueryHandler : IRequestHandler<GetWalletByIdQuery, Get
         getWalletByIdResponse.WalletDto = new WalletDto();
 
         var spec = new GetWalletByIdSpecification(request.WalletId);
-        var wallet = await _repository.FindAsync(spec);
+        var wallet = await _walletRepository.FindAsync(spec);
 
         if (wallet == null)
         {

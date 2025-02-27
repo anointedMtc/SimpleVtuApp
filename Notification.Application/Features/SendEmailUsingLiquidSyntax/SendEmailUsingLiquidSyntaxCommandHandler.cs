@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Notification.Application.Interfaces;
 using Notification.Domain.Entities;
+using Notification.Domain.Interfaces;
 using Notification.Shared.DTO;
 using SharedKernel.Application.Exceptions;
 using SharedKernel.Application.Interfaces;
@@ -15,14 +16,14 @@ public class SendEmailUsingLiquidSyntaxCommandHandler : IRequestHandler<SendEmai
 {
     private readonly IEmailService _emailService;
     private readonly ILogger<SendEmailUsingLiquidSyntaxCommandHandler> _logger;
-    private readonly IRepository<EmailEntity> _emailRepository;
+    private readonly IEmailRepository<EmailEntity> _emailRepository;
     private readonly IMapper _mapper;
     private readonly IUserContext _userContext;
     private readonly IResourceBaseAuthorizationService _resourceBaseAuthorizationService;
 
     public SendEmailUsingLiquidSyntaxCommandHandler(IEmailService emailService,
         ILogger<SendEmailUsingLiquidSyntaxCommandHandler> logger,
-        IRepository<EmailEntity> emailRepository, IMapper mapper,
+        IEmailRepository<EmailEntity> emailRepository, IMapper mapper,
         IUserContext userContext, IResourceBaseAuthorizationService resourceBaseAuthorizationService)
     {
         _emailService = emailService;

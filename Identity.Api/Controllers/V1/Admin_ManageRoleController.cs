@@ -4,7 +4,7 @@ namespace Identity.Api.Controllers.V1;
 
 [Authorize]
 [ApiVersion("1.0")]
-public class ManageRoleController : ApiBaseController
+public class Admin_ManageRoleController : ApiBaseController
 {
 
     // READS

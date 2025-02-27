@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SagaOrchestrationStateMachines.Application.Features.VtuAirtimeSaga.Queries.GetAllSagaInstance;
 using SagaOrchestrationStateMachines.Application.Features.VtuDataSaga.Queries.GetAllSagaInstance;
 using SagaOrchestrationStateMachines.Application.Features.VtuDataSaga.Queries.GetSingleInstance;
 using SharedKernel.Api.Controllers;
@@ -11,7 +12,7 @@ namespace SagaOrchestrationStateMachines.Api.Controllers.V1;
 
 [Authorize]
 [ApiVersion("1.0")]
-public sealed class VtuDataSagaOrchestratorController : ApiBaseController
+public sealed class Saga_VtuData_OrchestratorController : ApiBaseController
 {
     [HttpGet("get-vtu-data-saga-instance/{correlationId}")]
     public async Task<ActionResult<GetVtuDataOrderedSagaStateInstanceResponse>> GetVtuDataSagaInstance(Guid correlationId)
@@ -26,6 +27,8 @@ public sealed class VtuDataSagaOrchestratorController : ApiBaseController
     {
         var result = await Mediator.Send(new GetAllVtuDataSagaInstanceQuery(paginationFilter));
 
-        return Ok(result);
+        var endpointUrl = $"{Request.Scheme}://{Request.Host}{Request.Path.Value}";
+
+        return new Pagination<GetAllVtuDataSagaInstanceResponse>(paginationFilter, result.TotalRecords, result.Data, endpointUrl);
     }
 }

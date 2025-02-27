@@ -4,6 +4,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Notification.Application.Interfaces;
 using Notification.Domain.Entities;
+using Notification.Domain.Interfaces;
 using Notification.Shared.DTO;
 using SharedKernel.Domain.Interfaces;
 
@@ -13,12 +14,12 @@ public class NotifyUserOfAccountLockOutEventConsumer : IConsumer<NotifyUserOfAcc
 {
     private readonly ILogger<NotifyUserOfAccountLockOutEventConsumer> _logger;
     private readonly IEmailService _emailService;
-    private readonly IRepository<EmailEntity> _emailRepository;
+    private readonly IEmailRepository<EmailEntity> _emailRepository;
     private readonly IMapper _mapper;
 
     public NotifyUserOfAccountLockOutEventConsumer(
         ILogger<NotifyUserOfAccountLockOutEventConsumer> logger, 
-        IEmailService emailService, IRepository<EmailEntity> emailRepository,
+        IEmailService emailService, IEmailRepository<EmailEntity> emailRepository,
         IMapper mapper)
     {
         _logger = logger;

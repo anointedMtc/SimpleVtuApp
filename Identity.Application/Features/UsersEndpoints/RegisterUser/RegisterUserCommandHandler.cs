@@ -21,6 +21,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IMassTransitService _massTransitService;
 
+    // https://localhost:7287/api/v1/Account/emailConfirmation?Email=judeugwuanyi%40gmail.com&Token=Q
     private static readonly string _emailConfirmationEndpoint = $"https://localhost:7287/api/v1/Account/emailconfirmation";            // it's job is just to supply the emailConfirmation endpoint link and to that would be attached token and email which are needed by that endpoint... so when you click it, it automatically invokes the endpoint and confirms your email for you
 
     public RegisterUserCommandHandler(IMapper mapper,
@@ -64,7 +65,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
         _logger.LogInformation("User created successfully");
         registerUserResponse.UserId = newUser.Id;
         registerUserResponse.Success = true;
-        registerUserResponse.Message = $"Your resource was created successfully at https://localhost:7023/api/ManageAccount/get-user-by-id/{registerUserResponse.UserId}";
+        registerUserResponse.Message = $"Kindly confirm your email to complete the registeration process. Check your Email for more info.   Your resource was created successfully at https://localhost:7023/api/ManageAccount/get-user-by-id/{registerUserResponse.UserId}";
         newUser.CreatedAt = DateTime.Now;
         newUser.UpdatedAt = DateTime.Now;
 
@@ -72,7 +73,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
 
         string validToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));        // you can use ASCII or UTF8
 
-        var callbackUrl = $"{_emailConfirmationEndpoint}?email={request.UserForRegisteration.Email}&token={validToken}";
+        var callbackUrl = $"{_emailConfirmationEndpoint}?Email={request.UserForRegisteration.Email}&Token={validToken}";
 
 
         //var message = new EmailDto(request.UserForRegisteration.Email!, "Email Confirmation Token", $"Dear Subscriber, <br><br>Please confirm your Email account by <a href={HtmlEncoder.Default.Encode(callbackUrl)}>clicking here</a>.  <br><br> You can as well choose to copy your Token below and paste in appropriate apiEndpoint: <br><br> {HtmlEncoder.Default.Encode(validToken)} <br><br> If however you didn't make this request, kindly ignore. <br><br> Thanks <br><br> anointedMtc");

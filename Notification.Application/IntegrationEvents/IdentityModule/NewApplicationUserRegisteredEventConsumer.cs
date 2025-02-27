@@ -4,6 +4,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Notification.Application.Interfaces;
 using Notification.Domain.Entities;
+using Notification.Domain.Interfaces;
 using Notification.Shared.DTO;
 using SharedKernel.Domain.Interfaces;
 using System.Text.Encodings.Web;
@@ -14,11 +15,11 @@ public sealed class NewApplicationUserRegisteredEventConsumer : IConsumer<NewApp
 {
     private readonly ILogger<NewApplicationUserRegisteredEventConsumer> _logger;
     private readonly IEmailService _emailService;
-    private readonly IRepository<EmailEntity> _emailRepository;
+    private readonly IEmailRepository<EmailEntity> _emailRepository;
     private readonly IMapper _mapper;
 
     public NewApplicationUserRegisteredEventConsumer(ILogger<NewApplicationUserRegisteredEventConsumer> logger, 
-        IEmailService emailService, IRepository<EmailEntity> emailRepository, IMapper mapper)
+        IEmailService emailService, IEmailRepository<EmailEntity> emailRepository, IMapper mapper)
     {
         _logger = logger;
         _emailService = emailService;
@@ -34,7 +35,16 @@ public sealed class NewApplicationUserRegisteredEventConsumer : IConsumer<NewApp
             DateTimeOffset.UtcNow
         );
 
-        var message = new EmailDto(context.Message.Email!, "Email Confirmation Token", $"Dear {context.Message.FirstName}, <br><br>Please confirm your Email account by <a href={HtmlEncoder.Default.Encode(context.Message.CallbackUrl)}>clicking here</a>.  <br><br> You can as well choose to copy your Token below and paste in appropriate apiEndpoint: <br><br> {HtmlEncoder.Default.Encode(context.Message.ValidToken)} <br><br> If however you didn't make this request, kindly ignore. <br><br> Thanks <br><br> anointedMtc");
+        var message = new EmailDto(context.Message.Email!, "Email Confirmation Token", $"Dear {context.Message.FirstName}, " +
+            $"<br>" +
+            $"<br>Please confirm your Email account by <a href={HtmlEncoder.Default.Encode(context.Message.CallbackUrl)}>clicking here</a>. " +
+            $"<br>" +
+            $"<br> You can as well choose to copy your Token below and paste in appropriate apiEndpoint: <br><br> {HtmlEncoder.Default.Encode(context.Message.ValidToken)} " +
+            $"<br>" +
+            $"<br> If however you didn't make this request, kindly ignore. " +
+            $"<br>" +
+            $"<br> Thanks <br><br> anointedMtc");
+
         await _emailService.Send(message);
 
         var emailToSave = _mapper.Map<EmailEntity>(message);

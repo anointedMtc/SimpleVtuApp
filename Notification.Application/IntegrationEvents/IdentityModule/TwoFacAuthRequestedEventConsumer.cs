@@ -4,6 +4,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Notification.Application.Interfaces;
 using Notification.Domain.Entities;
+using Notification.Domain.Interfaces;
 using Notification.Shared.DTO;
 using SharedKernel.Domain.Interfaces;
 
@@ -13,13 +14,13 @@ public class TwoFacAuthRequestedEventConsumer : IConsumer<TwoFacAuthRequestedEve
 {
     private readonly ILogger<TwoFacAuthRequestedEventConsumer> _logger;
     private readonly IEmailService _emailService;
-    private readonly IRepository<EmailEntity> _emailRepository;
+    private readonly IEmailRepository<EmailEntity> _emailRepository;
     private readonly IMapper _mapper;
 
     public TwoFacAuthRequestedEventConsumer(
         ILogger<TwoFacAuthRequestedEventConsumer> logger, 
-        IEmailService emailService, 
-        IRepository<EmailEntity> emailRepository, IMapper mapper)
+        IEmailService emailService,
+        IEmailRepository<EmailEntity> emailRepository, IMapper mapper)
     {
         _logger = logger;
         _emailService = emailService;

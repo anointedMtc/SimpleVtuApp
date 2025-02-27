@@ -11,6 +11,7 @@ using VtuApp.Shared.IntegrationEvents;
 using SharedKernel.Domain.Interfaces;
 using SharedKernel.Application.Interfaces;
 using SharedKernel.Application.Exceptions;
+using VtuApp.Domain.Interfaces;
 
 namespace VtuApp.Application.Features.VtuNationApi.UserServices.Commands.BuyDataVtuNation.Mtn.Buy10GB;
 
@@ -18,14 +19,14 @@ internal sealed class Buy10GBVtuNationCommandHandler : IRequestHandler<Buy10GBVt
 {
     private readonly IGetServicesFromVtuNation _getServicesFromVtuNation;
     private readonly ILogger<Buy10GBVtuNationCommandHandler> _logger;
-    private readonly IRepository<Customer> _vtuAppRepository;
+    private readonly IVtuAppRepository<Customer> _vtuAppRepository;
     private readonly IUserContext _userContext;
     private readonly IResourceBaseAuthorizationService _resourceBaseAuthorizationService;
     private readonly IMassTransitService _massTransitService;
 
     public Buy10GBVtuNationCommandHandler(IGetServicesFromVtuNation getServicesFromVtuNation, 
-        ILogger<Buy10GBVtuNationCommandHandler> logger, 
-        IRepository<Customer> vtuAppRepository, IUserContext userContext, 
+        ILogger<Buy10GBVtuNationCommandHandler> logger,
+        IVtuAppRepository<Customer> vtuAppRepository, IUserContext userContext, 
         IResourceBaseAuthorizationService resourceBaseAuthorizationService, 
         IMassTransitService massTransitService)
     {

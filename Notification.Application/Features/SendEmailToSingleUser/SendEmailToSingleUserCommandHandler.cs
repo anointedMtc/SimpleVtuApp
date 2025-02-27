@@ -8,6 +8,7 @@ using Notification.Domain.Entities;
 using Notification.Shared.DTO;
 using SharedKernel.Application.Interfaces;
 using SharedKernel.Domain.Interfaces;
+using Notification.Domain.Interfaces;
 
 namespace Notification.Application.Features.SendEmailToSingleUser;
 
@@ -15,14 +16,14 @@ public class SendEmailToSingleUserCommandHandler : IRequestHandler<SendEmailToSi
 {
     private readonly IEmailService _emailService;
     private readonly ILogger<SendEmailToSingleUserCommandHandler> _logger;
-    private readonly IRepository<EmailEntity> _emailRepository;
+    private readonly IEmailRepository<EmailEntity> _emailRepository;
     private readonly IMapper _mapper;
     private readonly IUserContext _userContext;
     private readonly IResourceBaseAuthorizationService _resourceBaseAuthorizationService;
 
     public SendEmailToSingleUserCommandHandler(IEmailService emailService, 
-        ILogger<SendEmailToSingleUserCommandHandler> logger, 
-        IRepository<EmailEntity> emailRepository, IMapper mapper, 
+        ILogger<SendEmailToSingleUserCommandHandler> logger,
+        IEmailRepository<EmailEntity> emailRepository, IMapper mapper, 
         IUserContext userContext, IResourceBaseAuthorizationService resourceBaseAuthorizationService)
     {
         _emailService = emailService;

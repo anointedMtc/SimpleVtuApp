@@ -53,6 +53,15 @@ public sealed class VtuDataOrderedSagaStateMachine : MassTransitStateMachine<Vtu
             //    r.OnRedeliveryLimitReached(n => n.Fault());
             //}));
         });
+        Event(() => SecondRetryVtuDataOrderEvent, x =>
+        {
+            x.CorrelateById(context => context.Message.VtuTransactionId);
+            x.OnMissingInstance(m => m.Redeliver(r =>
+            {
+                r.Interval(5, 1000);
+                r.OnRedeliveryLimitReached(n => n.Fault());
+            }));
+        });
         Event(() => BuyDataForCustomerSecondReTryFailedEvent, x =>
         {
             x.CorrelateById(context => context.Message.VtuTransactionId);
@@ -140,7 +149,7 @@ public sealed class VtuDataOrderedSagaStateMachine : MassTransitStateMachine<Vtu
         During(BuyDataForCustomerCommandSentSagaState,
             When(BuyDataForCustomerFirstTryFailedEvent)
             .Schedule(ScheduleForSecondRetryVtuDataOrderSagaEvent,
-                context => context.Init<SecondRetryVtuDataOrderEvent>(new
+                context => context.Init<PrepareForSecondRetryVtuDataOrderEvent>(new
                 {
                     context.Saga.ApplicationUserId,
                     context.Saga.Email,
@@ -150,7 +159,27 @@ public sealed class VtuDataOrderedSagaStateMachine : MassTransitStateMachine<Vtu
                     context.Saga.AmountToPurchase,
                     context.Saga.Receiver
                 })
-            )
+            ),
+
+            When(ScheduleForSecondRetryVtuDataOrderSagaEvent?.Received)
+                .Publish(context => new SecondRetryVtuDataOrderEvent(
+                    context.Saga.ApplicationUserId,
+                    context.Saga.Email,
+                    context.Saga.VtuTransactionId,
+                    context.Saga.NetworkProvider,
+                    context.Saga.DataPlanPurchased,
+                    context.Saga.AmountToPurchase,
+                    context.Saga.Receiver))
+                //.PublishAsync(context => context.Init<SecondRetryVtuDataOrderEvent>(new
+                //{
+                //    context.Saga.ApplicationUserId,
+                //    context.Saga.Email,
+                //    context.Saga.VtuTransactionId,
+                //    context.Saga.NetworkProvider,
+                //    context.Saga.DataPlanPurchased,
+                //    context.Saga.AmountToPurchase,
+                //    context.Saga.Receiver
+                //}))
             .TransitionTo(WaitingForSecondVtuDataRetrySagaState)
         );
 
@@ -224,6 +253,7 @@ public sealed class VtuDataOrderedSagaStateMachine : MassTransitStateMachine<Vtu
                     context.Saga.PricePaid)
                 )
             .TransitionTo(VtuDataOrderedCompletedSagaState)
+            .Finalize()
         );
     }
 
@@ -239,7 +269,8 @@ public sealed class VtuDataOrderedSagaStateMachine : MassTransitStateMachine<Vtu
     public Event<BuyDataForCustomerSuccessEvent> BuyDataForCustomerSuccessEvent { get; private set; }
     public Event<BuyDataForCustomerFirstTryFailedEvent> BuyDataForCustomerFirstTryFailedEvent { get; private set; }
 
-    public Schedule<VtuDataOrderedSagaStateInstance, SecondRetryVtuDataOrderEvent> ScheduleForSecondRetryVtuDataOrderSagaEvent { get; private set; }
+    public Schedule<VtuDataOrderedSagaStateInstance, PrepareForSecondRetryVtuDataOrderEvent> ScheduleForSecondRetryVtuDataOrderSagaEvent { get; private set; }
+    public Event<SecondRetryVtuDataOrderEvent> SecondRetryVtuDataOrderEvent { get; private set; }
 
     public Event<BuyDataForCustomerSecondReTryFailedEvent> BuyDataForCustomerSecondReTryFailedEvent { get; private set; }
     public Event<NotifyCustomerOfVtuDataPurchaseFailedEvent> NotifyCustomerOfVtuDataPurchaseFailedEvent { get; private set; }

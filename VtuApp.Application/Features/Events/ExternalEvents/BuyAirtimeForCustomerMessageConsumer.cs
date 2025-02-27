@@ -5,6 +5,7 @@ using SharedKernel.Application.Exceptions;
 using SharedKernel.Domain.Interfaces;
 using VtuApp.Application.Interfaces.ExternalServices.VtuNationApi;
 using VtuApp.Domain.Entities.VtuModelAggregate;
+using VtuApp.Domain.Interfaces;
 using VtuApp.Domain.Specifications;
 using VtuApp.Shared.DTO.VtuNationApi.UserServices;
 using VtuApp.Shared.IntegrationEvents;
@@ -13,11 +14,11 @@ namespace VtuApp.Application.Features.Events.ExternalEvents;
 
 public sealed class BuyAirtimeForCustomerMessageConsumer : IConsumer<BuyAirtimeForCustomerMessage>
 {
-    private readonly IRepository<Customer> _customerRepository;
+    private readonly IVtuAppRepository<Customer> _customerRepository;
     private readonly ILogger<BuyAirtimeForCustomerMessageConsumer> _logger;
     private readonly IGetServicesFromVtuNation _getServicesFromVtuNation;
 
-    public BuyAirtimeForCustomerMessageConsumer(IRepository<Customer> customerRepository, 
+    public BuyAirtimeForCustomerMessageConsumer(IVtuAppRepository<Customer> customerRepository, 
         ILogger<BuyAirtimeForCustomerMessageConsumer> logger, 
         IGetServicesFromVtuNation getServicesFromVtuNation)
     {
@@ -53,7 +54,7 @@ public sealed class BuyAirtimeForCustomerMessageConsumer : IConsumer<BuyAirtimeF
 
         var buyAirtimeRequestDto = new BuyAirtimeRequestVtuNation
         {
-            Amount = context.Message.AmountToPurchase,
+            Amount = Convert.ToDecimal(context.Message.AmountToPurchase),
             Network = context.Message.NetworkProvider.ToString(),
             MobileNumber = context.Message.Reciever
         };

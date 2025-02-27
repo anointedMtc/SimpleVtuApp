@@ -5,6 +5,7 @@ using SharedKernel.Application.Exceptions;
 using SharedKernel.Domain.Interfaces;
 using VtuApp.Application.Interfaces.ExternalServices.VtuNationApi;
 using VtuApp.Domain.Entities.VtuModelAggregate;
+using VtuApp.Domain.Interfaces;
 using VtuApp.Domain.Specifications;
 using VtuApp.Shared.DTO.VtuNationApi.UserServices;
 using VtuApp.Shared.IntegrationEvents;
@@ -13,11 +14,11 @@ namespace VtuApp.Application.Features.Events.ExternalEvents;
 
 public sealed class SecondRetryVtuAirtimeOrderEventConsumer : IConsumer<SecondRetryVtuAirtimeOrderEvent>
 {
-    private readonly IRepository<Customer> _customerRepository;
+    private readonly IVtuAppRepository<Customer> _customerRepository;
     private readonly ILogger<SecondRetryVtuAirtimeOrderEventConsumer> _logger;
     private readonly IGetServicesFromVtuNation _getServicesFromVtuNation;
 
-    public SecondRetryVtuAirtimeOrderEventConsumer(IRepository<Customer> customerRepository, 
+    public SecondRetryVtuAirtimeOrderEventConsumer(IVtuAppRepository<Customer> customerRepository, 
         ILogger<SecondRetryVtuAirtimeOrderEventConsumer> logger, 
         IGetServicesFromVtuNation getServicesFromVtuNation)
     {

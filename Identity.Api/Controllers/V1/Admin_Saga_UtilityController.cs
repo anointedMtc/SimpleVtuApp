@@ -4,9 +4,9 @@ namespace Identity.Api.Controllers.V1;
 
 [Authorize]
 [ApiVersion("1.0")]
-public sealed class IdentityUtilityController : ApiBaseController
+public sealed class Admin_Saga_UtilityController : ApiBaseController
 {
-    [HttpGet("trigger-user-created-event-saga")]
+    [HttpPost("trigger-user-created-event-saga")]
     public async Task<ActionResult<TriggerUserCreatedEventSagaResponse>> TriggerUserCreatedEventSaga(string userEmail)
     {
         var result = await Mediator.Send(new TriggerUserCreatedEventSagaCommand() { UserEmail = userEmail });

@@ -33,7 +33,8 @@ public class Owner : BaseEntity, IAggregateRoot
         LastName = userLastName ?? throw new ArgumentNullException(nameof(userLastName));
         CreatedAt = DateTimeOffset.UtcNow;
 
-        AddDomainEvent(new OwnerAddedDomainEvent(OwnerId, ApplicationUserId, Email));
+        // we would call the add Wallet manually so that it can properly pass down the OwnerId... the event was consumed so fast it wasn't populating the ownerId before trying to create the wallet
+        //AddDomainEvent(new OwnerAddedDomainEvent(OwnerId, ApplicationUserId, Email));
     }
 
 
@@ -41,6 +42,16 @@ public class Owner : BaseEntity, IAggregateRoot
     {
         return new Owner(userId, userEmail, userFirstName, userLastName);
     }
+
+
+
+    public WalletDomainEntity CreateWalletForThisOwner()
+    {
+        return new WalletDomainEntity(OwnerId, ApplicationUserId, Email);
+    }
+
+
+
 
 
 

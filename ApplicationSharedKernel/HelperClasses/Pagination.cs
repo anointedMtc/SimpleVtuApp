@@ -5,7 +5,6 @@ namespace SharedKernel.Application.HelperClasses;
 
 public class Pagination<T> where T : class
 {
-    private readonly IHttpContextAccessor _contextAccessor;
 
     // in the real sense it should not have most of these constructors again... the only constructor required now is the one that takes in PaginationFilter
     public Pagination(int pageNumber, int pageSize, int totalRecords, T data)
@@ -40,12 +39,6 @@ public class Pagination<T> where T : class
 
     private const int PageNumbOne = 1;
 
-
-
-    public Pagination(IHttpContextAccessor contextAccessor)
-    {
-        _contextAccessor = contextAccessor;
-    }
 
 
     public Pagination(PaginationFilter paginationFilter, int totalRecords, T data, string route)

@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using SagaOrchestrationStateMachines.Shared.IntegrationEvents.UserCreatedSaga;
 using SagaOrchestrationStateMachines.Shared.IntegrationEvents.VtuAirtimeSaga;
 using SharedKernel.Application.Constants;
 using VtuApp.Shared.IntegrationEvents;
@@ -50,6 +51,15 @@ public sealed class VtuAirtimeOrderedSagaStateMachine : MassTransitStateMachine<
             //    r.Interval(5, 1000);
             //    r.OnRedeliveryLimitReached(n => n.Fault());
             //}));
+        });
+        Event(() => SecondRetryVtuAirtimeOrderEvent, x =>
+        {
+            x.CorrelateById(context => context.Message.VtuTransactionId);
+            x.OnMissingInstance(m => m.Redeliver(r =>
+            {
+                r.Interval(5, 1000);
+                r.OnRedeliveryLimitReached(n => n.Fault());
+            }));
         });
         Event(() => BuyAirtimeForCustomerSecondReTryFailedEvent, x =>
         {
@@ -137,7 +147,7 @@ public sealed class VtuAirtimeOrderedSagaStateMachine : MassTransitStateMachine<
         During(BuyAirtimeForCustomerCommandSentSagaState,
             When(BuyAirtimeForCustomerFirstTryFailedEvent)
             .Schedule(ScheduleForSecondRetryVtuAirtimeOrderSagaEvent,
-                context => context.Init<SecondRetryVtuAirtimeOrderEvent>(new
+                context => context.Init<PrepareForSecondRetryVtuAirtimeOrderEvent>(new
                 {
                     context.Saga.ApplicationUserId,
                     context.Saga.Email,
@@ -146,7 +156,25 @@ public sealed class VtuAirtimeOrderedSagaStateMachine : MassTransitStateMachine<
                     context.Saga.AmountToPurchase,
                     context.Saga.Receiver
                 })
-            )
+            ),
+
+            When(ScheduleForSecondRetryVtuAirtimeOrderSagaEvent?.Received)
+                .Publish(context => new SecondRetryVtuAirtimeOrderEvent(
+                    context.Saga.ApplicationUserId,
+                    context.Saga.Email,
+                    context.Saga.VtuTransactionId,
+                    context.Saga.NetworkProvider,
+                    context.Saga.AmountToPurchase,
+                    context.Saga.Receiver))
+                //.PublishAsync(context => context.Init<SecondRetryVtuAirtimeOrderEvent>(new
+                //{
+                //    context.Saga.ApplicationUserId,
+                //    context.Saga.Email,
+                //    context.Saga.VtuTransactionId,
+                //    context.Saga.NetworkProvider,
+                //    context.Saga.AmountToPurchase,
+                //    context.Saga.Receiver
+                //}))
             .TransitionTo(WaitingForSecondVtuAirtimeRetrySagaState)
         );
 
@@ -217,7 +245,9 @@ public sealed class VtuAirtimeOrderedSagaStateMachine : MassTransitStateMachine<
                     context.Saga.PricePaid)
                 )
             .TransitionTo(VtuAirtimeOrderedCompletedSagaState)
+            .Finalize()
         );
+
 
     }
 
@@ -233,7 +263,8 @@ public sealed class VtuAirtimeOrderedSagaStateMachine : MassTransitStateMachine<
     public Event<BuyAirtimeForCustomerSuccessEvent> BuyAirtimeForCustomerSuccessEvent { get; private set; }
     public Event<BuyAirtimeForCustomerFirstTryFailedEvent> BuyAirtimeForCustomerFirstTryFailedEvent { get; private set; }
 
-    public Schedule<VtuAirtimeOrderedSagaStateInstance, SecondRetryVtuAirtimeOrderEvent> ScheduleForSecondRetryVtuAirtimeOrderSagaEvent { get; private set; }
+    public Schedule<VtuAirtimeOrderedSagaStateInstance, PrepareForSecondRetryVtuAirtimeOrderEvent> ScheduleForSecondRetryVtuAirtimeOrderSagaEvent { get; private set; }
+    public Event<SecondRetryVtuAirtimeOrderEvent> SecondRetryVtuAirtimeOrderEvent { get; private set; }
 
     public Event<BuyAirtimeForCustomerSecondReTryFailedEvent> BuyAirtimeForCustomerSecondReTryFailedEvent { get; private set; }
     public Event<NotifyCustomerOfVtuAirtimePurchaseFailedEvent> NotifyCustomerOfVtuAirtimePurchaseFailedEvent { get; private set; }

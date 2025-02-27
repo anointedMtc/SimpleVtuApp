@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Notification.Application.Interfaces;
+using Notification.Domain.Interfaces;
 using Notification.Infrastructure.Models;
 using Notification.Infrastructure.Persistence;
 using Notification.Infrastructure.Persistence.Repositories;
@@ -21,7 +22,7 @@ public static class ConfigureServices
         services.AddDbContext<EmailDbContext>(options =>
                 options.UseSqlServer(connectionString, o => o.EnableRetryOnFailure()));
 
-        services.AddScoped(typeof(IRepository<>), typeof(EmailRepository<>));
+        services.AddScoped(typeof(IEmailRepository<>), typeof(EmailRepository<>));
 
 
         // EMAIL

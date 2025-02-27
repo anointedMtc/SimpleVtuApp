@@ -3,6 +3,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Notification.Application.Interfaces;
 using Notification.Domain.Entities;
+using Notification.Domain.Interfaces;
 using Notification.Shared.DTO;
 using SagaOrchestrationStateMachines.Shared.IntegrationEvents.VtuAirtimeSaga;
 using SharedKernel.Domain.Interfaces;
@@ -14,12 +15,12 @@ public sealed class NotifyCustomerOfVtuAirtimePurchaseSuccessEventConsumer
 {
     private readonly ILogger<NotifyCustomerOfVtuAirtimePurchaseSuccessEventConsumer> _logger;
     private readonly IEmailService _emailService;
-    private readonly IRepository<EmailEntity> _emailRepository;
+    private readonly IEmailRepository<EmailEntity> _emailRepository;
     private readonly IMapper _mapper;
 
     public NotifyCustomerOfVtuAirtimePurchaseSuccessEventConsumer(
         ILogger<NotifyCustomerOfVtuAirtimePurchaseSuccessEventConsumer> logger, 
-        IEmailService emailService, IRepository<EmailEntity> emailRepository, 
+        IEmailService emailService, IEmailRepository<EmailEntity> emailRepository, 
         IMapper mapper)
     {
         _logger = logger;

@@ -45,7 +45,7 @@ namespace SagaOrchestrationStateMachines.Infrastructure.Persistence.Data.Migrati
 
                     b.HasKey("Id");
 
-                    b.ToTable("SagaStateMachineEntities");
+                    b.ToTable("SagaStateMachineEntities", (string)null);
                 });
 
             modelBuilder.Entity("SagaOrchestrationStateMachines.Infrastructure.UserCreatedSagaOrchestrator.UserCreatedSagaStateInstance", b =>
@@ -98,7 +98,7 @@ namespace SagaOrchestrationStateMachines.Infrastructure.Persistence.Data.Migrati
 
                     b.HasKey("CorrelationId");
 
-                    b.ToTable("UserCreatedSagaStateInstance");
+                    b.ToTable("UserCreatedSagaStateInstance", (string)null);
                 });
 
             modelBuilder.Entity("SagaOrchestrationStateMachines.Infrastructure.VtuAirtimeOrderedSagaOrchestrator.VtuAirtimeOrderedSagaStateInstance", b =>
@@ -167,7 +167,7 @@ namespace SagaOrchestrationStateMachines.Infrastructure.Persistence.Data.Migrati
 
                     b.HasKey("CorrelationId");
 
-                    b.ToTable("VtuAirtimeOrderedSagaStateInstance");
+                    b.ToTable("VtuAirtimeOrderedSagaStateInstance", (string)null);
                 });
 
             modelBuilder.Entity("SagaOrchestrationStateMachines.Infrastructure.VtuDataOrderedSagaOrchestrator.VtuDataOrderedSagaStateInstance", b =>
@@ -240,7 +240,7 @@ namespace SagaOrchestrationStateMachines.Infrastructure.Persistence.Data.Migrati
 
                     b.HasKey("CorrelationId");
 
-                    b.ToTable("VtuDataOrderedSagaStateInstance");
+                    b.ToTable("VtuDataOrderedSagaStateInstance", (string)null);
                 });
 #pragma warning restore 612, 618
         }

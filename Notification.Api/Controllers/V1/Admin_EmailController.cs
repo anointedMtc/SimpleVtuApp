@@ -12,7 +12,7 @@ namespace Notification.Api.Controllers.V1;
 
 [Authorize]
 [ApiVersion("1.0")]
-public class EmailController : ApiBaseController
+public class Admin_EmailController : ApiBaseController
 {
 
     [HttpPost("send-single-email")]

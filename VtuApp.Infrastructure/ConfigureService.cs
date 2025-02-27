@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using SharedKernel.Domain.Interfaces;
 using VtuApp.Application.Interfaces.ExternalServices.VtuNationApi;
+using VtuApp.Domain.Interfaces;
 using VtuApp.Infrastructure.ExternalServices.VtuNationApi;
 using VtuApp.Infrastructure.Persistence;
 using VtuApp.Infrastructure.Persistence.Repositories;
@@ -21,24 +22,24 @@ public static class ConfigureService
         services.AddDbContext<VtuDbContext>(options =>
                 options.UseSqlServer(connectionString, o => o.EnableRetryOnFailure()));
 
-        services.AddScoped(typeof(IRepository<>), typeof(VtuAppRepository<>));
+        services.AddScoped(typeof(IVtuAppRepository<>), typeof(VtuAppRepository<>));
 
 
         // REFIT
         services.AddRefitClient<IGetTokenFromVtuNation>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.vtunation.com"))
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri("http://api.vtunation.com"))
                 .AddStandardResilienceHandler();
 
         services.AddTransient<ITokenStoreForVtuNation, TokenStoreForVtuNation>();
         services.AddTransient<AuthHeaderHandlerForVtuNation>();
 
         services.AddRefitClient<IGetAdminServicesFromVtuNation>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.vtunation.com"))
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri("http://api.vtunation.com"))
                 .AddHttpMessageHandler<AuthHeaderHandlerForVtuNation>()
                 .AddStandardResilienceHandler();
 
         services.AddRefitClient<IGetServicesFromVtuNation>()
-               .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.vtunation.com"))
+               .ConfigureHttpClient(c => c.BaseAddress = new Uri("http://api.vtunation.com"))
                .AddHttpMessageHandler<AuthHeaderHandlerForVtuNation>()
                .AddStandardResilienceHandler();
 

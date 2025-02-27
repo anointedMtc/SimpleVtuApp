@@ -4,6 +4,7 @@ using SagaOrchestrationStateMachines.Shared.IntegrationEvents.VtuAirtimeSaga;
 using SharedKernel.Application.Exceptions;
 using SharedKernel.Domain.Interfaces;
 using VtuApp.Domain.Entities.VtuModelAggregate;
+using VtuApp.Domain.Interfaces;
 using VtuApp.Domain.Specifications;
 using VtuApp.Shared.Constants;
 using VtuApp.Shared.IntegrationEvents;
@@ -13,11 +14,11 @@ namespace VtuApp.Application.Features.Events.ExternalEvents;
 public sealed class RollbackAmountForVtuAirtimePurchaseFailedMessageConsumer
     : IConsumer<RollbackAmountForVtuAirtimePurchaseFailedMessage>
 {
-    private readonly IRepository<Customer> _customerRepository;
+    private readonly IVtuAppRepository<Customer> _customerRepository;
     private readonly ILogger<RollbackAmountForVtuAirtimePurchaseFailedMessageConsumer> _logger;
 
     public RollbackAmountForVtuAirtimePurchaseFailedMessageConsumer(
-        IRepository<Customer> customerRepository, 
+        IVtuAppRepository<Customer> customerRepository, 
         ILogger<RollbackAmountForVtuAirtimePurchaseFailedMessageConsumer> logger)
     {
         _customerRepository = customerRepository;

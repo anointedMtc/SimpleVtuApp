@@ -6,6 +6,7 @@ using SharedKernel.Api.Controllers;
 using System.Net.Mime;
 using Wallet.Application.Features.Commands.AddFunds;
 using Wallet.Application.Features.Commands.DeductFunds;
+using Wallet.Application.Features.Commands.DeleteOwner;
 using Wallet.Application.Features.Commands.TransferFunds;
 using Wallet.Application.Features.Queries.GetWalletById;
 
@@ -50,6 +51,16 @@ public class WalletController : ApiBaseController
     public async Task<ActionResult<TransferFundsResponse>> TransferFunds([FromBody] TransferFundsCommand command)
     {
         return await Mediator.Send(command);
+    }
+
+
+
+    [HttpDelete("delete-wallet-Owner")]
+    public async Task<ActionResult<DeleteOwnerResponse>> DeleteOwner([FromBody] DeleteOwnerCommand command)
+    {
+        var result = await Mediator.Send(command);
+
+        return Ok(result);
     }
 
 }

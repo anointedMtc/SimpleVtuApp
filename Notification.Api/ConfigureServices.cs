@@ -25,7 +25,7 @@ public static class ConfigureServices
         AddSettingsJsonFile(builder.Configuration);
 
         builder.Services.AddControllers()
-                       .AddApplicationPart(typeof(EmailController).Assembly);
+                       .AddApplicationPart(typeof(Admin_EmailController).Assembly);
 
         builder.Services.AddNotificationApplicationLayer();
         builder.Services.AddNotificationInfrastructureLayer(builder.Configuration);

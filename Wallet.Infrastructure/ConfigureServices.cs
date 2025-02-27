@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Domain.Interfaces;
+using Wallet.Domain.Interfaces;
 using Wallet.Infrastructure.Persistence;
 using Wallet.Infrastructure.Persistence.Repositories;
 
@@ -18,7 +19,7 @@ public static class ConfigureServices
         services.AddDbContext<WalletDbContext>(options =>
                 options.UseSqlServer(connectionString, o => o.EnableRetryOnFailure()));
 
-        services.AddScoped(typeof(IRepository<>), typeof(WalletRepository<>));
+        services.AddScoped(typeof(IWalletRepository<>), typeof(WalletRepository<>));
 
         services.AddScoped<WalletDbContextInitialiser>();
 

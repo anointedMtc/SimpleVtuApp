@@ -4,6 +4,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Notification.Application.Interfaces;
 using Notification.Domain.Entities;
+using Notification.Domain.Interfaces;
 using Notification.Shared.DTO;
 using SharedKernel.Domain.Interfaces;
 using System.Text.Encodings.Web;
@@ -14,12 +15,12 @@ public sealed class ChangeEmailRequestedEventConsumer : IConsumer<ChangeEmailReq
 {
     private readonly ILogger<ChangeEmailRequestedEventConsumer> _logger;
     private readonly IEmailService _emailService;
-    private readonly IRepository<EmailEntity> _emailRepository;
+    private readonly IEmailRepository<EmailEntity> _emailRepository;
     private readonly IMapper _mapper;
 
     public ChangeEmailRequestedEventConsumer(
         ILogger<ChangeEmailRequestedEventConsumer> logger, 
-        IEmailService emailService, IRepository<EmailEntity> emailRepository,
+        IEmailService emailService, IEmailRepository<EmailEntity> emailRepository,
         IMapper mapper)
     {
         _logger = logger;

@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Notification.Domain.Interfaces;
 using SharedKernel.Domain.Interfaces;
 using SharedKernel.Infrastructure.SpecificationHelper;
 
 namespace Notification.Infrastructure.Persistence.Repositories;
 
-public class EmailRepository<T> : IRepository<T> where T : class, IAggregateRoot
+public class EmailRepository<T> : IEmailRepository<T> where T : class, IAggregateRoot
 {
     private readonly EmailDbContext _emailDbContext;
 

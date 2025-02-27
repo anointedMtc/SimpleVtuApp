@@ -32,7 +32,7 @@ public class VtuAppCustomerCreatedDomainEventHandler : INotificationHandler<VtuA
         );
 
         _logger.LogInformation("Successfully published integration event {typeOfEvent} for applicationUser with Id {applicationUserId} at {time}",
-           nameof(VtuAppCustomerCreatedDomainEvent),
+           nameof(VtuAppCustomerCreatedIntegrationEvent),
            notification.Email,
            DateTimeOffset.UtcNow
         );

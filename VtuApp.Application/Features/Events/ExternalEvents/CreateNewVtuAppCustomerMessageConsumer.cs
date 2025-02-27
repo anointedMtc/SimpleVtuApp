@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using SharedKernel.Domain.Interfaces;
 using VtuApp.Application.Exceptions;
 using VtuApp.Domain.Entities.VtuModelAggregate;
+using VtuApp.Domain.Interfaces;
 using VtuApp.Domain.Specifications;
 using VtuApp.Shared.IntegrationEvents;
 
@@ -11,10 +12,10 @@ namespace VtuApp.Application.Features.Events.ExternalEvents;
 public sealed class CreateNewVtuAppCustomerMessageConsumer : IConsumer<CreateNewVtuAppCustomerMessage>
 {
     private readonly ILogger<CreateNewVtuAppCustomerMessageConsumer> _logger;
-    private readonly IRepository<Customer> _customerRepository;
+    private readonly IVtuAppRepository<Customer> _customerRepository;
 
     public CreateNewVtuAppCustomerMessageConsumer(ILogger<CreateNewVtuAppCustomerMessageConsumer> logger,
-        IRepository<Customer> customerRepository)
+        IVtuAppRepository<Customer> customerRepository)
     {
         _logger = logger;
         _customerRepository = customerRepository;
@@ -22,10 +23,11 @@ public sealed class CreateNewVtuAppCustomerMessageConsumer : IConsumer<CreateNew
 
     public async Task Consume(ConsumeContext<CreateNewVtuAppCustomerMessage> context)
     {
-        _logger.LogInformation("Successfully consumed event {typeOfEvent} for applicationUser with Id {applicationUserId} at {time}",
+        _logger.LogInformation("Successfully consumed event {typeOfEvent} for applicationUser with Id {applicationUserId} at {time} with details {@request}",
             nameof(CreateNewVtuAppCustomerMessage),
             context.Message.UserEmail,
-            DateTimeOffset.UtcNow
+            DateTimeOffset.UtcNow,
+            context.Message
         );
 
         var spec = new GetCustomerByEmailSpecification(context.Message.UserEmail);

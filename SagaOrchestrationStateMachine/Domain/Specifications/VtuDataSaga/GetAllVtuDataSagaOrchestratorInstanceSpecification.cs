@@ -8,22 +8,22 @@ public sealed class GetAllVtuDataSagaOrchestratorInstanceSpecification
 {
     public GetAllVtuDataSagaOrchestratorInstanceSpecification(PaginationFilter paginationFilter)
         : base(x =>
-            (string.IsNullOrEmpty(paginationFilter.Search) || x.CorrelationId.ToString().Contains(paginationFilter.Search)) ||
-            (string.IsNullOrEmpty(paginationFilter.Search) || x.CurrentState.Contains(paginationFilter.Search)) ||
-            (string.IsNullOrEmpty(paginationFilter.Search) || x.ApplicationUserId.ToString().Contains(paginationFilter.Search)) ||
-            (string.IsNullOrEmpty(paginationFilter.Search) || x.Email.Contains(paginationFilter.Search)) ||
-            (string.IsNullOrEmpty(paginationFilter.Search) || x.FirstName.Contains(paginationFilter.Search)) ||
-            (string.IsNullOrEmpty(paginationFilter.Search) || x.LastName.Contains(paginationFilter.Search)) ||
-            (string.IsNullOrEmpty(paginationFilter.Search) || x.VtuTransactionId.ToString().Contains(paginationFilter.Search)) ||
-            (string.IsNullOrEmpty(paginationFilter.Search) || x.NetworkProvider.ToString().Contains(paginationFilter.Search)) ||
-            (string.IsNullOrEmpty(paginationFilter.Search) || x.DataPlanPurchased.ToString().Contains(paginationFilter.Search)) ||
-            (string.IsNullOrEmpty(paginationFilter.Search) || x.AmountToPurchase.ToString().Contains(paginationFilter.Search)) ||
-            (string.IsNullOrEmpty(paginationFilter.Search) || x.PricePaid.ToString().Contains(paginationFilter.Search)) ||
-            (string.IsNullOrEmpty(paginationFilter.Search) || x.Receiver.Contains(paginationFilter.Search)) ||
-            (string.IsNullOrEmpty(paginationFilter.Search) || x.Sender.Contains(paginationFilter.Search)) ||
-            (string.IsNullOrEmpty(paginationFilter.Search) || x.InitialBalance.ToString().Contains(paginationFilter.Search)) ||
-            (string.IsNullOrEmpty(paginationFilter.Search) || x.FinalBalance.ToString().Contains(paginationFilter.Search)) ||
-            (string.IsNullOrEmpty(paginationFilter.Search) || x.CreatedAt.ToString().Contains(paginationFilter.Search)) 
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.CorrelationId.ToString().ToLower().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.CurrentState.ToLower().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.ApplicationUserId.ToString().ToLower().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.Email.ToLower().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.FirstName.ToLower().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.LastName.ToLower().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.VtuTransactionId.ToString().ToLower().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.NetworkProvider.ToString().ToLower().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.DataPlanPurchased.ToString().ToLower().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.AmountToPurchase.ToString().ToLower().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.PricePaid.ToString().ToLower().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.Receiver.ToLower().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.Sender.ToLower().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.InitialBalance.ToString().ToLower().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.FinalBalance.ToString().ToLower().Contains(paginationFilter.Search)) ||
+            (string.IsNullOrEmpty(paginationFilter.Search) || x.CreatedAt.ToString().ToLower().Contains(paginationFilter.Search)) 
             //(string.IsNullOrEmpty(paginationFilter.Search) || x.SecondRetryVtuDataScheduleEventTokenId.ToString()!.Contains(paginationFilter.Search))
         )
     {
@@ -135,6 +135,10 @@ public sealed class GetAllVtuDataSagaOrchestratorInstanceSpecification
                     break;
 
             }
+        }
+        else
+        {
+            ApplyOrderBy(n => n.CorrelationId);
         }
 
         ApplyPaging(paginationFilter.PageNumber, paginationFilter.PageSize);

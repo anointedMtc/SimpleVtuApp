@@ -32,7 +32,7 @@ public class WalletAddedDomainEventHandler : INotificationHandler<WalletAddedDom
         );
 
         _logger.LogInformation("Successfully published integration event {typeOfEvent} for applicationUser with Id {applicationUserId} at {time}",
-            nameof(WalletAddedDomainEvent),
+            nameof(WalletAddedIntegrationEvent),
             notification.Wallet.Email,
             DateTimeOffset.UtcNow
         );

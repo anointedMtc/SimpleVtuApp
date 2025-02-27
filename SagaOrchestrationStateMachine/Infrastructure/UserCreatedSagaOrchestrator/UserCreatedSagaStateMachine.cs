@@ -63,6 +63,15 @@ public sealed class UserCreatedSagaStateMachine : MassTransitStateMachine<UserCr
             //    r.OnRedeliveryLimitReached(n => n.Fault());
             //}));
         });
+        Event(() => NotifyApplicationUserOfWalletCreatedEvent, x =>
+        {
+            x.CorrelateById(context => context.Message.ApplicationUserId);
+            x.OnMissingInstance(m => m.Redeliver(r =>
+            {
+                r.Interval(5, 1000);
+                r.OnRedeliveryLimitReached(n => n.Fault());
+            }));
+        });
 
         Event(() => CreateNewWalletOwnerMessageFaulted, x => x
             .CorrelateById(m => m.Message.Message.ApplicationUserId)
@@ -112,14 +121,31 @@ public sealed class UserCreatedSagaStateMachine : MassTransitStateMachine<UserCr
         DuringAny(
             When(UserCreatedInAllModulesEvent)
                .Schedule(ScheduleForNotifyingApplicationUserSagaEvent,
-               context => context.Init<NotifyApplicationUserOfWalletCreatedEvent>(new
+               context => context.Init<UserCreatedSagaCompletedEvent > (new
                {
                    context.Saga.ApplicationUserId,
                    context.Saga.FirstName,
                    context.Saga.LastName,
                    context.Saga.Email,
                    context.Saga.RegisterationBonus
-               }))
+               })),
+
+            When(ScheduleForNotifyingApplicationUserSagaEvent?.Received)
+                .Publish(context => new NotifyApplicationUserOfWalletCreatedEvent(
+                    context.Saga.ApplicationUserId,
+                    context.Saga.FirstName,
+                    context.Saga.LastName,
+                    context.Saga.Email,
+                    context.Saga.RegisterationBonus))
+                //.PublishAsync(context => context.Init<NotifyApplicationUserOfWalletCreatedEvent>(new
+                //{
+                //    context.Saga.ApplicationUserId,
+                //    context.Saga.FirstName,
+                //    context.Saga.LastName,
+                //    context.Saga.Email,
+                //    // masstransit seems to deserialize everything to string and as such having this Registeration bonus here does not properly translate to decimal when publishing the event... so I had to change the type to string so it could be properly initialized... if you don't you get "0" which is the default value for decimals... null is default for strings...
+                //    context.Saga.RegisterationBonus
+                //}))
                .Finalize()
         );
 
@@ -130,6 +156,10 @@ public sealed class UserCreatedSagaStateMachine : MassTransitStateMachine<UserCr
         DuringAny(
             When(CreateNewVtuAppCustomerMessageFaulted)
             .TransitionTo(FailedUserCreatedSagaState)
+        );
+
+        During(Final,
+            Ignore(NotifyApplicationUserOfWalletCreatedEvent)
         );
     }
 
@@ -148,7 +178,9 @@ public sealed class UserCreatedSagaStateMachine : MassTransitStateMachine<UserCr
     public Event UserCreatedInAllModulesEvent { get; private set; }
 
     // SCHEDULE EVENT
-    public Schedule<UserCreatedSagaStateInstance, NotifyApplicationUserOfWalletCreatedEvent> ScheduleForNotifyingApplicationUserSagaEvent { get; private set; }
+    public Schedule<UserCreatedSagaStateInstance, UserCreatedSagaCompletedEvent> ScheduleForNotifyingApplicationUserSagaEvent { get; private set; }
+    public Event<NotifyApplicationUserOfWalletCreatedEvent> NotifyApplicationUserOfWalletCreatedEvent { get; private set; }
+
 
     // FAULTS
     public Event<Fault<CreateNewWalletOwnerMessage>> CreateNewWalletOwnerMessageFaulted { get; private set; }

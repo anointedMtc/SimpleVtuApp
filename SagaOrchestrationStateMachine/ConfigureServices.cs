@@ -61,7 +61,7 @@ public static class ConfigureServices
     private static void ConfigureControllers(WebApplicationBuilder builder)
     {
         builder.Services.AddControllers()
-                        .AddApplicationPart(typeof(UserCreatedSagaOrchestratorController).Assembly);
+                        .AddApplicationPart(typeof(Saga_UserCreated_OrchestratorController).Assembly);
 
     }
 

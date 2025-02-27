@@ -6,6 +6,7 @@ using SharedKernel.Application.Interfaces;
 using SharedKernel.Domain.Interfaces;
 using VtuApp.Application.Interfaces.ExternalServices.VtuNationApi;
 using VtuApp.Domain.Entities.VtuModelAggregate;
+using VtuApp.Domain.Interfaces;
 using VtuApp.Domain.Specifications;
 using VtuApp.Shared.Constants;
 using VtuApp.Shared.DTO;
@@ -18,14 +19,14 @@ internal sealed class Buy500MBVtuNationCommandHandler : IRequestHandler<Buy500MB
 {
     private readonly IGetServicesFromVtuNation _getServicesFromVtuNation;
     private readonly ILogger<Buy500MBVtuNationCommandHandler> _logger;
-    private readonly IRepository<Customer> _vtuAppRepository;
+    private readonly IVtuAppRepository<Customer> _vtuAppRepository;
     private readonly IUserContext _userContext;
     private readonly IResourceBaseAuthorizationService _resourceBaseAuthorizationService;
     private readonly IMassTransitService _massTransitService;
 
     public Buy500MBVtuNationCommandHandler(IGetServicesFromVtuNation getServicesFromVtuNation, 
-        ILogger<Buy500MBVtuNationCommandHandler> logger, 
-        IRepository<Customer> vtuAppRepository, IUserContext userContext, 
+        ILogger<Buy500MBVtuNationCommandHandler> logger,
+        IVtuAppRepository<Customer> vtuAppRepository, IUserContext userContext, 
         IResourceBaseAuthorizationService resourceBaseAuthorizationService, 
         IMassTransitService massTransitService)
     {

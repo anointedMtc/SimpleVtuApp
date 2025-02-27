@@ -18,6 +18,7 @@ using Wallet.Api;
 // METHOD ONE
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
+    .MinimumLevel.Override("MassTransit", Serilog.Events.LogEventLevel.Debug)
     .Enrich.FromLogContext()
     //.WriteTo.Console()
     .WriteTo.Console(new RenderedCompactJsonFormatter())

@@ -3,6 +3,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Notification.Application.Interfaces;
 using Notification.Domain.Entities;
+using Notification.Domain.Interfaces;
 using Notification.Shared.DTO;
 using SagaOrchestrationStateMachines.Shared.IntegrationEvents.UserCreatedSaga;
 using SharedKernel.Domain.Interfaces;
@@ -13,12 +14,12 @@ public sealed class NotifyApplicationUserOfWalletCreatedEventConsumer : IConsume
 {
     private readonly ILogger<NotifyApplicationUserOfWalletCreatedEventConsumer> _logger;
     private readonly IEmailService _emailService;
-    private readonly IRepository<EmailEntity> _emailRepository;
+    private readonly IEmailRepository<EmailEntity> _emailRepository;
     private readonly IMapper _mapper;
 
     public NotifyApplicationUserOfWalletCreatedEventConsumer(
         ILogger<NotifyApplicationUserOfWalletCreatedEventConsumer> logger, 
-        IEmailService emailService, IRepository<EmailEntity> emailRepository, 
+        IEmailService emailService, IEmailRepository<EmailEntity> emailRepository, 
         IMapper mapper)
     {
         _logger = logger;
