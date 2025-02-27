@@ -15,7 +15,6 @@ public class ResourceBaseAuthorizationService : IResourceBaseAuthorizationServic
         _userContext = userContext;
     }
 
-    //public bool Authorize(ResourceOperation resourceOperation)
     public bool Authorize(string resourceOperation)
     {
         var user = _userContext.GetCurrentUser();

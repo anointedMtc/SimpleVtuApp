@@ -22,7 +22,7 @@ public static class ConfigureIdentityDbStartUpExtensions
         var _dbSeeder = services.GetRequiredService<ApplicationDbContextInitializer>();
 
         // SECOND ALTERNATIVE
-        _logger.LogInformation($"MigrateDatabaseAndSeedAsync Starting in environment {hostEnvironment?.EnvironmentName}");
+        _logger.LogInformation("MigrateDatabaseAndSeedAsync Starting in environment {environmentType}", hostEnvironment?.EnvironmentName);
         try
         {
             var retryPolicy = Policy

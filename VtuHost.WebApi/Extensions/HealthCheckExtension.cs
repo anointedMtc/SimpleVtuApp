@@ -23,8 +23,6 @@ public static class HealthCheckExtension
          .AddDbContextCheck<EmailDbContext>()    
          .AddDbContextCheck<IdentityAuthDbContext>()    
          .AddDbContextCheck<SagaStateMachineDbContext>()    
-         //.AddDbContextCheck<VtuAirtimeOrderedSagaDbContext>()    
-         //.AddDbContextCheck<VtuDataOrderedSagaDbContext>()
 
          .AddSqlServer(configuration.GetConnectionString("IdentityModuleDb")!, name: "IdentityModuleDb-Sql Health", tags: ["database", "sqlServer", "custom", "itCanHaveMultipleNames"])   
          .AddSqlServer(configuration.GetConnectionString("NotificationModuleDb")!, name: "NotificationModuleDb-Sql Health", tags: ["database", "sqlServer", "custom", "itCanHaveMultipleNames"])    

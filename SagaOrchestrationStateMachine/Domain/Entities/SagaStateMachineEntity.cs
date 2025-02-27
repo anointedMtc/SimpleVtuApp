@@ -1,5 +1,6 @@
 ﻿namespace SagaOrchestrationStateMachines.Domain.Entities;
 
+// just to show that we can still persits other types of data if we like...
 public class SagaStateMachineEntity
 {
     public Guid Id { get; set; }

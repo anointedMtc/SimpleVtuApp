@@ -5,27 +5,19 @@ using Wallet.Domain.Exceptions;
 
 namespace Wallet.Domain.Entities.WalletAggregate;
 
-// Dependent (child) of Owner class... so Owner is a parent... Wallet is the child... 
 public class WalletDomainEntity : BaseEntity, IAggregateRoot
 {
-    //private HashSet<Transfer> _transfers = [];
     private readonly List<Transfer> _transfers = [];
 
     public Guid WalletDomainEntityId { get; private set; }
     public Guid ApplicationUserId { get; private set; }
     public string Email { get; private set; }
-
-    //public IEnumerable<Transfer> Transfers
-    //{
-    //    get => _transfers;
-    //    set => _transfers = new HashSet<Transfer>(value);
-    //}
     public IReadOnlyCollection<Transfer> Transfers => _transfers.AsReadOnly();
     public DateTimeOffset CreatedAt { get; private set; }
 
 
-    public Guid OwnerId { get; private set; } // Required foreign key property of parent
-    public Owner Owner { get; private set; }  // Required reference navigation to principal/parent
+    public Guid OwnerId { get; private set; } 
+    public Owner Owner { get; private set; }  
 
 
 
@@ -62,7 +54,7 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
         return [outTransfer, inTransfer];
     }
 
-    public Transfer AddFunds(Amount amount, string reasonWhy) // why are we not stating reason why the funds was added and the date/time it was added???
+    public Transfer AddFunds(Amount amount, string reasonWhy) 
     {
         if (amount <= 0)
         {
@@ -77,7 +69,7 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
         return transfer;
     }
 
-    public Transfer DeductFunds(Amount amount, string reasonWhy) // why are we not stating reason why the funds was added and the date/time it was added???
+    public Transfer DeductFunds(Amount amount, string reasonWhy) 
     {
         if (amount <= 0)
         {
@@ -109,13 +101,6 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
     }
 
 
-
-
-
-
-
-
-
     private void RaiseWalletAddedDomainEvent()
     {
         var walletAddedDomainEvent = new WalletAddedDomainEvent(this);
@@ -124,26 +109,10 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
     }
 
 
-    //private void RaiseWalletAddedDomainEvent(Guid walletId, Guid ownerId)
-    //{
-    //    var walletAddedDomainEvent = new WalletAddedDomainEvent(this, walletId, OwnerId);
-
-    //    this.AddDomainEvent(walletAddedDomainEvent);
-    //}
-
-
-    private void SecondWayToAddDomainEvent()
-    {
-        AddDomainEvent(new WalletAddedDomainEvent(this));
-
-    }
-
     private void RaiseFundsAddedDomainEvent(Amount amount)
     {
         AddDomainEvent(new FundsAddedDomainEvent(WalletDomainEntityId, OwnerId, amount));
     }
-
-
 
 
     public override string ToString()

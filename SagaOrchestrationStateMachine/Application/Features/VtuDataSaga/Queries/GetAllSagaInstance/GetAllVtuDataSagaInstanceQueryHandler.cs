@@ -75,6 +75,5 @@ internal sealed class GetAllVtuDataSagaInstanceQueryHandler
 
 
         return new Pagination<GetAllVtuDataSagaInstanceResponse>(request.PaginationFilter.PageNumber, request.PaginationFilter.PageSize, totalUsers, getAllVtuDataSagaInstanceResponse);
-
     }
 }

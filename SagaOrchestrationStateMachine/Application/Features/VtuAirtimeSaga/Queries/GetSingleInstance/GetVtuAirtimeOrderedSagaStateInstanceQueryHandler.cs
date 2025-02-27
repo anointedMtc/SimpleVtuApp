@@ -42,9 +42,6 @@ public sealed class GetVtuAirtimeOrderedSagaStateInstanceQueryHandler
 
         var spec = new GetVtuAirtimeOrderedSagaOrchestratorInstanceByCorrelationId(request.CorrelationId);
 
-        // Always remember that you can choose to set the AsNoTracking here... before FirstOrDefault
-        //var vtuAirtimeSagaStateInstance = await ApplySpecification(spec).FirstOrDefaultAsync(cancellationToken);
-
         var vtuAirtimeSagaStateInstance = await _sagaStateMachineRepository.FindAsync(spec);
 
         if (vtuAirtimeSagaStateInstance == null)
@@ -67,12 +64,7 @@ public sealed class GetVtuAirtimeOrderedSagaStateInstanceQueryHandler
 
     private IQueryable<VtuAirtimeOrderedSagaStateInstance> ApplySpecification(ISpecification<VtuAirtimeOrderedSagaStateInstance> spec)
     {
-        // using the DbSet<T> like this would also give you the same thing... however it is like accessing Data from the backstage and you have lost all the extra good stuff that DbContext gives like tracking changes and disposing resources etc...etc...
-        //return SpecificationEvaluator<UserCreatedSagaStateInstance>.GetQuery(_dbSetUserCreatedSagaStateInstance.AsQueryable().AsNoTracking(), spec);
-
-        // this is the preferred approcach - using DbContext
         return SpecificationEvaluator<VtuAirtimeOrderedSagaStateInstance>.GetQuery(_sagaStateMachineDbContext.Set<VtuAirtimeOrderedSagaStateInstance>().AsQueryable().AsNoTracking(), spec);
-
     }
 
 }

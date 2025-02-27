@@ -61,12 +61,7 @@ public sealed class GetVtuDataOrderedSagaStateInstanceQueryHandler
 
     private IQueryable<VtuDataOrderedSagaStateInstance> ApplySpecification(ISpecification<VtuDataOrderedSagaStateInstance> spec)
     {
-        // using the DbSet<T> like this would also give you the same thing... however it is like accessing Data from the backstage and you have lost all the extra good stuff that DbContext gives like tracking changes and disposing resources etc...etc...
-        //return SpecificationEvaluator<UserCreatedSagaStateInstance>.GetQuery(_dbSetUserCreatedSagaStateInstance.AsQueryable().AsNoTracking(), spec);
-
-        // this is the preferred approcach - using DbContext
         return SpecificationEvaluator<VtuDataOrderedSagaStateInstance>.GetQuery(_sagaStateMachineDbContext.Set<VtuDataOrderedSagaStateInstance>().AsQueryable().AsNoTracking(), spec);
-
     }
 
 }

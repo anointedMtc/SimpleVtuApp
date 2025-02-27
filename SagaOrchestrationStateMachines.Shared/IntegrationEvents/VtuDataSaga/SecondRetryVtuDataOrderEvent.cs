@@ -11,14 +11,3 @@ public record SecondRetryVtuDataOrderEvent(
     decimal AmountToPurchase,
     string Reciever);
 
-
-//public record SecondRetryVtuDataOrderEvent
-//{
-//    public Guid ApplicationUserId { get; init; }
-//    public string Email { get; init; }
-//    public Guid VtuTransactionId { get; init; }
-//    public NetworkProvider NetworkProvider { get; init; }
-//    public string DataPlanPurchased { get; init; }
-//    public decimal AmountToPurchase { get; init; }
-//    public string Reciever { get; init; }
-//}

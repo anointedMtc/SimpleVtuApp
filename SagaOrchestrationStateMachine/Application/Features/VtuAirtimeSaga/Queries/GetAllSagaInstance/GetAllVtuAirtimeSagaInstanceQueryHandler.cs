@@ -66,9 +66,6 @@ public sealed class GetAllVtuAirtimeSagaInstanceQueryHandler
 
         var spec = new GetAllVtuAirtimeSagaOrchestratorInstanceSpecification(request.PaginationFilter);
 
-        //var data = SpecificationEvaluator<VtuAirtimeOrderedSagaStateInstance>.GetQuery(_sagaStateMachineDbContext.Set<VtuAirtimeOrderedSagaStateInstance>().AsQueryable().AsNoTracking(), spec);
-        //totalUsers = await SpecificationEvaluator<VtuAirtimeOrderedSagaStateInstance>.GetQuery(_sagaStateMachineDbContext.Set<VtuAirtimeOrderedSagaStateInstance>().AsQueryable().AsNoTracking(), spec).CountAsync(cancellationToken);
-
         var data = await _sagaStateMachineRepository.GetAllAsync(spec);
         totalUsers = await _sagaStateMachineRepository.CountAsync(spec);
 
@@ -78,6 +75,5 @@ public sealed class GetAllVtuAirtimeSagaInstanceQueryHandler
 
 
         return new Pagination<GetAllVtuAirtimeSagaInstanceResponse>(request.PaginationFilter.PageNumber, request.PaginationFilter.PageSize, totalUsers, getAllVtuAirtimeSagaInstanceResponse);
-
     }
 }

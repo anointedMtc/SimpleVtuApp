@@ -26,10 +26,8 @@ internal sealed class QueryCachingBehaviour<TRequest, TResponse> : IPipelineBeha
             request.CacheKey,
             cancellationToken);
 
-        //string requestName = typeof(TRequest).Name;
         if (cachedResult is not null)
         {
-            //_logger.LogInformation("Cache hit for {RequestName}", requestName);
             _logger.LogInformation("cache hit for key: {CacheKey}.", request.CacheKey);
 
             // we want to reset its sliding expiration - but remember that it absolute expiration over-powers it so that once the absolute expiration time is up, it deletes the cache even if we just reset the sliding expiration just now
@@ -41,7 +39,6 @@ internal sealed class QueryCachingBehaviour<TRequest, TResponse> : IPipelineBeha
 
         TResponse result = await next();
 
-        //_logger.LogInformation("Cache miss for {RequestName}", requestName);
         _logger.LogInformation("Cache miss for key: {CacheKey} fetching data from database.", request.CacheKey);
 
 

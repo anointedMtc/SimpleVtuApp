@@ -57,11 +57,6 @@ public sealed class UserCreatedSagaStateMachine : MassTransitStateMachine<UserCr
 
             s.Received = r => r.CorrelateById(context => context.Message.ApplicationUserId);
 
-            //s.Received = r => r.OnMissingInstance(m => m.Redeliver(r =>
-            //{
-            //    r.Interval(5, 1000);
-            //    r.OnRedeliveryLimitReached(n => n.Fault());
-            //}));
         });
         Event(() => NotifyApplicationUserOfWalletCreatedEvent, x =>
         {
@@ -137,15 +132,6 @@ public sealed class UserCreatedSagaStateMachine : MassTransitStateMachine<UserCr
                     context.Saga.LastName,
                     context.Saga.Email,
                     context.Saga.RegisterationBonus))
-                //.PublishAsync(context => context.Init<NotifyApplicationUserOfWalletCreatedEvent>(new
-                //{
-                //    context.Saga.ApplicationUserId,
-                //    context.Saga.FirstName,
-                //    context.Saga.LastName,
-                //    context.Saga.Email,
-                //    // masstransit seems to deserialize everything to string and as such having this Registeration bonus here does not properly translate to decimal when publishing the event... so I had to change the type to string so it could be properly initialized... if you don't you get "0" which is the default value for decimals... null is default for strings...
-                //    context.Saga.RegisterationBonus
-                //}))
                .Finalize()
         );
 

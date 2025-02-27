@@ -51,18 +51,13 @@ public sealed class BuyAirtimeVtuNationCommandHandler : IRequestHandler<BuyAirti
             throw new ForbiddenAccessException();
         }
 
-        //var buyAirtimeVtuNationResponse = new BuyAirtimeVtuNationResponse();
-        //buyAirtimeVtuNationResponse.VtuAirtimePurchaseResponseDto = new();
+       
         var buyAirtimeVtuNationResponse = new BuyAirtimeVtuNationResponse
         {
             VtuAirtimePurchaseResponseDto = new()
         };
 
         var spec = new GetCustomerByEmailSpecification(userExecutingCommand!.Email);
-
-        // this is actually how to parse string into Guid... the Identity User Id == string
-        //var userId = new Guid(userExecutingCommand!.Id);
-        //var user = await _vtuAppRepository.GetByIdAsync(userId);
 
         var customer = await _vtuAppRepository.FindAsync(spec);
         if (customer == null)

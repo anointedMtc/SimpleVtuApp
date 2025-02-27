@@ -21,7 +21,6 @@ public class EmailDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // we want it to apply those configurations we specified in the Config Folder
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 
@@ -39,13 +38,5 @@ public class EmailDbContext : DbContext
 
         return result;
     }
-
-
-
-    //public override int SaveChanges()
-    //{
-    //    return SaveChangesAsync().GetAwaiter().GetResult();
-    //}
-
 
 }

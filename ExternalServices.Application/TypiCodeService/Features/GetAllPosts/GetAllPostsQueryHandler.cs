@@ -1,4 +1,5 @@
 ﻿using ExternalServices.Application.TypiCodeService.Interfaces;
+using ExternalServices.Application.TypiCodeService.Models;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

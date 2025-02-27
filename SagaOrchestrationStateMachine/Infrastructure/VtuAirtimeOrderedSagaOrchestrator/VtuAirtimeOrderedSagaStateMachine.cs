@@ -46,11 +46,6 @@ public sealed class VtuAirtimeOrderedSagaStateMachine : MassTransitStateMachine<
 
             s.Received = r => r.CorrelateById(context => context.Message.VtuTransactionId);
 
-            //s.Received = r => r.OnMissingInstance(m => m.Redeliver(r =>
-            //{
-            //    r.Interval(5, 1000);
-            //    r.OnRedeliveryLimitReached(n => n.Fault());
-            //}));
         });
         Event(() => SecondRetryVtuAirtimeOrderEvent, x =>
         {
@@ -166,15 +161,6 @@ public sealed class VtuAirtimeOrderedSagaStateMachine : MassTransitStateMachine<
                     context.Saga.NetworkProvider,
                     context.Saga.AmountToPurchase,
                     context.Saga.Receiver))
-                //.PublishAsync(context => context.Init<SecondRetryVtuAirtimeOrderEvent>(new
-                //{
-                //    context.Saga.ApplicationUserId,
-                //    context.Saga.Email,
-                //    context.Saga.VtuTransactionId,
-                //    context.Saga.NetworkProvider,
-                //    context.Saga.AmountToPurchase,
-                //    context.Saga.Receiver
-                //}))
             .TransitionTo(WaitingForSecondVtuAirtimeRetrySagaState)
         );
 

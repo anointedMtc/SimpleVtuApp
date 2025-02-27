@@ -14,6 +14,4 @@ public class VtuAppController : ApiBaseController
         return Ok(result);
     }
 
-    
-
 }

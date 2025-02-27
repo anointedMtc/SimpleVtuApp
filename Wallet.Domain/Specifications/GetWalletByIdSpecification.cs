@@ -1,7 +1,7 @@
 ﻿using SharedKernel.Domain.HelperClasses;
 using Wallet.Domain.Entities.WalletAggregate;
 
-namespace Wallet.Application.Features.Queries.GetWalletById;
+namespace Wallet.Domain.Specifications;
 
 public class GetWalletByIdSpecification : BaseSpecification<WalletDomainEntity>
 {

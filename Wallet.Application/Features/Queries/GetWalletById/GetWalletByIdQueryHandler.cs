@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Wallet.Domain.Entities.WalletAggregate;
 using Wallet.Domain.Interfaces;
+using Wallet.Domain.Specifications;
 using Wallet.Shared.DTO;
 
 namespace Wallet.Application.Features.Queries.GetWalletById;
@@ -41,6 +42,7 @@ public class GetWalletByIdQueryHandler : IRequestHandler<GetWalletByIdQuery, Get
 
         // this line here returns the total available balance in the wallet
         //wallet.CurrentAmount();
+        getWalletByIdResponse.WalletDto.Amount = wallet.CurrentAmount();
 
         getWalletByIdResponse.Success = true;
         getWalletByIdResponse.Message = $"This resource matched your search";

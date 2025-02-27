@@ -51,7 +51,6 @@ public class TokenStoreForVtuNation : ITokenStoreForVtuNation
                 Token = externalResponse.Content?.Token
             };
 
-            // we are caching it only when it is successful...
             await _cacheServiceRedis.SetExternalApiKeyAsync(
                     ExternalApiCacheKey,
                     externalApiKeyHolder,
@@ -64,12 +63,9 @@ public class TokenStoreForVtuNation : ITokenStoreForVtuNation
         }
         else
         {
-            // if it isn't successfull, we would log it and return "null" as string to the Delegate Handler... but we would not cache it... 
             _logger.LogError("Error getting JWT from External Api Service Provider {Name} at {time}", 
                 "VtuNationApi",
                 DateTimeOffset.UtcNow);
-
-            // we don't even want to do anything specifically considering the fact that we have used polly for resilience and retries... that should be enough
 
             return "null";
         }

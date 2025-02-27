@@ -6,22 +6,17 @@ namespace SharedKernel.Domain.HelperClasses;
 // this class is here because it is free from depencies... using only Linq and our different specifications that we would be using for searches would be implementing this base class... because we would be using them in the Application Layer, we need it here or higher...(domain layer)
 public abstract class BaseSpecification<T> : ISpecification<T>
 {
-    // just create a base constructor and assign the criteria you wish to evaluate
-    // that satisfies the Where clause... 
     public Expression<Func<T, bool>>? Criteria { get; }
     protected BaseSpecification(Expression<Func<T, bool>>? criteria)
     {
         Criteria = criteria;
     }
 
-    // we require an empty base constructor so we can use this without necessarily 
-    // providing a criteria
     protected BaseSpecification()
     {
 
     }
 
-    // PROPERTIES + the Criteria own above
 
     public List<Expression<Func<T, object>>>? Includes { get; } = new List<Expression<Func<T, object>>>();
     public List<string>? IncludeStrings { get; } = new List<string>();

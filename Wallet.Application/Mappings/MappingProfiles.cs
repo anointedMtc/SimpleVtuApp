@@ -9,10 +9,15 @@ internal sealed class MappingProfiles : Profile
 {
     public MappingProfiles()
     {
-        CreateMap<WalletDomainEntity, WalletDto>().ReverseMap();
+        CreateMap<WalletDomainEntity, WalletDto>()
+            .ForMember(dest => dest.UserEmail, src => src.MapFrom(src => src.Email))
+            .ForMember(dest => dest.WalletId, src => src.MapFrom(src => src.WalletDomainEntityId))
+            .ReverseMap();
 
         CreateMap<Owner, OwnerDto>().ReverseMap();
 
-        CreateMap<Transfer, TransferDto>().ReverseMap();
+        CreateMap<Transfer, TransferDto>()
+            .ForMember(dest => dest.WalletId, src => src.MapFrom(src => src.WalletDomainEntityId))
+            .ReverseMap();
     }
 }

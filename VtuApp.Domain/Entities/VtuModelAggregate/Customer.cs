@@ -9,15 +9,8 @@ namespace VtuApp.Domain.Entities.VtuModelAggregate;
 
 public class Customer : BaseEntity, IAggregateRoot
 {
-    // the name of the backing field should reflect the name of the property
     private readonly List<VtuTransaction> _vtuTransactions = [];
-    //private TimeSpan _timeLastStarWasAchieved = TimeSpan.Zero;
 
-
-    //private readonly bool _consumedStar = false;
-    //private readonly DateTimeOffset _startedAt;
-    //private readonly bool _isQualified = true;
-    //private DateTimeOffset _timeLastStarWasAchieved;
 
     public Guid CustomerId { get; private set; } // belongs to this alone...
     public Guid ApplicationUserId { get; private set; } // same as the user created in the identy module and passed around for CorrelationId
@@ -48,7 +41,6 @@ public class Customer : BaseEntity, IAggregateRoot
         TotalBalance = 0;
 
         AddDomainEvent(new VtuAppCustomerCreatedDomainEvent(
-            //this.CustomerId,
             ApplicationUserId,
             Email)
         );
@@ -191,25 +183,10 @@ public class Customer : BaseEntity, IAggregateRoot
                 AddDomainEvent(new StarAchievedByCustomerDomainEvent(
                     this, DateTimeOffset.UtcNow, discountGiven));
 
-                //_timeLastStarWasAchieved = DateTimeOffset.UtcNow;
-
-                //var result = (DateTimeOffset.UtcNow - _timeLastStarWasAchieved).TotalHours;
-                //if (result >= 1)
-                //{
-                //    // 
-                //}
-
-                //var sw = new Stopwatch();
-                //if (sw.Elapsed > TimeSpan.FromHours(1))
-                //{
-
-                //}
             }
         }
 
         return;
     }
-
-
 
 }

@@ -4,5 +4,4 @@ namespace VtuApp.Domain.Events;
 
 public record VtuAppCustomerCreatedDomainEvent(
     Guid ApplicationUserId,
-    string Email
-    ) : IDomainEvent;
+    string Email) : IDomainEvent;

@@ -8,8 +8,3 @@ public record StarAchievedByCustomerDomainEvent(
     DateTimeOffset CreatedAt,
     decimal DiscountGiven) : IDomainEvent;
 
-
-//{
-//    public Customer Customer { get; set; }
-//    public DateTimeOffset CreatedAt { get; set; }
-//}

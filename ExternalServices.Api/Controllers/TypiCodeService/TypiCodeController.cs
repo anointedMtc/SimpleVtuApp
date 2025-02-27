@@ -21,7 +21,6 @@ public class TypiCodeController : ApiBaseController
     [HttpGet("get-post-by-id/{id}")]
     public async Task<ActionResult<GetPostByIdResponse>> GetById(int id)
     {
-        // because of the absence of () after the GetPostsByIdQuery what follows becomes an anonymous object
         var result = await Mediator.Send(new GetPostByIdQuery { Id = id });
 
         return Ok(result);

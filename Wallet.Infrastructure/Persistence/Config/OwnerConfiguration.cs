@@ -23,31 +23,6 @@ internal class OwnerConfiguration : IEntityTypeConfiguration<Owner>
             .IsRequired()
             .HasMaxLength(256);
 
-        // NON-CLUSTERED
-        //builder.HasIndex(b => b.Email)
-        //     .IsUnique();
-
-        //builder.HasOne(x => x.WalletDomainEntity)
-        //       .WithOne()
-        //       .HasForeignKey("WalletId");
-
-        //builder.HasOne(x => x.WalletDomainEntity)
-        //       .WithOne()
-        //       .HasForeignKey(nameof(Owner.WalletId));
-
-        //builder.HasOne(x => x.WalletDomainEntity)
-        //    .WithOne(x => x.Owner)
-        //    .HasForeignKey<string>(nameof(Owner.OwnerId))
-        //    .IsRequired();
-
-        /*
-           modelBuilder.Entity<Owner>()
-            .HasOne(e => e.WalletDomainEntity)
-            .WithOne(e => e.Owner)
-            .HasForeignKey<WalletDomainEntity>(e => e.OwnerId)
-            .IsRequired();
-         */
-
         builder.HasOne(x => x.WalletDomainEntity)
             .WithOne(x => x.Owner)
             .HasForeignKey<WalletDomainEntity>(e => e.OwnerId)

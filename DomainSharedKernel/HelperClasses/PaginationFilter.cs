@@ -32,14 +32,4 @@ public class PaginationFilter
     }
 
 
-
-    // here we're adding parameters for the sort we did b4 so we can use this class to replace them
-    //public int? BrandId { get; set; }
-    //public int? TypeId { get; set; }
-
-
-
-
-
-
 }

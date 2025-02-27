@@ -5,8 +5,6 @@ namespace SharedKernel.Application.HelperClasses;
 
 public class Pagination<T> where T : class
 {
-
-    // in the real sense it should not have most of these constructors again... the only constructor required now is the one that takes in PaginationFilter
     public Pagination(int pageNumber, int pageSize, int totalRecords, T data)
     {
         PageNumber = pageNumber;

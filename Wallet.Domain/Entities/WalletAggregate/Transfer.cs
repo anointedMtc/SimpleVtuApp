@@ -13,15 +13,12 @@ public class Transfer : BaseEntity
     public DateTimeOffset CreatedAt { get; private set; }
 
 
-    // there is an Id of the Principal/parent class on the dependent/child class which would be used as foreign key / navigation
-    // the relationship between Transfer and WalletDomainEntity = one-to-many... a wallet can have many transfers
     public Guid WalletDomainEntityId { get; private set; }
 
 
     //#pragma warning disable CS8618    // Required by Entity Framework
     private Transfer() { }
 
-    // what you must use to 
     public Transfer(Guid walletId, Amount amount,
         TransferDirection direction, string reasonWhy, DateTimeOffset createdAt)
     {
@@ -67,6 +64,5 @@ public class Transfer : BaseEntity
     public override string ToString()
     {
         return Amount.ToString();
-        //return TransferId.ToString();
     }
 }

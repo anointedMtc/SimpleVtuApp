@@ -23,9 +23,6 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             p.Property(pp => pp.Value).IsRequired().HasColumnType("decimal (18,2)");
         });
 
-        // NON-CLUSTERED
-        //builder.HasIndex(b => b.Email)
-        //     .IsUnique();
 
         builder.Ignore(b => b.DomainEvents);
     }

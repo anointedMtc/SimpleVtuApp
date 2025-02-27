@@ -14,7 +14,6 @@ public class VtuTransaction : BaseEntity
     public VtuAmount Discount { get; private set; }
 
 
-    // there is an Id of the Principal/parent class on the dependent/child class which would be used as foreign key / navigation
     public Guid CustomerId { get; private set; }
 
 
@@ -47,27 +46,4 @@ public class VtuTransaction : BaseEntity
 
 
 }
-
-
-
-
-
-
-
-
-
-
-//public class TypeOfTransaction
-//{
-//    public const string Data = "data";
-//    public const string Airtime = "airtime";
-//}
-
-//public class NetWorkProvider
-//{
-//    public const string Mtn = "Mtn";
-//    public const string Airtel = "Airtel";
-//    public const string Glo = "Glo";
-//    public const string NineMobile = "9Mobile";
-//}
 

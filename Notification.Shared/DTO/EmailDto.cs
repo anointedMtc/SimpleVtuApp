@@ -1,17 +1,5 @@
 ﻿namespace Notification.Shared.DTO;
 
-//public record EmailDto (
-//    string ToAddress, 
-//    string Subject,
-//    string? Body,
-//    string? AttachmentPath,
-//    string? Cc,
-//    string? Bcc,
-//    string? Sender,
-//    string? EventType,
-//    DateTimeOffset? CreatedAt );
-
-
 public class EmailDto
 {
     public string ToAddress { get; set; }

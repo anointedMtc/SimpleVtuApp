@@ -6,7 +6,6 @@ using Wallet.Shared.DTO;
 
 namespace Wallet.Infrastructure.Persistence;
 
-// YOU NEED TO REGISTER THIS CLASS IN DI - because it is no longer static
 public class WalletDbContextInitialiser
 {
     private readonly ILogger<WalletDbContextInitialiser> _logger;
@@ -19,8 +18,6 @@ public class WalletDbContextInitialiser
         _walletDbContext = walletDbContext;
     }
 
-    //public static async void InitializeDataBase(WalletDbContext walletDbContext)
-    //public async void SeedDataBase(WalletDbContext walletDbContext)
     public async void SeedDataBase()
     {
         if (!_walletDbContext.Owners.Any())
@@ -68,9 +65,6 @@ public class WalletDbContextInitialiser
 
 
 
-
-
-
     // OWNER
     private async Task<List<Owner>> CreateDefaultOwners()
     {
@@ -88,8 +82,6 @@ public class WalletDbContextInitialiser
 
         return apptTypes.Select(dto => new Owner(dto.OwnerId, dto.Email, dto.FirstName, dto.LastName)).ToList();
     }
-
-
     
 
     private static readonly Guid OwnerIdOne = Guid.NewGuid();
@@ -129,8 +121,6 @@ public class WalletDbContextInitialiser
 
 
 
-
-
     // TRANSFER
     private async Task<List<Transfer>> CreateDefaultTransfers()
     {
@@ -159,7 +149,6 @@ public class WalletDbContextInitialiser
                   Amount = 34.5M,
                   Direction = 0,
                   CreatedAt = DateTimeOffset.UtcNow,
-                  ReferenceId = Guid.NewGuid()
                 },
                 new TransferDto {
                   TransferId = Guid.NewGuid(),
@@ -167,7 +156,6 @@ public class WalletDbContextInitialiser
                   Amount = 41.5M,
                   Direction = 1,
                   CreatedAt = DateTimeOffset.UtcNow,
-                  ReferenceId = Guid.NewGuid()
                 },
                 new TransferDto{
                   TransferId = Guid.NewGuid(),
@@ -175,7 +163,6 @@ public class WalletDbContextInitialiser
                   Amount = 59.5M,
                   Direction = 0,
                   CreatedAt = DateTimeOffset.UtcNow,
-                  ReferenceId = Guid.NewGuid()
                 },
                 new TransferDto{
                   TransferId = Guid.NewGuid(),
@@ -183,16 +170,11 @@ public class WalletDbContextInitialiser
                   Amount = 82.5M,
                   Direction = 1,
                   CreatedAt = DateTimeOffset.UtcNow,
-                  ReferenceId = Guid.NewGuid()
                 }
             };
 
         return result;
     }
-
-
-
-
 
 
 
@@ -235,7 +217,6 @@ public class WalletDbContextInitialiser
                           Amount = 44.5M,
                           Direction = 1,
                           CreatedAt = DateTimeOffset.UtcNow,
-                          ReferenceId = Guid.NewGuid()
                       }
                   }
 
@@ -264,5 +245,4 @@ public class WalletDbContextInitialiser
 
         return result;
     }
-
 }
