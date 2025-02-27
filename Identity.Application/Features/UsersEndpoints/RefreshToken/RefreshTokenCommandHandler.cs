@@ -38,9 +38,9 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
         _logger.LogInformation("Refresh token request:{@request}", 
             request.RefreshTokenRequest);
 
-        //using var sha256 = SHA256.Create();     // using helps us to dispose... not necessarily garbage collection, but when the resources is no longer needed it would dispose it
-        //var refreshTokenHash = sha256.ComputeHash(Encoding.UTF8.GetBytes(request.RefreshTokenRequest.RefreshToken));
-        var refreshTokenHash = SHA256.HashData(Encoding.UTF8.GetBytes(request.RefreshTokenRequest.RefreshToken));
+        using var sha256 = SHA256.Create();     // using helps us to dispose... not necessarily garbage collection, but when the resources is no longer needed it would dispose it
+        var refreshTokenHash = sha256.ComputeHash(Encoding.UTF8.GetBytes(request.RefreshTokenRequest.RefreshToken));
+        //var refreshTokenHash = SHA256.HashData(Encoding.UTF8.GetBytes(request.RefreshTokenRequest.RefreshToken));
         var hashedRefreshedToken = Convert.ToBase64String(refreshTokenHash);
 
         var user = _userManager.Users.FirstOrDefault(u => u.RefreshToken == hashedRefreshedToken);

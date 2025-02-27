@@ -56,7 +56,7 @@ public class ResendEmailConfirmationCommandHandler : IRequestHandler<ResendEmail
 
         var validToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
-        var callbackUrl = $"{_emailConfirmationEndpoint}?email={request.Email}&token={validToken}";
+        var callbackUrl = $"{_emailConfirmationEndpoint}?Email={user.Email}&Token={validToken}";
 
         //var message = new EmailMetadata(request.Email!, "Email Confirmation Token", $"Dear Subscriber, <br><br>Please confirm your Email account by <a href={HtmlEncoder.Default.Encode(callbackUrl)}>clicking here</a>.  <br><br> You can as well choose to copy your Token below and paste in appropriate apiEndpoint: <br><br> {HtmlEncoder.Default.Encode(validToken)} <br><br> If however you didn't make this request, kindly ignore. <br><br> Thanks <br><br> anointedMtc");
         //await _emailService.Send(message);

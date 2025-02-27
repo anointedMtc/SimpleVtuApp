@@ -13,7 +13,7 @@ public class AccountController : ApiBaseController
     }
 
 
-    [HttpGet("emailConfirmation")]
+    [HttpPost("emailConfirmation")]
     public async Task<ActionResult<EmailConfirmationResponse>> EmailConfirmation([FromQuery] EmailConfirmationRequestDto emailConfirmationRequestDto)
     {
         var result = await Mediator.Send(new EmailConfirmationCommand() { EmailConfirmation = emailConfirmationRequestDto });

@@ -73,12 +73,16 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
 
         string validToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));        // you can use ASCII or UTF8
 
-        var callbackUrl = $"{_emailConfirmationEndpoint}?Email={request.UserForRegisteration.Email}&Token={validToken}";
+        var callbackUrl = $"{_emailConfirmationEndpoint}?Email={newUser.Email}&Token={validToken}";
 
 
         //var message = new EmailDto(request.UserForRegisteration.Email!, "Email Confirmation Token", $"Dear Subscriber, <br><br>Please confirm your Email account by <a href={HtmlEncoder.Default.Encode(callbackUrl)}>clicking here</a>.  <br><br> You can as well choose to copy your Token below and paste in appropriate apiEndpoint: <br><br> {HtmlEncoder.Default.Encode(validToken)} <br><br> If however you didn't make this request, kindly ignore. <br><br> Thanks <br><br> anointedMtc");
         //await _emailService.Send(message);
-        await _massTransitService.Publish(new NewApplicationUserRegisteredEvent(request.UserForRegisteration.Email!, newUser.FirstName, callbackUrl, validToken));
+        await _massTransitService.Publish(new NewApplicationUserRegisteredEvent(
+            newUser.Email!, 
+            newUser.FirstName, 
+            callbackUrl, 
+            validToken));
 
 
         await _userManager.SetTwoFactorEnabledAsync(newUser, request.UserForRegisteration.IsTwoFacAuthEnabled);

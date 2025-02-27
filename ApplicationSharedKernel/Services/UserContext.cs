@@ -30,6 +30,7 @@ public class UserContext(IHttpContextAccessor httpContextAccessor) : IUserContex
         var gender = user.FindFirst(c => c.Type == ClaimTypes.Gender)!.Value;
         var roles = user.Claims.Where(c => c.Type == ClaimTypes.Role)!.Select(c => c.Value);
         var nationality = user.FindFirst(c => c.Type == ClaimTypes.Country)!.Value;
+        var phoneNumber = user.FindFirst(c => c.Type == ClaimTypes.MobilePhone)?.Value;
 
         var dateOfBirthString = user.FindFirst(c => c.Type == "DateOfBirth")?.Value;
         var dateOfBirth = dateOfBirthString == null     // if this is null,
@@ -48,6 +49,6 @@ public class UserContext(IHttpContextAccessor httpContextAccessor) : IUserContex
             : DateTime.ParseExact(lastLoginString, new string[] { "MM.dd.yyyy", "MM/dd/yyyy", "yyyy-MM-dd" }, CultureInfo.InvariantCulture, DateTimeStyles.None);     // Parse it as a string value in this specified format 
 
 
-        return new CurrentUser(userId, userName, email, firstName, lastName, gender, roles, nationality, dateOfBirth, createdAt, lastLogin);
+        return new CurrentUser(userId, userName, email, firstName, lastName, phoneNumber, gender, roles, nationality, dateOfBirth, createdAt, lastLogin);
     }
 }

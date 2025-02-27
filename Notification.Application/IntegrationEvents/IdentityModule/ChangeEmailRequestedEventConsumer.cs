@@ -39,7 +39,7 @@ public sealed class ChangeEmailRequestedEventConsumer : IConsumer<ChangeEmailReq
         );
 
         var message = new EmailDto(context.Message.NewEmail!, "Change Email Request Token", $"Dear {context.Message.FirstName}, " +
-            $"<br><br> If you are consuming this through a FrontEnd client, Please confirm the change of email request by using the call back link by <a href={HtmlEncoder.Default.Encode(context.Message.CallBackUrl)}>clicking here</a>. " +
+            $"<br><br> If you are consuming this through a FrontEnd client, Please confirm the change of email request using the call back link by <a href={HtmlEncoder.Default.Encode(context.Message.CallBackUrl)}>clicking here</a>. " +
             $"<br>" +
             $"<br> Else Here is your token <br><br> {HtmlEncoder.Default.Encode(context.Message.Token)} " +
             $"<br>" +

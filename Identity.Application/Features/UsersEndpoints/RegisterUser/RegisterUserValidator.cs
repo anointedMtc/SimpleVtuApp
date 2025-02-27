@@ -43,15 +43,25 @@ public class RegisterUserValidator : AbstractValidator<RegisterUserCommand>
         RuleFor(r => r.UserForRegisteration.Gender)
             .NotEmpty().WithMessage("{PropertyName} should have value");
 
+        RuleFor(r => r.UserForRegisteration.PhoneNumber)
+            .NotEmpty().WithMessage("{PropertyName} should have value");
+
         RuleFor(r => r.UserForRegisteration.Nationality)
             .NotEmpty()
             .NotNull()
             .WithMessage("{PropertyName} should have value");
 
+        // for boolean values... having it this way would see false as empty... so...
+        // you should use only .NotNull().......
+        // .NotEmptty() will take only true as valid property. NotNull() will take both true and false as valid properties
+        //RuleFor(r => r.UserForRegisteration.IsTwoFacAuthEnabled)
+        //    .NotEmpty()
+        //    .NotNull()
+        //    .WithMessage("{PropertyName} should have value");
+
         RuleFor(r => r.UserForRegisteration.IsTwoFacAuthEnabled)
-            .NotEmpty()
-            .NotNull()
-            .WithMessage("{PropertyName} should have value");
+           .NotNull()
+           .WithMessage("{PropertyName} should have value");
 
     }
 

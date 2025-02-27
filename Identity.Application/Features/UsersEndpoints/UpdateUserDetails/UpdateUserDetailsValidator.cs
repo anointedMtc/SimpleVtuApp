@@ -1,15 +1,19 @@
 ﻿using FluentValidation;
 using Identity.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using SharedKernel.Application.Interfaces;
 
 namespace Identity.Application.Features.UsersEndpoints.UpdateUserDetails;
 
 public class UpdateUserDetailsValidator : AbstractValidator<UpdateUserDetailsCommand>
 {
     private readonly UserManager<ApplicationUser> _userManager;
-    public UpdateUserDetailsValidator(UserManager<ApplicationUser> userManager)
+    private readonly IUserContext _userContext;
+    public UpdateUserDetailsValidator(UserManager<ApplicationUser> userManager,
+        IUserContext userContext)
     {
         _userManager = userManager;
+        _userContext = userContext;
 
 
         RuleFor(r => r.UpdateUserRequestDto.FirstName)
@@ -32,6 +36,9 @@ public class UpdateUserDetailsValidator : AbstractValidator<UpdateUserDetailsCom
            .MustAsync(IsUniqueUserName).WithMessage("{PropertyValue} is already taken by another user, please try a different UserName");
 
         RuleFor(r => r.UpdateUserRequestDto.Gender)
+            .NotEmpty().WithMessage("{PropertyName} should have value");
+
+        RuleFor(r => r.UpdateUserRequestDto.PhoneNumber)
             .NotEmpty().WithMessage("{PropertyName} should have value");
 
         RuleFor(r => r.UpdateUserRequestDto.DateOfBirth)
@@ -62,8 +69,9 @@ public class UpdateUserDetailsValidator : AbstractValidator<UpdateUserDetailsCom
     private async Task<bool> IsUniqueUserName(string? userName, CancellationToken cancellationToken)
     {
         //var uniqueUserName = _userManager.Users.Any(u => u.UserName == userName);
+        var userExecutingCommand = _userContext.GetCurrentUser();
 
-        if (_userManager.Users.Any(u => u.UserName == userName))
+        if (_userManager.Users.Any(u => u.UserName == userName) && !(userExecutingCommand?.UserName == userName))
         {
             return false;
         }
