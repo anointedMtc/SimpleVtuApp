@@ -1,8 +1,6 @@
-﻿using SharedKernel.Domain.Interfaces;
+﻿namespace Wallet.Shared.IntegrationEvents;
 
-namespace Wallet.Domain.Events;
-
-public record FundsTransferredDomainEvent(
+public record NotifyOwnersOfFundsTransferredEvent(
     Guid FromWalletId,
     Guid FromWalletTransferId,
     string FromWalletFirstName,
@@ -16,4 +14,4 @@ public record FundsTransferredDomainEvent(
     decimal ToWalletBalance,
 
     decimal Amount,
-    DateTimeOffset CreatedAt) : IDomainEvent;
+    DateTimeOffset CreatedAt);

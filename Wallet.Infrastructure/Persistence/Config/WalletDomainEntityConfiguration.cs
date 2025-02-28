@@ -19,6 +19,12 @@ public class WalletDomainEntityConfiguration : IEntityTypeConfiguration<WalletDo
             .SetPropertyAccessMode(PropertyAccessMode.Field);
 
 
+        builder.OwnsOne(p => p.WalletBalance, p =>
+        {
+            p.Property(pp => pp.Value).IsRequired().HasColumnType("decimal (18,2)");
+        });
+
+
         builder.Ignore(b => b.DomainEvents);
     }
 }

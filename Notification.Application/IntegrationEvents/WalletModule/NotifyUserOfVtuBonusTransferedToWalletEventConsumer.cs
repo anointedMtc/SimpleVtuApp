@@ -35,7 +35,7 @@ public sealed class NotifyUserOfVtuBonusTransferedToWalletEventConsumer
            nameof(NotifyUserOfVtuBonusTransferedToWalletEvent),
            DateTimeOffset.UtcNow,
            context.Message
-       );
+        );
 
         var message = new EmailDto(context.Message.Email!, "VtuBonus Transferred To Wallet", $"Dear {context.Message.FirstName}, " +
             $"<br><br> We wish to inform you that your transfer of <del>N</del> {context.Message.AmountTransfered} naira to your Wallet was successful." +

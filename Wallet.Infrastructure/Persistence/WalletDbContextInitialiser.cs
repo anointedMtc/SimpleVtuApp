@@ -208,7 +208,7 @@ public class WalletDbContextInitialiser
                   WalletId = WalletIdOne,
                   OwnerId = OwnerIdOne,
                   CreatedAt = DateTimeOffset.UtcNow,
-                  Amount = 324M,
+                  WalletBalance = 324M,
                   Transfers = new List<TransferDto>
                   {
                       new TransferDto
@@ -226,7 +226,7 @@ public class WalletDbContextInitialiser
                   WalletId = WalletIdTwo,
                   OwnerId = OwnerIdTwo,
                   CreatedAt = DateTimeOffset.UtcNow,
-                  Amount = 324M,
+                  WalletBalance = 324M,
                   Transfers = new List<TransferDto>
                   {
                       
@@ -236,7 +236,7 @@ public class WalletDbContextInitialiser
                   WalletId = WalletIdThree,
                   OwnerId = OwnerIdThree,
                   CreatedAt = DateTimeOffset.UtcNow,
-                  Amount = 324M,
+                  WalletBalance = 324M,
                   Transfers = new List<TransferDto>
                   {
 

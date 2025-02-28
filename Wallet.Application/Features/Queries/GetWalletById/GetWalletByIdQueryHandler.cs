@@ -40,14 +40,9 @@ public class GetWalletByIdQueryHandler : IRequestHandler<GetWalletByIdQuery, Get
 
         getWalletByIdResponse.WalletDto = _mapper.Map<WalletDto>(wallet);
 
-        // this line here returns the total available balance in the wallet
-        //wallet.CurrentAmount();
-        getWalletByIdResponse.WalletDto.Amount = wallet.CurrentAmount();
-
         getWalletByIdResponse.Success = true;
         getWalletByIdResponse.Message = $"This resource matched your search";
 
         return getWalletByIdResponse;
-
     }
 }

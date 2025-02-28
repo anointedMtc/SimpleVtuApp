@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Domain;
-using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Interfaces;
 using Wallet.Domain.Events;
 using Wallet.Domain.Exceptions;
@@ -9,6 +8,7 @@ namespace Wallet.Domain.Entities.WalletAggregate;
 public class WalletDomainEntity : BaseEntity, IAggregateRoot
 {
     private readonly List<Transfer> _transfers = [];
+    //private readonly Amount _walletBalance;
 
     public Guid WalletDomainEntityId { get; private set; }
     public Guid ApplicationUserId { get; private set; }
@@ -17,9 +17,16 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
     public DateTimeOffset CreatedAt { get; private set; }
 
 
-    public Guid OwnerId { get; private set; } 
-    public Owner Owner { get; private set; }  
+    public Guid OwnerId { get; private set; }
+    public Owner Owner { get; private set; }
 
+    public Amount WalletBalance { get; private set; }
+
+    //public Amount WalletBalance
+    //{
+    //    get => _walletBalance;
+    //    set => CurrentAmount();
+    //}
 
 
     //#pragma warning disable CS8618    // Required by Entity Framework
@@ -50,7 +57,22 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
         var outTransfer = DeductFunds(amount, reasonWhy);
         var inTransfer = receiver.AddFunds(amount, reasonWhy);
 
-        AddDomainEvent(new FundsTransferredDomainEvent(WalletDomainEntityId, receiver.WalletDomainEntityId, amount));
+        AddDomainEvent(new FundsTransferredDomainEvent(
+            //Sender's Details
+            WalletDomainEntityId,
+            outTransfer.TransferId,
+            Owner.FirstName,
+            Email,
+            WalletBalance,
+            // Receiver's Details
+            receiver.WalletDomainEntityId,
+            inTransfer.TransferId,
+            receiver.Owner.FirstName,
+            receiver.Owner.Email,
+            receiver.WalletBalance,
+            // common
+            amount,
+            DateTimeOffset.UtcNow));
 
         return [outTransfer, inTransfer];
     }
@@ -65,6 +87,8 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
         var transfer = Transfer.Incoming(WalletDomainEntityId, amount, reasonWhy, createdAt);
         _transfers.Add(transfer);
 
+        WalletBalance += amount;
+
         RaiseFundsAddedDomainEvent(amount);
 
         return transfer;
@@ -77,7 +101,7 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
             throw new InvalidTransferAmountException(amount);
         }
 
-        if (CurrentAmount() < amount)
+        if (WalletBalance < amount)
         {
             throw new InsufficientWalletFundsException(WalletDomainEntityId);
         }
@@ -86,21 +110,12 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
         var transfer = Transfer.Outgoing(WalletDomainEntityId, amount, reasonWhy, createdAt);
         _transfers.Add(transfer);
 
+        WalletBalance -= amount;
+
+        RaiseFundsSubtractedDomainEvent(amount);
+
         return transfer;
     }
-
-    public Amount CurrentAmount() => SumIncomingAmount() - SumOutgoingAmount();
-
-    private Amount SumIncomingAmount()
-    {
-        return _transfers.Where(x => x.Direction == TransferDirection.In).Sum(x => x.Amount);
-    }
-
-    private Amount SumOutgoingAmount()
-    {
-        return _transfers.Where(x => x.Direction == TransferDirection.Out).Sum(x => x.Amount);
-    }
-
 
     private void RaiseWalletAddedDomainEvent()
     {
@@ -109,15 +124,18 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
         AddDomainEvent(walletAddedDomainEvent);
     }
 
-
     private void RaiseFundsAddedDomainEvent(Amount amount)
     {
         AddDomainEvent(new FundsAddedDomainEvent(WalletDomainEntityId, OwnerId, amount));
     }
 
+    private void RaiseFundsSubtractedDomainEvent(Amount amount)
+    {
+        AddDomainEvent(new FundsSubtractedDomainEvent(WalletDomainEntityId, OwnerId, amount));
+    }
 
     public override string ToString()
     {
-        return WalletDomainEntityId.ToString();
+        return $"WalletId:{Email} ---- WalletBalance:{WalletBalance}";
     }
 }
