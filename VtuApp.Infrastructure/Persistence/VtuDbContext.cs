@@ -16,6 +16,7 @@ public class VtuDbContext : DbContext
 
     public DbSet<Customer> Customers { get; set; }
     public DbSet<VtuTransaction> VtuTransactions { get; set; }
+    public DbSet<VtuBonusTransfer> VtuBonusTransfers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -238,13 +238,15 @@ internal sealed class BuyDataVtuNationCommandHandler : IRequestHandler<BuyDataVt
 
         var timeOfTransaction = DateTimeOffset.UtcNow;
 
-        var vtuTransactionId = customer.AddVtuTransaction(TypeOfTransaction.Data, networkProvider, priceAfterDiscount, timeOfTransaction, Status.Pending, discount);
+        var vtuTransaction = customer.AddVtuTransaction(TypeOfTransaction.Data, networkProvider, priceAfterDiscount, timeOfTransaction, Status.Pending, discount);
+
+        await _vtuAppRepository.UpdateAsync(customer);
 
         var finalBalance = initialBalance - priceAfterDiscount;
 
         _logger.LogInformation("User with Id {name} successfully purchased data with details {TransactionId} {networkProvider} {dataPlan} {dataPrice} {discount} {priceAfterDiscount} {PhoneNumber} {InitialBalance} {FinalBalance} {time}",
                 customer.Email,
-                vtuTransactionId,
+                vtuTransaction.Id,
                 networkProvider,
                 chosenDataPlan,
                 chosenDataPlanPrice,
@@ -264,7 +266,7 @@ internal sealed class BuyDataVtuNationCommandHandler : IRequestHandler<BuyDataVt
             Email = customer.Email,
             FirstName = customer.FirstName,
             LastName = customer.LastName,
-            VtuTransactionId = vtuTransactionId,
+            VtuTransactionId = vtuTransaction.Id,
             DataPlanPurchased = chosenDataPlan,
             NetworkProvider = networkProvider,
             AmountPurchased = chosenDataPlanPrice,
@@ -320,7 +322,7 @@ internal sealed class BuyDataVtuNationCommandHandler : IRequestHandler<BuyDataVt
             InitialBalance = initialBalance,
             FinalBalance = finalBalance,
             CreatedAt = timeOfTransaction,
-            VtuTransactionId = vtuTransactionId
+            VtuTransactionId = vtuTransaction.Id
         };
         buyDataVtuNationResponse.VtuDataPurchaseResponseDto = vtuDataPurchaseResponseDto;
 

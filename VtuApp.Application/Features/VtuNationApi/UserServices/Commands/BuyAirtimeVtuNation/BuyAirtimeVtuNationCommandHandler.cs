@@ -114,13 +114,15 @@ public sealed class BuyAirtimeVtuNationCommandHandler : IRequestHandler<BuyAirti
 
         var timeOfTransaction = DateTimeOffset.UtcNow;
 
-        var vtuTransactionId = customer.AddVtuTransaction(TypeOfTransaction.Airtime, networkProvider, priceAfterDiscount, timeOfTransaction, Status.Pending, discount);
+        var vtuTransaction = customer.AddVtuTransaction(TypeOfTransaction.Airtime, networkProvider, priceAfterDiscount, timeOfTransaction, Status.Pending, discount);
+
+        await _vtuAppRepository.UpdateAsync(customer);
 
         var finalBalance = initialBalance - priceAfterDiscount;
 
         _logger.LogInformation("User with Id {name} successfully purchased airtime with details {TransactionId} {@request} {PriceAfterDiscount} {InitialBalance} {FinalBalance} {time}",
                 customer.Email,
-                vtuTransactionId,
+                vtuTransaction.Id,
                 request.BuyAirtimeRequestVtuNation,
                 priceAfterDiscount,
                 initialBalance,
@@ -136,7 +138,7 @@ public sealed class BuyAirtimeVtuNationCommandHandler : IRequestHandler<BuyAirti
             Email = customer.Email,
             FirstName = customer.FirstName,
             LastName = customer.LastName,
-            VtuTransactionId = vtuTransactionId,
+            VtuTransactionId = vtuTransaction.Id,
             AmountPurchased = request.BuyAirtimeRequestVtuNation.Amount,
             PricePaid = priceAfterDiscount,
             NetworkProvider = networkProvider,
@@ -160,7 +162,7 @@ public sealed class BuyAirtimeVtuNationCommandHandler : IRequestHandler<BuyAirti
             InitialBalance = initialBalance,
             FinalBalance = finalBalance,
             CreatedAt = timeOfTransaction,
-            VtuTransactionId = vtuTransactionId
+            VtuTransactionId = vtuTransaction.Id
         };
         buyAirtimeVtuNationResponse.VtuAirtimePurchaseResponseDto = vtuAirtimePurchaseResponseDto;
         

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SharedKernel.Domain.Entities;
 using Wallet.Domain.Entities;
 using Wallet.Domain.Entities.WalletAggregate;
 using Wallet.Shared.DTO;

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using SharedKernel.Domain.Entities;
 using System.Text.Json;
 using Wallet.Domain.Entities;
 using Wallet.Domain.Entities.WalletAggregate;
@@ -136,7 +137,7 @@ public class WalletDbContextInitialiser
         using Stream reader = new FileStream(fileName, FileMode.Open);
         var apptTypes = await JsonSerializer.DeserializeAsync<List<TransferDto>>(reader);
 
-        return apptTypes.Select(dto => new Transfer(dto.WalletId, dto.Amount, (Transfer.TransferDirection)dto.Direction, dto.ReasonWhy, dto.CreatedAt)).ToList();
+        return apptTypes.Select(dto => new Transfer(dto.WalletId, dto.Amount, (TransferDirection)dto.Direction, dto.ReasonWhy, dto.CreatedAt)).ToList();
     }
 
     private static List<TransferDto> GetDefaultTransfers()

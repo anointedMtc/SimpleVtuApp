@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel.Domain.Entities;
 using SharedKernel.Infrastructure.Persistence.Interceptors;
 using System.Reflection;
 using Wallet.Domain.Entities;

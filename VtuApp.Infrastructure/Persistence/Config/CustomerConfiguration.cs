@@ -18,11 +18,13 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             p.Property(pp => pp.Value).IsRequired().HasColumnType("decimal (18,2)");
         });
 
-        builder.OwnsOne(p => p.BonusBalance, p =>
+        builder.OwnsOne(p => p.VtuBonusBalance, p =>
         {
             p.Property(pp => pp.Value).IsRequired().HasColumnType("decimal (18,2)");
         });
 
+        builder.Metadata.FindNavigation(nameof(Customer.VtuBonusTransfers))?
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
 
         builder.Ignore(b => b.DomainEvents);
     }

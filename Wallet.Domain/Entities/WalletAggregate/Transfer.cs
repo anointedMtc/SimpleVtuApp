@@ -1,10 +1,9 @@
 ﻿using SharedKernel.Domain;
-using SharedKernel.Domain.Exceptions;
-using System.Text.Json.Serialization;
+using SharedKernel.Domain.Entities;
 
 namespace Wallet.Domain.Entities.WalletAggregate;
 
-public class Transfer : BaseEntity
+public partial class Transfer : BaseEntity
 {
     public Guid TransferId { get; private set; }
     public Amount Amount { get; private set; }
@@ -51,14 +50,6 @@ public class Transfer : BaseEntity
             reasonWhy,
             createdAt
         );
-    }
-
-
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum TransferDirection
-    {
-        In,
-        Out
     }
 
     public override string ToString()

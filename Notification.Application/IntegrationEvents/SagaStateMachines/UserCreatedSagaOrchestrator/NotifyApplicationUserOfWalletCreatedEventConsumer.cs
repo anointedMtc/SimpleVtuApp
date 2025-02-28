@@ -37,7 +37,15 @@ public sealed class NotifyApplicationUserOfWalletCreatedEventConsumer : IConsume
             context.Message
         );
 
-        var message = new EmailDto(context.Message.Email!, "Wallet Created With Bonus Balance", $"Dear {context.Message.FirstName}, <br><br>A new Wallet has been created for you with a registeration bonus of <del>N</del> {context.Message.BonusBalance} naira.   <br><br>   To start enjoying our wonderful services, you can simply log-in to your account, Transfer your bonus to the main Wallet and start Vtu Transactions. <br><br>    Get in contact with our support team which is active 24/7 incase you need any assistance. <br><br> Thanks <br><br> anointedMtc");
+        var message = new EmailDto(context.Message.Email!, "Wallet Created With Bonus Balance", $"Dear {context.Message.FirstName}, " +
+            $"<br>" +
+            $"<br>A new Wallet has been created for you with a registeration bonus of <del>N</del> {context.Message.BonusBalance} naira.   " +
+            $"<br>" +
+            $"<br>   To start enjoying our wonderful services, you can simply log-in to your account, Transfer your bonus to the main Wallet and start Vtu Transactions. " +
+            $"<br>" +
+            $"<br>    Get in contact with our support team which is active 24/7 incase you need any assistance. " +
+            $"<br>" +
+            $"<br> Thanks <br><br> anointedMtc");
         await _emailService.Send(message);
 
         var emailToSave = _mapper.Map<EmailEntity>(message);

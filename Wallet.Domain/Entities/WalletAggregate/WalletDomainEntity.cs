@@ -1,4 +1,5 @@
 ﻿using SharedKernel.Domain;
+using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Interfaces;
 using Wallet.Domain.Events;
 using Wallet.Domain.Exceptions;
@@ -92,12 +93,12 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
 
     private Amount SumIncomingAmount()
     {
-        return _transfers.Where(x => x.Direction == Transfer.TransferDirection.In).Sum(x => x.Amount);
+        return _transfers.Where(x => x.Direction == TransferDirection.In).Sum(x => x.Amount);
     }
 
     private Amount SumOutgoingAmount()
     {
-        return _transfers.Where(x => x.Direction == Transfer.TransferDirection.Out).Sum(x => x.Amount);
+        return _transfers.Where(x => x.Direction == TransferDirection.Out).Sum(x => x.Amount);
     }
 
 

@@ -1,4 +1,5 @@
 ﻿using SharedKernel.Domain;
+using SharedKernel.Domain.Entities;
 using SharedKernel.Domain.Exceptions;
 using SharedKernel.Domain.Interfaces;
 using VtuApp.Domain.Events;
@@ -10,7 +11,7 @@ namespace VtuApp.Domain.Entities.VtuModelAggregate;
 public class Customer : BaseEntity, IAggregateRoot
 {
     private readonly List<VtuTransaction> _vtuTransactions = [];
-
+    private readonly List<VtuBonusTransfer> _vtuBonusTransfers = [];
 
     public Guid CustomerId { get; private set; } // belongs to this alone...
     public Guid ApplicationUserId { get; private set; } // same as the user created in the identy module and passed around for CorrelationId
@@ -18,7 +19,8 @@ public class Customer : BaseEntity, IAggregateRoot
     public string LastName { get; private set; }
     public string Email { get; private set; }
     public string PhoneNumber { get; private set; }
-    public VtuAmount BonusBalance { get; private set; }
+    public VtuAmount VtuBonusBalance { get; private set; }
+    public IReadOnlyCollection<VtuBonusTransfer> VtuBonusTransfers => _vtuBonusTransfers.AsReadOnly();
     public VtuAmount TotalBalance { get; private set; }
 
     public IReadOnlyCollection<VtuTransaction> VtuTransactions => _vtuTransactions.AsReadOnly();
@@ -37,7 +39,7 @@ public class Customer : BaseEntity, IAggregateRoot
         LastName = lastName;
         Email = email;
         PhoneNumber = phoneNumber;
-        BonusBalance = registrationBonus;
+        VtuBonusBalance = registrationBonus;
         TotalBalance = 0;
 
         AddDomainEvent(new VtuAppCustomerCreatedDomainEvent(
@@ -95,7 +97,7 @@ public class Customer : BaseEntity, IAggregateRoot
     }
 
 
-    public Guid AddVtuTransaction(TypeOfTransaction typeOfTransaction,
+    public VtuTransaction AddVtuTransaction(TypeOfTransaction typeOfTransaction,
         NetworkProvider netWorkProvider, VtuAmount vtuAmount,
         DateTimeOffset createdAt, Status status, VtuAmount discount)
     {
@@ -131,7 +133,7 @@ public class Customer : BaseEntity, IAggregateRoot
         // use the method here
         CheckForStar();
 
-        return vtuTransaction.Id;
+        return vtuTransaction;
     }
 
     public void UpdateVtuTransactionStatus(Guid vtuTransactionId, Status status)
@@ -187,6 +189,63 @@ public class Customer : BaseEntity, IAggregateRoot
         }
 
         return;
+    }
+
+
+
+    // HANDLING BONUSES
+    public VtuBonusTransfer AddToBonusBalance(VtuAmount amountTransfered, string reasonWhy)
+    {
+        if (amountTransfered <= 0)
+        {
+            throw new InvalidAmountException(amountTransfered);
+        }
+
+        var vtuBonusTransfer = new VtuBonusTransfer( // transferDirection reasonWhy
+            amountTransfered, 
+            DateTimeOffset.UtcNow,
+            //VtuBonusBalance,  // The same entity is being tracked as different entity types 'VtuBonusTransfer.InitialBalance#VtuAmount' and 'Customer.VtuBonusBalance#VtuAmount' with defining navigations. If a property value changes, it will result in two store changes, which might not be the desired outcome.
+            VtuBonusBalance,
+            VtuBonusBalance - amountTransfered,
+            TransferDirection.In,
+            reasonWhy,
+            this.CustomerId);
+
+        _vtuBonusTransfers.Add(vtuBonusTransfer);
+
+        VtuBonusBalance += amountTransfered;
+
+        return vtuBonusTransfer;
+    }
+
+
+    public VtuBonusTransfer DeductFromBonusBalance(VtuAmount amountTransfered, string reasonWhy)
+    {
+        if (amountTransfered <= 0)
+        {
+            throw new InvalidAmountException(amountTransfered);
+        }
+
+        if (VtuBonusBalance < amountTransfered)
+        {
+            throw new InsufficientCustomerFundsException(CustomerId);
+        }
+
+        var vtuBonusTransfer = new VtuBonusTransfer( // transferDirection reasonWhy
+            amountTransfered,
+            DateTimeOffset.UtcNow,
+            //VtuBonusBalance,  // The same entity is being tracked as different entity types 'VtuBonusTransfer.InitialBalance#VtuAmount' and 'Customer.VtuBonusBalance#VtuAmount' with defining navigations. If a property value changes, it will result in two store changes, which might not be the desired outcome.
+            VtuBonusBalance,
+            VtuBonusBalance - amountTransfered,
+            TransferDirection.Out,
+            reasonWhy,
+            this.CustomerId);
+
+        _vtuBonusTransfers.Add(vtuBonusTransfer);
+
+        VtuBonusBalance -= amountTransfered;
+
+        return vtuBonusTransfer;
     }
 
 }

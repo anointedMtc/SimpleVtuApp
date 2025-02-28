@@ -104,13 +104,15 @@ internal sealed class Buy1GBVtuNationCommandHandler : IRequestHandler<Buy1GBVtuN
 
         var timeOfTransaction = DateTimeOffset.UtcNow;
 
-        var vtuTransactionId = customer.AddVtuTransaction(TypeOfTransaction.Data, NetworkProvider.Mtn, priceAfterDiscount, timeOfTransaction, Status.Pending, discount);
+        var vtuTransaction = customer.AddVtuTransaction(TypeOfTransaction.Data, NetworkProvider.Mtn, priceAfterDiscount, timeOfTransaction, Status.Pending, discount);
+
+        await _vtuAppRepository.UpdateAsync(customer);
 
         var finalBalance = initialBalance - priceAfterDiscount;
 
         _logger.LogInformation("User with Id {name} successfully purchased data with details {TransactionId} {dataPlan} {dataPrice} {discount} {priceAfterDiscount} {PhoneNumber} {InitialBalance} {FinalBalance} {time}",
                 customer.Email,
-                vtuTransactionId,
+                vtuTransaction.Id,
                 VtuNationDataConstants.MtnOneGBName,
                 MtnDataPriceVtuNation.OneGB,
                 discount,
@@ -129,7 +131,7 @@ internal sealed class Buy1GBVtuNationCommandHandler : IRequestHandler<Buy1GBVtuN
             Email = customer.Email,
             FirstName = customer.FirstName,
             LastName = customer.LastName,
-            VtuTransactionId = vtuTransactionId,
+            VtuTransactionId = vtuTransaction.Id,
             DataPlanPurchased = VtuNationDataConstants.MtnOneGBName,
             NetworkProvider = NetworkProvider.Mtn,
             AmountPurchased = MtnDataPriceVtuNation.OneGB,
@@ -159,7 +161,7 @@ internal sealed class Buy1GBVtuNationCommandHandler : IRequestHandler<Buy1GBVtuN
             InitialBalance = initialBalance,
             FinalBalance = finalBalance,
             CreatedAt = timeOfTransaction,
-            VtuTransactionId = vtuTransactionId
+            VtuTransactionId = vtuTransaction.Id
         };
         buy1GBVtuNationResponse.VtuDataPurchaseResponseDto = vtuDataPurchaseResponseDto;
 
