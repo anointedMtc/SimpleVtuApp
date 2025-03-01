@@ -47,7 +47,7 @@ public sealed class NotifyUserOfVtuBonusTransferedToWalletEventConsumer
             $"<br> FinalVtuBonusBalance: {context.Message.FinalBalance}" +
             $"<br> Time Of Transanction: {context.Message.CreatedAt}" +
             $"<br>" +
-            $"<br><br> Don't forget to check for exciting and new offers that offers best value for best price." +
+            $"<br><br> Don't forget to check our exciting and new offers that offers best value for best price." +
             $"<br> You can always get in touch with our support team which is active 24/7 incase you need any assistance. " +
             $"<br><br> Thanks <br><br> anointedMtc");
         await _emailService.Send(message);

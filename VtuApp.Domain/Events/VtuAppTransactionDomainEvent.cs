@@ -1,14 +1,14 @@
-﻿using SharedKernel.Domain.Interfaces;
+﻿//using SharedKernel.Domain.Interfaces;
 
-namespace VtuApp.Domain.Events;
+//namespace VtuApp.Domain.Events;
 
-public record VtuAppTransactionDomainEvent(
-    Guid CustomerId,
-    string TypeOfTransaction,
-    string NetWorkProvider,
-    decimal Amount,
-    DateTimeOffset CreatedAt,
-    string Status) : IDomainEvent;
+//public record VtuAppTransactionDomainEvent(
+//    Guid CustomerId,
+//    string TypeOfTransaction,
+//    string NetWorkProvider,
+//    decimal Amount,
+//    DateTimeOffset CreatedAt,
+//    string Status) : IDomainEvent;
 
 
 

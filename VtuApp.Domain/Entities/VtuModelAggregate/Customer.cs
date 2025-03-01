@@ -62,7 +62,7 @@ public class Customer : BaseEntity, IAggregateRoot
 
         return false;
     }
-
+     
 
     public void AddToCustomerBalance(VtuAmount amount)
     {
@@ -72,7 +72,7 @@ public class Customer : BaseEntity, IAggregateRoot
         }
         TotalBalance += amount;
 
-        // domainEvent???
+        // domainEvent??? -- funds are only added as commands from walletModule which also raises an event after that... so no need
 
         return;
     }
@@ -91,7 +91,7 @@ public class Customer : BaseEntity, IAggregateRoot
 
         TotalBalance -= amount;
 
-        // domainEvent???
+        // domainEvent??? -- funds are only deducted as commands from walletModule which also raises an event after that... so no need
 
         return;
     }
@@ -106,14 +106,15 @@ public class Customer : BaseEntity, IAggregateRoot
 
         _vtuTransactions.Add(vtuTransaction);
 
-        AddDomainEvent(new VtuAppTransactionDomainEvent(
-             this.CustomerId,
-                typeOfTransaction.ToString(),
-                netWorkProvider.ToString(),
-                vtuAmount,
-                createdAt,
-                status.ToString())
-        );
+        // NO NEED TO ADD THIS EVENT HERE... BECAUSE WHATEVER COMMAND IS PRODUCIING THIS VTU-TRANSACTION WOULD ALSO RAISE SOME KINDA EVENT... BUT IF NEEDED, THEN....
+        //AddDomainEvent(new VtuAppTransactionDomainEvent(
+        //     this.CustomerId,
+        //        typeOfTransaction.ToString(),
+        //        netWorkProvider.ToString(),
+        //        vtuAmount,
+        //        createdAt,
+        //        status.ToString())
+        //);
 
         // for every five transactions you buy, we would give you 10 Naira bonus
         TransactionCount++;
@@ -122,15 +123,18 @@ public class Customer : BaseEntity, IAggregateRoot
             // reset count
             TransactionCount = 0;
 
-            //AddToCustomerBalance(10);
             var timeOfDiscount = DateTimeOffset.UtcNow;
             var reasonWhy = $"Five Transactions at {timeOfDiscount}";
-            AddToBonusBalance(10, reasonWhy);
+            VtuAmount bonusForFiveTransactions = 10M;
+            AddToBonusBalance(bonusForFiveTransactions, reasonWhy);
 
             AddDomainEvent(new FiveTransactionsVtuAppDomainEvent(
                 this.CustomerId,
-                timeOfDiscount)
-            );
+                Email,
+                FirstName,
+                bonusForFiveTransactions,
+                VtuBonusBalance,
+                timeOfDiscount));
         }
 
         // use the method here
@@ -154,7 +158,7 @@ public class Customer : BaseEntity, IAggregateRoot
             var chosenTransactions = _vtuTransactions.Take(3);
             var currentTime = DateTimeOffset.UtcNow;
             var oneHourAgo = currentTime - TimeSpan.FromHours(1);
-            VtuAmount discountDefault = 0;
+            VtuAmount totalTransactionsMade = 0;
 
             foreach (var transaction in chosenTransactions)
             {
@@ -179,17 +183,27 @@ public class Customer : BaseEntity, IAggregateRoot
 
                 foreach (var transaction in chosenTransactions)
                 {
-                    discountDefault += transaction.Amount;
+                    totalTransactionsMade += transaction.Amount;
                 }
-                var discountGiven = discountDefault * 0.1M;
+                var discountGiven = totalTransactionsMade * 0.1M;
 
                 //AddToCustomerBalance(discountGiven);
                 var createdAt = DateTimeOffset.UtcNow;
                 var reasonWhy = $"Star Achieved at {createdAt}";
                 AddToBonusBalance(discountGiven, reasonWhy); // also check for updated vtuTransaction
 
+                // I AM LEAVING THIS HERE TO SHOW THAT YOU CAN TAKE IN THE WHOLE CUSTOMER AS AN INPUT
+                //AddDomainEvent(new StarAchievedByCustomerDomainEvent(
+                //    this, createdAt, discountGiven));
+
                 AddDomainEvent(new StarAchievedByCustomerDomainEvent(
-                    this, createdAt, discountGiven));
+                    CustomerId,
+                    Email,
+                    FirstName,
+                    discountGiven,
+                    totalTransactionsMade,
+                    VtuBonusBalance,
+                    createdAt));
 
             }
         }
