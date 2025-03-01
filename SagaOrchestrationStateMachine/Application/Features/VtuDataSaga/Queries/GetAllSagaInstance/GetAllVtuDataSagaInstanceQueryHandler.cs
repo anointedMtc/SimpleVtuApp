@@ -56,7 +56,7 @@ internal sealed class GetAllVtuDataSagaInstanceQueryHandler
             //throw new CustomForbiddenException("Access Denied. You do not have Permission to view this resource");
 
             getAllVtuDataSagaInstanceResponse.Success = false;
-            getAllVtuDataSagaInstanceResponse.Message = $"You made a Bad Request.";
+            getAllVtuDataSagaInstanceResponse.Message = $"You are not authorized to access this endpoint.";
             getAllVtuDataSagaInstanceResponse.VtuDataSagaOrchestratorInstanceResponseDto = null;
 
             return new Pagination<GetAllVtuDataSagaInstanceResponse>(request.PaginationFilter.PageNumber, request.PaginationFilter.PageSize, totalUsers, getAllVtuDataSagaInstanceResponse);

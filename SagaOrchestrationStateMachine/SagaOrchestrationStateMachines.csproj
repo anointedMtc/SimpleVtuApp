@@ -12,6 +12,7 @@
     <ProjectReference Include="..\Identity.Shared\Identity.Shared.csproj" />
     <ProjectReference Include="..\Notification.Shared\Notification.Shared.csproj" />
     <ProjectReference Include="..\SagaOrchestrationStateMachines.Shared\SagaOrchestrationStateMachines.Shared.csproj" />
+    <ProjectReference Include="..\SharedKernel.Common\SharedKernel.Common.csproj" />
     <ProjectReference Include="..\VtuApp.Shared\VtuApp.Shared.csproj" />
     <ProjectReference Include="..\Wallet.Shared\Wallet.Shared.csproj" />
   </ItemGroup>

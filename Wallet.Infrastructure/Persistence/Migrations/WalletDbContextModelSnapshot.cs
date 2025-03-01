@@ -51,7 +51,7 @@ namespace Wallet.Infrastructure.Persistence.Migrations
 
                     b.HasKey("OwnerId");
 
-                    b.ToTable("Owners", (string)null);
+                    b.ToTable("Owners");
                 });
 
             modelBuilder.Entity("Wallet.Domain.Entities.WalletAggregate.Transfer", b =>
@@ -72,6 +72,9 @@ namespace Wallet.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("ReferenceId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("WalletDomainEntityId")
                         .HasMaxLength(256)
                         .HasColumnType("uniqueidentifier");
@@ -80,7 +83,7 @@ namespace Wallet.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("WalletDomainEntityId");
 
-                    b.ToTable("Transfers", (string)null);
+                    b.ToTable("Transfers");
                 });
 
             modelBuilder.Entity("Wallet.Domain.Entities.WalletAggregate.WalletDomainEntity", b =>
@@ -108,7 +111,7 @@ namespace Wallet.Infrastructure.Persistence.Migrations
                     b.HasIndex("OwnerId")
                         .IsUnique();
 
-                    b.ToTable("WalletDomainEntities", (string)null);
+                    b.ToTable("WalletDomainEntities");
                 });
 
             modelBuilder.Entity("Wallet.Domain.Entities.WalletAggregate.Transfer", b =>
@@ -119,7 +122,7 @@ namespace Wallet.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Wallet.Domain.Entities.WalletAggregate.Transfer.Amount#Wallet.Domain.Entities.WalletAggregate.Amount", "Amount", b1 =>
+                    b.OwnsOne("Wallet.Domain.Entities.WalletAggregate.Amount", "Amount", b1 =>
                         {
                             b1.Property<Guid>("TransferId")
                                 .HasColumnType("uniqueidentifier");
@@ -129,7 +132,7 @@ namespace Wallet.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("TransferId");
 
-                            b1.ToTable("Transfers", (string)null);
+                            b1.ToTable("Transfers");
 
                             b1.WithOwner()
                                 .HasForeignKey("TransferId");
@@ -147,7 +150,7 @@ namespace Wallet.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Wallet.Domain.Entities.WalletAggregate.WalletDomainEntity.WalletBalance#Wallet.Domain.Entities.WalletAggregate.Amount", "WalletBalance", b1 =>
+                    b.OwnsOne("Wallet.Domain.Entities.WalletAggregate.Amount", "WalletBalance", b1 =>
                         {
                             b1.Property<Guid>("WalletDomainEntityId")
                                 .HasColumnType("uniqueidentifier");
@@ -157,7 +160,7 @@ namespace Wallet.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("WalletDomainEntityId");
 
-                            b1.ToTable("WalletDomainEntities", (string)null);
+                            b1.ToTable("WalletDomainEntities");
 
                             b1.WithOwner()
                                 .HasForeignKey("WalletDomainEntityId");

@@ -58,7 +58,7 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("VtuApp.Domain.Entities.VtuModelAggregate.VtuBonusTransfer", b =>
@@ -86,7 +86,7 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("VtuBonusTransfers");
+                    b.ToTable("VtuBonusTransfers", (string)null);
                 });
 
             modelBuilder.Entity("VtuApp.Domain.Entities.VtuModelAggregate.VtuTransaction", b =>
@@ -114,12 +114,12 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("VtuTransactions");
+                    b.ToTable("VtuTransactions", (string)null);
                 });
 
             modelBuilder.Entity("VtuApp.Domain.Entities.VtuModelAggregate.Customer", b =>
                 {
-                    b.OwnsOne("VtuApp.Domain.Entities.VtuModelAggregate.VtuAmount", "TotalBalance", b1 =>
+                    b.OwnsOne("VtuApp.Domain.Entities.VtuModelAggregate.Customer.TotalBalance#VtuApp.Domain.Entities.VtuModelAggregate.VtuAmount", "TotalBalance", b1 =>
                         {
                             b1.Property<Guid>("CustomerId")
                                 .HasColumnType("uniqueidentifier");
@@ -129,13 +129,13 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("CustomerId");
 
-                            b1.ToTable("Customers");
+                            b1.ToTable("Customers", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("CustomerId");
                         });
 
-                    b.OwnsOne("VtuApp.Domain.Entities.VtuModelAggregate.VtuAmount", "VtuBonusBalance", b1 =>
+                    b.OwnsOne("VtuApp.Domain.Entities.VtuModelAggregate.Customer.VtuBonusBalance#VtuApp.Domain.Entities.VtuModelAggregate.VtuAmount", "VtuBonusBalance", b1 =>
                         {
                             b1.Property<Guid>("CustomerId")
                                 .HasColumnType("uniqueidentifier");
@@ -145,7 +145,7 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("CustomerId");
 
-                            b1.ToTable("Customers");
+                            b1.ToTable("Customers", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("CustomerId");
@@ -166,7 +166,7 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("VtuApp.Domain.Entities.VtuModelAggregate.VtuAmount", "AmountTransfered", b1 =>
+                    b.OwnsOne("VtuApp.Domain.Entities.VtuModelAggregate.VtuBonusTransfer.AmountTransfered#VtuApp.Domain.Entities.VtuModelAggregate.VtuAmount", "AmountTransfered", b1 =>
                         {
                             b1.Property<Guid>("VtuBonusTransferId")
                                 .HasColumnType("uniqueidentifier");
@@ -176,13 +176,13 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("VtuBonusTransferId");
 
-                            b1.ToTable("VtuBonusTransfers");
+                            b1.ToTable("VtuBonusTransfers", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("VtuBonusTransferId");
                         });
 
-                    b.OwnsOne("VtuApp.Domain.Entities.VtuModelAggregate.VtuAmount", "FinalBalance", b1 =>
+                    b.OwnsOne("VtuApp.Domain.Entities.VtuModelAggregate.VtuBonusTransfer.FinalBalance#VtuApp.Domain.Entities.VtuModelAggregate.VtuAmount", "FinalBalance", b1 =>
                         {
                             b1.Property<Guid>("VtuBonusTransferId")
                                 .HasColumnType("uniqueidentifier");
@@ -192,13 +192,13 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("VtuBonusTransferId");
 
-                            b1.ToTable("VtuBonusTransfers");
+                            b1.ToTable("VtuBonusTransfers", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("VtuBonusTransferId");
                         });
 
-                    b.OwnsOne("VtuApp.Domain.Entities.VtuModelAggregate.VtuAmount", "InitialBalance", b1 =>
+                    b.OwnsOne("VtuApp.Domain.Entities.VtuModelAggregate.VtuBonusTransfer.InitialBalance#VtuApp.Domain.Entities.VtuModelAggregate.VtuAmount", "InitialBalance", b1 =>
                         {
                             b1.Property<Guid>("VtuBonusTransferId")
                                 .HasColumnType("uniqueidentifier");
@@ -208,7 +208,7 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("VtuBonusTransferId");
 
-                            b1.ToTable("VtuBonusTransfers");
+                            b1.ToTable("VtuBonusTransfers", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("VtuBonusTransferId");
@@ -232,7 +232,7 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("VtuApp.Domain.Entities.VtuModelAggregate.VtuAmount", "Amount", b1 =>
+                    b.OwnsOne("VtuApp.Domain.Entities.VtuModelAggregate.VtuTransaction.Amount#VtuApp.Domain.Entities.VtuModelAggregate.VtuAmount", "Amount", b1 =>
                         {
                             b1.Property<Guid>("VtuTransactionId")
                                 .HasColumnType("uniqueidentifier");
@@ -242,13 +242,13 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("VtuTransactionId");
 
-                            b1.ToTable("VtuTransactions");
+                            b1.ToTable("VtuTransactions", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("VtuTransactionId");
                         });
 
-                    b.OwnsOne("VtuApp.Domain.Entities.VtuModelAggregate.VtuAmount", "Discount", b1 =>
+                    b.OwnsOne("VtuApp.Domain.Entities.VtuModelAggregate.VtuTransaction.Discount#VtuApp.Domain.Entities.VtuModelAggregate.VtuAmount", "Discount", b1 =>
                         {
                             b1.Property<Guid>("VtuTransactionId")
                                 .HasColumnType("uniqueidentifier");
@@ -258,7 +258,7 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("VtuTransactionId");
 
-                            b1.ToTable("VtuTransactions");
+                            b1.ToTable("VtuTransactions", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("VtuTransactionId");

@@ -9,7 +9,7 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
 {
     private readonly List<Transfer> _transfers = [];
     //private readonly Amount _walletBalance;
-
+     
     public Guid WalletDomainEntityId { get; private set; }
     public Guid ApplicationUserId { get; private set; }
     public string Email { get; private set; }
@@ -84,12 +84,13 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
             throw new InvalidTransferAmountException(amount);
         }
         var createdAt = DateTimeOffset.UtcNow;
-        var transfer = Transfer.Incoming(WalletDomainEntityId, amount, reasonWhy, createdAt);
+        var referenceId = Guid.NewGuid();
+        var transfer = Transfer.Incoming(WalletDomainEntityId, amount, reasonWhy, createdAt, referenceId);
         _transfers.Add(transfer);
 
         WalletBalance += amount;
 
-        RaiseFundsAddedDomainEvent(amount);
+        RaiseFundsAddedDomainEvent(amount, reasonWhy, referenceId, WalletBalance);
 
         return transfer;
     }
@@ -107,12 +108,13 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
         }
 
         var createdAt = DateTimeOffset.UtcNow;
-        var transfer = Transfer.Outgoing(WalletDomainEntityId, amount, reasonWhy, createdAt);
+        var referenceId = Guid.NewGuid();
+        var transfer = Transfer.Outgoing(WalletDomainEntityId, amount, reasonWhy, createdAt, referenceId);
         _transfers.Add(transfer);
 
         WalletBalance -= amount;
 
-        RaiseFundsSubtractedDomainEvent(amount);
+        RaiseFundsSubtractedDomainEvent(amount, reasonWhy, referenceId, WalletBalance);
 
         return transfer;
     }
@@ -124,14 +126,34 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
         AddDomainEvent(walletAddedDomainEvent);
     }
 
-    private void RaiseFundsAddedDomainEvent(Amount amount)
+    private void RaiseFundsAddedDomainEvent(Amount amount, string reasonWhy, Guid referenceId, decimal finalBalance)
     {
-        AddDomainEvent(new FundsAddedDomainEvent(WalletDomainEntityId, OwnerId, amount));
+        AddDomainEvent(new FundsAddedDomainEvent(
+            WalletDomainEntityId, 
+            OwnerId, 
+            ApplicationUserId,
+            Email,
+            //Owner.FirstName,
+            reasonWhy,
+            referenceId,
+            amount,
+            finalBalance,
+            DateTimeOffset.UtcNow));
     }
 
-    private void RaiseFundsSubtractedDomainEvent(Amount amount)
+    private void RaiseFundsSubtractedDomainEvent(Amount amount, string reasonWhy, Guid referenceId, decimal finalBalance)
     {
-        AddDomainEvent(new FundsSubtractedDomainEvent(WalletDomainEntityId, OwnerId, amount));
+        AddDomainEvent(new FundsSubtractedDomainEvent(
+            WalletDomainEntityId,
+            OwnerId,
+            ApplicationUserId,
+            Email,
+            //Owner.FirstName,
+            reasonWhy,
+            referenceId,
+            amount,
+            finalBalance,
+            DateTimeOffset.UtcNow));
     }
 
     public override string ToString()

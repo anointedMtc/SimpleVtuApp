@@ -1,6 +1,6 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
-using SagaOrchestrationStateMachines.Shared.IntegrationEvents.VtuDataSaga;
+using SagaOrchestrationStateMachines.Shared.IntegrationEvents.VtuAirtimeSaga;
 using SharedKernel.Application.Exceptions;
 using SharedKernel.Domain.Interfaces;
 using VtuApp.Domain.Entities.VtuModelAggregate;
@@ -9,27 +9,27 @@ using VtuApp.Domain.Specifications;
 using VtuApp.Shared.Constants;
 using VtuApp.Shared.IntegrationEvents;
 
-namespace VtuApp.Application.Features.Events.ExternalEvents;
+namespace VtuApp.Application.Features.Events.ExternalEvents.VtuAirtimeSaga;
 
-public sealed class RollbackAmountForVtuDataPurchaseFailedMessageConsumer
-    : IConsumer<RollbackAmountForVtuDataPurchaseFailedMessage>
+public sealed class RollbackAmountForVtuAirtimePurchaseFailedMessageConsumer
+    : IConsumer<RollbackAmountForVtuAirtimePurchaseFailedMessage>
 {
     private readonly IVtuAppRepository<Customer> _customerRepository;
-    private readonly ILogger<RollbackAmountForVtuDataPurchaseFailedMessageConsumer> _logger;
+    private readonly ILogger<RollbackAmountForVtuAirtimePurchaseFailedMessageConsumer> _logger;
 
-    public RollbackAmountForVtuDataPurchaseFailedMessageConsumer(
-        IVtuAppRepository<Customer> customerRepository, 
-        ILogger<RollbackAmountForVtuDataPurchaseFailedMessageConsumer> logger)
+    public RollbackAmountForVtuAirtimePurchaseFailedMessageConsumer(
+        IVtuAppRepository<Customer> customerRepository,
+        ILogger<RollbackAmountForVtuAirtimePurchaseFailedMessageConsumer> logger)
     {
         _customerRepository = customerRepository;
         _logger = logger;
     }
 
-    public async Task Consume(ConsumeContext<RollbackAmountForVtuDataPurchaseFailedMessage> context)
+    public async Task Consume(ConsumeContext<RollbackAmountForVtuAirtimePurchaseFailedMessage> context)
     {
         _logger.LogInformation("Successfully consumed event {typeOfEvent} {typeOfConsumer} for applicationUser with Id {applicationUserId} and transactionId {transactionId} at {time}",
-           nameof(RollbackAmountForVtuDataPurchaseFailedMessage),
-           nameof(RollbackAmountForVtuDataPurchaseFailedMessageConsumer),
+           nameof(RollbackAmountForVtuAirtimePurchaseFailedMessage),
+           nameof(RollbackAmountForVtuAirtimePurchaseFailedMessageConsumer),
            context.Message.Email,
            context.Message.VtuTransactionId,
            DateTimeOffset.UtcNow
@@ -41,8 +41,8 @@ public sealed class RollbackAmountForVtuDataPurchaseFailedMessageConsumer
         if (vtuCustomer is null)
         {
             _logger.LogError("Tried to process {typeOfEvent} by {typeOfConsumer} for a customer that does not exist {customerId} at {time} with request {@Details}",
-                nameof(RollbackAmountForVtuDataPurchaseFailedMessage),
-                nameof(RollbackAmountForVtuDataPurchaseFailedMessageConsumer),
+                nameof(RollbackAmountForVtuAirtimePurchaseFailedMessage),
+                nameof(RollbackAmountForVtuAirtimePurchaseFailedMessageConsumer),
                 context.Message.Email,
                 DateTimeOffset.UtcNow,
                 context.Message
@@ -62,7 +62,7 @@ public sealed class RollbackAmountForVtuDataPurchaseFailedMessageConsumer
             context.Message.VtuTransactionId,
             context.Message.NetworkProvider,
             TypeOfTransaction.Airtime,
-            context.Message.DataPlanPurchased,
+            null,
             context.Message.AmountPurchased,
             context.Message.PricePaid,
             context.Message.Reciever,
@@ -71,7 +71,7 @@ public sealed class RollbackAmountForVtuDataPurchaseFailedMessageConsumer
 
         _logger.LogInformation("Successfully published {typeOfEvent} from {nameOfPublisher} for customer {customerId} with transaction Id {transactionId} at {time}",
             nameof(FundsRefundedForVtuPurchaseFailureEvent),
-            nameof(RollbackAmountForVtuDataPurchaseFailedMessageConsumer),
+            nameof(RollbackAmountForVtuAirtimePurchaseFailedMessageConsumer),
             context.Message.Email,
             context.Message.VtuTransactionId,
             DateTimeOffset.UtcNow

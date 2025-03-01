@@ -10,11 +10,11 @@
     <ProjectReference Include="..\ApplicationSharedKernel\SharedKernel.Application.csproj" />
     <ProjectReference Include="..\SagaOrchestrationStateMachines.Shared\SagaOrchestrationStateMachines.Shared.csproj" />
     <ProjectReference Include="..\VtuApp.Domain\VtuApp.Domain.csproj" />
+    <ProjectReference Include="..\Wallet.Shared\Wallet.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="DTO\" />
-    <Folder Include="Features\Queries\" />
     <Folder Include="Features\VtuNationApi\AdminServices\Complaint\Queries\" />
   </ItemGroup>
 

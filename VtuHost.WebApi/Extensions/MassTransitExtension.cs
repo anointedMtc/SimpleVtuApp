@@ -7,7 +7,7 @@ using SagaOrchestrationStateMachines.Infrastructure.Persistence;
 using SagaOrchestrationStateMachines.Infrastructure.UserCreatedSagaOrchestrator;
 using SagaOrchestrationStateMachines.Infrastructure.VtuAirtimeOrderedSagaOrchestrator;
 using SagaOrchestrationStateMachines.Infrastructure.VtuDataOrderedSagaOrchestrator;
-using VtuApp.Application.Features.Events.ExternalEvents;
+using VtuApp.Application.Features.Events.ExternalEvents.VtuAirtimeSaga;
 using VtuHost.WebApi.Models;
 using Wallet.Application.Features.Events.ExternalEvents;
 

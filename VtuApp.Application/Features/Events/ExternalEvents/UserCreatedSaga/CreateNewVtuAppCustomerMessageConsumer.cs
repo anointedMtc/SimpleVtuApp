@@ -7,7 +7,7 @@ using VtuApp.Domain.Interfaces;
 using VtuApp.Domain.Specifications;
 using VtuApp.Shared.IntegrationEvents;
 
-namespace VtuApp.Application.Features.Events.ExternalEvents;
+namespace VtuApp.Application.Features.Events.ExternalEvents.UserCreatedSaga;
 
 public sealed class CreateNewVtuAppCustomerMessageConsumer : IConsumer<CreateNewVtuAppCustomerMessage>
 {

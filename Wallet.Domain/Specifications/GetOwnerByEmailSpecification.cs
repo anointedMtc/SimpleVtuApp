@@ -3,7 +3,10 @@ using Wallet.Domain.Entities;
 
 namespace Wallet.Domain.Specifications;
 
-public sealed class GetOwnerByEmailSpecification(string email) : BaseSpecification<Owner>(x => x.Email.ToLower() == email.ToLower())
+public sealed class GetOwnerByEmailSpecification : BaseSpecification<Owner>
 {
-
+    public GetOwnerByEmailSpecification(string email) : base(x => x.Email.ToLower() == email.ToLower())
+    {
+        //AddInclude(x => x.WalletDomainEntity);
+    }
 }

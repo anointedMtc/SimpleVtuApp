@@ -1,7 +1,7 @@
 ﻿using MassTransit;
 using SagaOrchestrationStateMachines.Shared.IntegrationEvents.UserCreatedSaga;
 using SagaOrchestrationStateMachines.Shared.IntegrationEvents.VtuAirtimeSaga;
-using SharedKernel.Application.Constants;
+using SharedKernel.Common.Constants;
 using VtuApp.Shared.IntegrationEvents;
 
 namespace SagaOrchestrationStateMachines.Infrastructure.VtuAirtimeOrderedSagaOrchestrator;

@@ -1,8 +1,10 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
 using SagaOrchestrationStateMachines.Shared.IntegrationEvents.VtuAirtimeSaga;
+using SagaOrchestrationStateMachines.Shared.IntegrationEvents.VtuDataSaga;
 using SharedKernel.Application.Exceptions;
 using SharedKernel.Domain.Interfaces;
+using VtuApp.Application.Features.Events.ExternalEvents.VtuAirtimeSaga;
 using VtuApp.Application.Interfaces.ExternalServices.VtuNationApi;
 using VtuApp.Domain.Entities.VtuModelAggregate;
 using VtuApp.Domain.Interfaces;
@@ -10,16 +12,16 @@ using VtuApp.Domain.Specifications;
 using VtuApp.Shared.DTO.VtuNationApi.UserServices;
 using VtuApp.Shared.IntegrationEvents;
 
-namespace VtuApp.Application.Features.Events.ExternalEvents;
+namespace VtuApp.Application.Features.Events.ExternalEvents.VtuDataSaga;
 
-public sealed class BuyAirtimeForCustomerMessageConsumer : IConsumer<BuyAirtimeForCustomerMessage>
+public sealed class SecondRetryVtuDataOrderEventConsumer : IConsumer<SecondRetryVtuDataOrderEvent>
 {
     private readonly IVtuAppRepository<Customer> _customerRepository;
-    private readonly ILogger<BuyAirtimeForCustomerMessageConsumer> _logger;
+    private readonly ILogger<SecondRetryVtuDataOrderEventConsumer> _logger;
     private readonly IGetServicesFromVtuNation _getServicesFromVtuNation;
 
-    public BuyAirtimeForCustomerMessageConsumer(IVtuAppRepository<Customer> customerRepository, 
-        ILogger<BuyAirtimeForCustomerMessageConsumer> logger, 
+    public SecondRetryVtuDataOrderEventConsumer(IVtuAppRepository<Customer> customerRepository,
+        ILogger<SecondRetryVtuDataOrderEventConsumer> logger,
         IGetServicesFromVtuNation getServicesFromVtuNation)
     {
         _customerRepository = customerRepository;
@@ -27,11 +29,11 @@ public sealed class BuyAirtimeForCustomerMessageConsumer : IConsumer<BuyAirtimeF
         _getServicesFromVtuNation = getServicesFromVtuNation;
     }
 
-    public async Task Consume(ConsumeContext<BuyAirtimeForCustomerMessage> context)
+    public async Task Consume(ConsumeContext<SecondRetryVtuDataOrderEvent> context)
     {
-        _logger.LogInformation("Successfully consumed event {typeOfEvent} {typeOfConsumer} for applicationUser with Id {applicationUserId} and transactionId {transactionId} at {time}",
-            nameof(BuyAirtimeForCustomerMessage),
-            nameof(BuyAirtimeForCustomerMessageConsumer),
+        _logger.LogInformation("Successfully consumed event {typeOfEvent} by {typeOfConsumer} for applicationUser with Id {applicationUserId} and transactionId {transactionId} at {time}",
+            nameof(SecondRetryVtuDataOrderEvent),
+            nameof(SecondRetryVtuDataOrderEventConsumer),
             context.Message.Email,
             context.Message.VtuTransactionId,
             DateTimeOffset.UtcNow
@@ -41,9 +43,9 @@ public sealed class BuyAirtimeForCustomerMessageConsumer : IConsumer<BuyAirtimeF
 
         if (await _customerRepository.FindAsync(spec) is null)
         {
-            _logger.LogError("Tried to process {typeOfEvent} by {typeOfConsumer} for a customer that does not exist {customerId} at {time} with request {@Details}",
-                nameof(BuyAirtimeForCustomerMessage),
-                nameof(BuyAirtimeForCustomerMessageConsumer),
+            _logger.LogError("Tried to process {typeOfEvent} by {typeOfEventConsumer} for a customer that does not exist {customerId} at {time} with request {@Details}",
+                nameof(SecondRetryVtuAirtimeOrderEvent),
+                nameof(SecondRetryVtuAirtimeOrderEventConsumer),
                 context.Message.Email,
                 DateTimeOffset.UtcNow,
                 context.Message
@@ -52,38 +54,39 @@ public sealed class BuyAirtimeForCustomerMessageConsumer : IConsumer<BuyAirtimeF
             throw new NotFoundException();
         }
 
-        var buyAirtimeRequestDto = new BuyAirtimeRequestVtuNation
+        var buyDataRequestDto = new BuyDataRequestVtuNation
         {
-            Amount = Convert.ToDecimal(context.Message.AmountToPurchase),
+            DataPlan = context.Message.DataPlanPurchased,
             Network = context.Message.NetworkProvider.ToString(),
             MobileNumber = context.Message.Reciever
         };
 
-        var response = await _getServicesFromVtuNation.BuyAirtimeVtuNationAsync(buyAirtimeRequestDto);
+        var response = await _getServicesFromVtuNation.BuyDataVtuNationAsync(buyDataRequestDto);
 
         if (response.IsSuccessful)
         {
             _logger.LogInformation("Successfully processed {typeOfRequest} by {typeOfConsumer} for Customer with Id {customerId} and transactionId {transactionId} at {time} with External Api details {@Response}",
-                nameof(BuyAirtimeForCustomerMessage),
-                nameof(BuyAirtimeForCustomerMessageConsumer),
+                nameof(SecondRetryVtuDataOrderEvent),
+                nameof(SecondRetryVtuDataOrderEventConsumer),
                 context.Message.Email,
                 context.Message.VtuTransactionId,
                 DateTimeOffset.UtcNow,
                 response.Content
             );
 
-            await context.Publish(new BuyAirtimeForCustomerSuccessEvent(
+            await context.Publish(new BuyDataForCustomerSuccessEvent(
                 context.Message.ApplicationUserId,
                 context.Message.Email,
                 context.Message.VtuTransactionId,
                 context.Message.NetworkProvider,
+                context.Message.DataPlanPurchased,
                 context.Message.AmountToPurchase,
                 context.Message.Reciever)
             );
 
             _logger.LogInformation("Successfully published {typeOfEvent} from {nameOfPublisher} for customer {customerId} with transaction Id {transactionId} at {time}",
-                nameof(BuyAirtimeForCustomerSuccessEvent),
-                nameof(BuyAirtimeForCustomerMessageConsumer),
+                nameof(BuyDataForCustomerSuccessEvent),
+                nameof(SecondRetryVtuDataOrderEventConsumer),
                 context.Message.Email,
                 context.Message.VtuTransactionId,
                 DateTimeOffset.UtcNow
@@ -92,26 +95,27 @@ public sealed class BuyAirtimeForCustomerMessageConsumer : IConsumer<BuyAirtimeF
         else
         {
             _logger.LogError("Unable to process {typeOfRequest} by {typeOfConsumer} for Customer with Id {customerId} and transactionId {transactionId} at {time} with External Api details {@Response}",
-                nameof(BuyAirtimeForCustomerMessage),
-                nameof(BuyAirtimeForCustomerMessageConsumer),
+                nameof(SecondRetryVtuDataOrderEvent),
+                nameof(SecondRetryVtuDataOrderEventConsumer),
                 context.Message.Email,
                 context.Message.VtuTransactionId,
                 DateTimeOffset.UtcNow,
                 response.Content
             );
 
-            await context.Publish(new BuyAirtimeForCustomerFirstTryFailedEvent(
+            await context.Publish(new BuyDataForCustomerSecondReTryFailedEvent(
                 context.Message.ApplicationUserId,
                 context.Message.Email,
                 context.Message.VtuTransactionId,
                 context.Message.NetworkProvider,
+                context.Message.DataPlanPurchased,
                 context.Message.AmountToPurchase,
                 context.Message.Reciever)
             );
 
             _logger.LogInformation("Successfully published {typeOfEvent} from {nameOfPublisher} for customer {customerId} with transaction Id {transactionId} at {time}",
-                nameof(BuyAirtimeForCustomerFirstTryFailedEvent),
-                nameof(BuyAirtimeForCustomerMessageConsumer),
+                nameof(BuyDataForCustomerSecondReTryFailedEvent),
+                nameof(SecondRetryVtuDataOrderEventConsumer),
                 context.Message.Email,
                 context.Message.VtuTransactionId,
                 DateTimeOffset.UtcNow

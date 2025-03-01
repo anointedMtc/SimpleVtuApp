@@ -1,7 +1,7 @@
 ﻿using Identity.Shared.IntegrationEvents;
 using MassTransit;
 using SagaOrchestrationStateMachines.Shared.IntegrationEvents.UserCreatedSaga;
-using SharedKernel.Application.Constants;
+using SharedKernel.Common.Constants;
 using VtuApp.Shared.IntegrationEvents;
 using Wallet.Shared.IntegrationEvents;
 

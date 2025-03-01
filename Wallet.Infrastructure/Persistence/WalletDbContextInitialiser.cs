@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using SharedKernel.Domain.Entities;
+using SharedKernel.Common.Constants;
 using System.Text.Json;
 using Wallet.Domain.Entities;
 using Wallet.Domain.Entities.WalletAggregate;
@@ -137,7 +137,7 @@ public class WalletDbContextInitialiser
         using Stream reader = new FileStream(fileName, FileMode.Open);
         var apptTypes = await JsonSerializer.DeserializeAsync<List<TransferDto>>(reader);
 
-        return apptTypes.Select(dto => new Transfer(dto.WalletId, dto.Amount, (TransferDirection)dto.Direction, dto.ReasonWhy, dto.CreatedAt)).ToList();
+        return apptTypes.Select(dto => new Transfer(dto.WalletId, dto.Amount, (TransferDirection)dto.Direction, dto.ReasonWhy, dto.CreatedAt, dto.TransferId)).ToList();
     }
 
     private static List<TransferDto> GetDefaultTransfers()
@@ -195,7 +195,7 @@ public class WalletDbContextInitialiser
         var apptTypes = await JsonSerializer.DeserializeAsync<List<WalletDto>>(reader);
 
         //return apptTypes.Select(dto => new WalletDomainEntity(dto.WalletId, dto.OwnerId, dto.CreatedAt, dto.Amount, dto.Transfers)).ToList();
-        return apptTypes.Select(dto => new WalletDomainEntity(dto.OwnerId, dto.ApplicationUserId, dto.UserEmail)).ToList();
+        return apptTypes.Select(dto => new WalletDomainEntity(dto.OwnerId, dto.ApplicationUserId, dto.Email)).ToList();
     }
 
 

@@ -4,9 +4,9 @@ using VtuApp.Domain.Entities.VtuModelAggregate;
 
 namespace VtuApp.Infrastructure.Persistence.Config;
 
-public class VtuBonusTransferConfiguration : IEntityTypeConfiguration<VtuBonusTransfer>
+public class VtuBonusTransferConfiguration : IEntityTypeConfiguration<VtuAppTransfer>
 {
-    public void Configure(EntityTypeBuilder<VtuBonusTransfer> builder)
+    public void Configure(EntityTypeBuilder<VtuAppTransfer> builder)
     {
         builder.HasKey(b => b.Id);
 

@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Application.Constants;
+﻿namespace SharedKernel.Common.Constants;
 
 public static class QueueConstants
 {
@@ -29,5 +29,12 @@ public static class QueueConstants
 
     public const string NotifyCustomerOfVtuDataPurchaseSuccessEventQueueName = "notify-customer-of-vtu-data-purchase-success";
 
+
+
+
+    // Wallet
+    public const string AddVtuAppBalanceMessageQueueName = "add-vtu-app-balance-message";
+   
+    public const string SubtractVtuAppBalanceMessageQueueName = "subtract-vtu-app-balance-message";
 
 }

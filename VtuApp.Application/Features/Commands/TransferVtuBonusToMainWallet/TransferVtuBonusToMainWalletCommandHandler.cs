@@ -39,7 +39,7 @@ internal sealed class TransferVtuBonusToMainWalletCommandHandler
         {
             _logger.LogWarning("User {UserId} tried to access a forbidden resource {Resource} with request {@Request}",
                 userExecutingCommand?.Email ?? "Anonymous User",
-                typeof(TransferVtuBonusToMainWalletCommand).Name,
+                nameof(TransferVtuBonusToMainWalletCommand),
                 request);
 
             throw new ForbiddenAccessException();
@@ -82,7 +82,8 @@ internal sealed class TransferVtuBonusToMainWalletCommandHandler
 
 
         // Warning: The same entity is being tracked as different entity types 'VtuBonusTransfer.InitialBalance#VtuAmount' and 'Customer.VtuBonusBalance#VtuAmount' with defining navigations. If a property value changes, it will result in two store changes, which might not be the desired outcome.
-        var vtuBonusTransfer = customer.DeductFromBonusBalance(request.AmountToTransfer, $"Transfer_to_main_Wallet");
+        var vtuBonusTransfer = customer.DeductFromBonusBalance(request.AmountToTransfer, $"VtuBonus_transfer_to_main_Wallet");
+        //customer.AddToCustomerBalance(request.AmountToTransfer);
         await _vtuAppRepository.UpdateAsync(customer);
 
         _logger.LogInformation("Successfully performed and updated customer with Id {customerId} for the following transactions: {operation1} {operation2} {vtuTransferId} {time}",

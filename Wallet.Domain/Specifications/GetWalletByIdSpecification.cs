@@ -7,6 +7,7 @@ public class GetWalletByIdSpecification : BaseSpecification<WalletDomainEntity>
 {
     public GetWalletByIdSpecification(Guid walletId) : base(x => x.WalletDomainEntityId == walletId)
     {
-
+        AddInclude(x => x.Owner);
+        AddInclude(x => x.Transfers);
     }
 }

@@ -1,9 +1,9 @@
-﻿using SharedKernel.Domain;
-using SharedKernel.Domain.Entities;
+﻿using SharedKernel.Common.Constants;
+using SharedKernel.Domain;
 
 namespace VtuApp.Domain.Entities.VtuModelAggregate;
 
-public class VtuBonusTransfer : BaseEntity
+public class VtuAppTransfer : BaseEntity
 {
     public Guid Id { get; private set; }
     public VtuAmount AmountTransfered { get; private set; }
@@ -17,7 +17,7 @@ public class VtuBonusTransfer : BaseEntity
     public Guid CustomerId { get; private set; }
 
 
-    public VtuBonusTransfer(VtuAmount amountTransfered, DateTimeOffset createdAt, 
+    public VtuAppTransfer(VtuAmount amountTransfered, DateTimeOffset createdAt, 
         VtuAmount initialBalance, VtuAmount finalBalance, 
         TransferDirection transferDirection, string reasonWhy, Guid customerId)
     {
@@ -32,7 +32,7 @@ public class VtuBonusTransfer : BaseEntity
 
 
     //#pragma warning disable CS8618    // Required by Entity Framework
-    public VtuBonusTransfer() { }
+    public VtuAppTransfer() { }
 
 
 }

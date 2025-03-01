@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SharedKernel.Domain.Entities;
+namespace SharedKernel.Common.Constants;
 
 
 [JsonConverter(typeof(JsonStringEnumConverter))]

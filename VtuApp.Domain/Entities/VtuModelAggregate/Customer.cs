@@ -1,5 +1,5 @@
-﻿using SharedKernel.Domain;
-using SharedKernel.Domain.Entities;
+﻿using SharedKernel.Common.Constants;
+using SharedKernel.Domain;
 using SharedKernel.Domain.Exceptions;
 using SharedKernel.Domain.Interfaces;
 using VtuApp.Domain.Events;
@@ -11,7 +11,7 @@ namespace VtuApp.Domain.Entities.VtuModelAggregate;
 public class Customer : BaseEntity, IAggregateRoot
 {
     private readonly List<VtuTransaction> _vtuTransactions = [];
-    private readonly List<VtuBonusTransfer> _vtuBonusTransfers = [];
+    private readonly List<VtuAppTransfer> _vtuBonusTransfers = [];
 
     public Guid CustomerId { get; private set; } // belongs to this alone...
     public Guid ApplicationUserId { get; private set; } // same as the user created in the identy module and passed around for CorrelationId
@@ -20,7 +20,7 @@ public class Customer : BaseEntity, IAggregateRoot
     public string Email { get; private set; }
     public string PhoneNumber { get; private set; }
     public VtuAmount VtuBonusBalance { get; private set; }
-    public IReadOnlyCollection<VtuBonusTransfer> VtuBonusTransfers => _vtuBonusTransfers.AsReadOnly();
+    public IReadOnlyCollection<VtuAppTransfer> VtuBonusTransfers => _vtuBonusTransfers.AsReadOnly();
     public VtuAmount TotalBalance { get; private set; }
 
     public IReadOnlyCollection<VtuTransaction> VtuTransactions => _vtuTransactions.AsReadOnly();
@@ -194,14 +194,14 @@ public class Customer : BaseEntity, IAggregateRoot
 
 
     // HANDLING BONUSES
-    public VtuBonusTransfer AddToBonusBalance(VtuAmount amountTransfered, string reasonWhy)
+    public VtuAppTransfer AddToBonusBalance(VtuAmount amountTransfered, string reasonWhy)
     {
         if (amountTransfered <= 0)
         {
             throw new InvalidAmountException(amountTransfered);
         }
 
-        var vtuBonusTransfer = new VtuBonusTransfer( // transferDirection reasonWhy
+        var vtuBonusTransfer = new VtuAppTransfer( // transferDirection reasonWhy
             amountTransfered, 
             DateTimeOffset.UtcNow,
             //VtuBonusBalance,  // The same entity is being tracked as different entity types 'VtuBonusTransfer.InitialBalance#VtuAmount' and 'Customer.VtuBonusBalance#VtuAmount' with defining navigations. If a property value changes, it will result in two store changes, which might not be the desired outcome.
@@ -219,7 +219,7 @@ public class Customer : BaseEntity, IAggregateRoot
     }
 
 
-    public VtuBonusTransfer DeductFromBonusBalance(VtuAmount amountTransfered, string reasonWhy)
+    public VtuAppTransfer DeductFromBonusBalance(VtuAmount amountTransfered, string reasonWhy)
     {
         if (amountTransfered <= 0)
         {
@@ -231,7 +231,7 @@ public class Customer : BaseEntity, IAggregateRoot
             throw new InsufficientCustomerFundsException(CustomerId);
         }
 
-        var vtuBonusTransfer = new VtuBonusTransfer( // transferDirection reasonWhy
+        var vtuBonusTransfer = new VtuAppTransfer( // transferDirection reasonWhy
             amountTransfered,
             DateTimeOffset.UtcNow,
             //VtuBonusBalance,  // The same entity is being tracked as different entity types 'VtuBonusTransfer.InitialBalance#VtuAmount' and 'Customer.VtuBonusBalance#VtuAmount' with defining navigations. If a property value changes, it will result in two store changes, which might not be the desired outcome.

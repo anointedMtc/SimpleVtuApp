@@ -10,7 +10,7 @@ using VtuApp.Domain.Specifications;
 using VtuApp.Shared.DTO.VtuNationApi.UserServices;
 using VtuApp.Shared.IntegrationEvents;
 
-namespace VtuApp.Application.Features.Events.ExternalEvents;
+namespace VtuApp.Application.Features.Events.ExternalEvents.VtuDataSaga;
 
 public sealed class BuyDataForCustomerMessageConsumer : IConsumer<BuyDataForCustomerMessage>
 {
@@ -18,8 +18,8 @@ public sealed class BuyDataForCustomerMessageConsumer : IConsumer<BuyDataForCust
     private readonly ILogger<BuyDataForCustomerMessageConsumer> _logger;
     private readonly IGetServicesFromVtuNation _getServicesFromVtuNation;
 
-    public BuyDataForCustomerMessageConsumer(IVtuAppRepository<Customer> customerRepository, 
-        ILogger<BuyDataForCustomerMessageConsumer> logger, 
+    public BuyDataForCustomerMessageConsumer(IVtuAppRepository<Customer> customerRepository,
+        ILogger<BuyDataForCustomerMessageConsumer> logger,
         IGetServicesFromVtuNation getServicesFromVtuNation)
     {
         _customerRepository = customerRepository;

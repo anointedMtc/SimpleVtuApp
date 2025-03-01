@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SharedKernel.Domain.Entities;
 using Wallet.Domain.Entities.WalletAggregate;
 
 namespace Wallet.Infrastructure.Persistence.Config;

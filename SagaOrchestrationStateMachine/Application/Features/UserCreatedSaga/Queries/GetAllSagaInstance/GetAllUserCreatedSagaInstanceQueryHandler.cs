@@ -57,7 +57,7 @@ public sealed class GetAllUserCreatedSagaInstanceQueryHandler
             //throw new CustomForbiddenException("Access Denied. You do not have Permission to view this resource");
 
             getAllUserCreatedSagaInstanceResponse.Success = false;
-            getAllUserCreatedSagaInstanceResponse.Message = $"You made a Bad Request.";
+            getAllUserCreatedSagaInstanceResponse.Message = $"You are not authorized to access this endpoint.";
             getAllUserCreatedSagaInstanceResponse.UserCreatedSagOrchestratorInstanceResponseDto = null;
 
             return new Pagination<GetAllUserCreatedSagaInstanceResponse>(request.PaginationFilter.PageNumber, request.PaginationFilter.PageSize, totalUsers, getAllUserCreatedSagaInstanceResponse);

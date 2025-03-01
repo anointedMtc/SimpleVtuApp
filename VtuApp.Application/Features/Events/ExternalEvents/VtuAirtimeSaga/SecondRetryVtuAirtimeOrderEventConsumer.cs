@@ -10,7 +10,7 @@ using VtuApp.Domain.Specifications;
 using VtuApp.Shared.DTO.VtuNationApi.UserServices;
 using VtuApp.Shared.IntegrationEvents;
 
-namespace VtuApp.Application.Features.Events.ExternalEvents;
+namespace VtuApp.Application.Features.Events.ExternalEvents.VtuAirtimeSaga;
 
 public sealed class SecondRetryVtuAirtimeOrderEventConsumer : IConsumer<SecondRetryVtuAirtimeOrderEvent>
 {
@@ -18,8 +18,8 @@ public sealed class SecondRetryVtuAirtimeOrderEventConsumer : IConsumer<SecondRe
     private readonly ILogger<SecondRetryVtuAirtimeOrderEventConsumer> _logger;
     private readonly IGetServicesFromVtuNation _getServicesFromVtuNation;
 
-    public SecondRetryVtuAirtimeOrderEventConsumer(IVtuAppRepository<Customer> customerRepository, 
-        ILogger<SecondRetryVtuAirtimeOrderEventConsumer> logger, 
+    public SecondRetryVtuAirtimeOrderEventConsumer(IVtuAppRepository<Customer> customerRepository,
+        ILogger<SecondRetryVtuAirtimeOrderEventConsumer> logger,
         IGetServicesFromVtuNation getServicesFromVtuNation)
     {
         _customerRepository = customerRepository;

@@ -57,7 +57,7 @@ public sealed class GetAllVtuAirtimeSagaInstanceQueryHandler
             //throw new CustomForbiddenException("Access Denied. You do not have Permission to view this resource");
 
             getAllVtuAirtimeSagaInstanceResponse.Success = false;
-            getAllVtuAirtimeSagaInstanceResponse.Message = $"You made a Bad Request.";
+            getAllVtuAirtimeSagaInstanceResponse.Message = $"You are not authorized to access this endpoint.";
             getAllVtuAirtimeSagaInstanceResponse.VtuAirtimeSagaOrchestratorInstanceResponseDto = null;
 
             return new Pagination<GetAllVtuAirtimeSagaInstanceResponse>(request.PaginationFilter.PageNumber, request.PaginationFilter.PageSize, totalUsers, getAllVtuAirtimeSagaInstanceResponse);
