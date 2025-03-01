@@ -51,6 +51,7 @@ public sealed class Amount : ValueObject
     }
 
 
+    // having the CultureInfo.InvariantCulture is very optional...
     public override string ToString() => Value.ToString(CultureInfo.InvariantCulture);
 
 

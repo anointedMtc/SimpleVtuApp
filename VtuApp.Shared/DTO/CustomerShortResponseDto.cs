@@ -4,6 +4,7 @@ public record CustomerShortResponseDto
 {
     public Guid CustomerId { get; set; }
     public Guid ApplicationUserId { get; set; }
+    public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }
     public string PhoneNumber { get; set; }

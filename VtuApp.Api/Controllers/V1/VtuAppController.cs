@@ -29,10 +29,10 @@ public class VtuAppController : ApiBaseController
     }
 
 
-    [HttpGet("get-customer-and-bonusTransfers-and-vtuTransactions")]
-    public async Task<ActionResult<GetCustomerAndBonusTransfersAndVtuTransactionsResponse>> GetCustomerWithBonusAndTransactionHistory([FromQuery] GetCustomerAndBonusTransfersAndVtuTransactionsQuery command)
+    [HttpGet("get-customer-and-bonusTransfers-and-vtuTransactions")] // use the other approach
+    public async Task<ActionResult<GetCustomerAndBonusTransfersAndVtuTransactionsResponse>> GetCustomerWithBonusAndTransactionHistory([FromQuery] string email)
     {
-        var result = await Mediator.Send(command);
+        var result = await Mediator.Send(new GetCustomerAndBonusTransfersAndVtuTransactionsQuery() { Email = email});
 
         return Ok(result);
     }
@@ -47,4 +47,7 @@ public class VtuAppController : ApiBaseController
 
         return new Pagination<GetAllVtuCustomersResponse>(paginationFilter, result.TotalRecords, result.Data, endpointUrl);
     }
+
+
+
 }

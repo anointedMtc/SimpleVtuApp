@@ -12,7 +12,7 @@ public sealed class GetAllWalletsSpecification : BaseSpecification<WalletDomainE
              (string.IsNullOrEmpty(paginationFilter.Search) || x.ApplicationUserId.ToString().ToLower().Contains(paginationFilter.Search)) ||
              (string.IsNullOrEmpty(paginationFilter.Search) || x.Email.ToLower().Contains(paginationFilter.Search)) ||
              (string.IsNullOrEmpty(paginationFilter.Search) || x.CreatedAt.ToString().ToLower().Contains(paginationFilter.Search)) ||
-             (string.IsNullOrEmpty(paginationFilter.Search) || x.WalletBalance.ToString().ToLower().Contains(paginationFilter.Search)) 
+             (string.IsNullOrEmpty(paginationFilter.Search) || x.WalletBalance.Value.ToString().ToLower().Contains(paginationFilter.Search)) 
          )
     {
         if (!string.IsNullOrEmpty(paginationFilter.Sort))

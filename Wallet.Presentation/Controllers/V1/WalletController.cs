@@ -93,18 +93,18 @@ public class WalletController : ApiBaseController
 
 
     [HttpGet("get-owner-and-wallet-by-email")]
-    public async Task<ActionResult<GetOwnerAndWalletByEmailResponse>> GetOwnerAndWalletByEmail([FromQuery] GetOwnerAndWalletByEmailQuery command)
+    public async Task<ActionResult<GetOwnerAndWalletByEmailResponse>> GetOwnerAndWalletByEmail([FromQuery] string email)
     {
-        var result = await Mediator.Send(command);
+        var result = await Mediator.Send(new GetOwnerAndWalletByEmailQuery() { Email = email});
 
         return Ok(result);
     }
 
 
-    [HttpGet("get-wallet-and-transfers-by-id")]
-    public async Task<ActionResult<GetWalletAndTransfersByIdResponse>> GetWalletAndTransfersById([FromQuery] GetWalletAndTransfersByIdQuery command)
+    [HttpGet("get-wallet-and-transfers-by-id/{walletId}")]
+    public async Task<ActionResult<GetWalletAndTransfersByIdResponse>> GetWalletAndTransfersById(Guid walletId)
     {
-        var result = await Mediator.Send(command);
+        var result = await Mediator.Send(new GetWalletAndTransfersByIdQuery() { WalletId = walletId});
 
         return Ok(result);
     }
