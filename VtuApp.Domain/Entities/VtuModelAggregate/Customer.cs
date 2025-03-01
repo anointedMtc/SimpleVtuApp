@@ -28,7 +28,7 @@ public class Customer : BaseEntity, IAggregateRoot
     public int NumberOfStars { get; private set; }
     public int TransactionCount { get; private set; }
 
-    public TimeSpan TimeLastStarWasAchieved { get; set; } = TimeSpan.Zero;
+    public TimeSpan TimeLastStarWasAchieved { get; set; } 
 
 
     public Customer(Guid applicationUserId, string firstName, string lastName,
@@ -122,11 +122,14 @@ public class Customer : BaseEntity, IAggregateRoot
             // reset count
             TransactionCount = 0;
 
-            AddToCustomerBalance(10);
+            //AddToCustomerBalance(10);
+            var timeOfDiscount = DateTimeOffset.UtcNow;
+            var reasonWhy = $"Five Transactions at {timeOfDiscount}";
+            AddToBonusBalance(10, reasonWhy);
 
             AddDomainEvent(new FiveTransactionsVtuAppDomainEvent(
                 this.CustomerId,
-                DateTimeOffset.UtcNow)
+                timeOfDiscount)
             );
         }
 
@@ -180,10 +183,13 @@ public class Customer : BaseEntity, IAggregateRoot
                 }
                 var discountGiven = discountDefault * 0.1M;
 
-                AddToCustomerBalance(discountGiven);
+                //AddToCustomerBalance(discountGiven);
+                var createdAt = DateTimeOffset.UtcNow;
+                var reasonWhy = $"Star Achieved at {createdAt}";
+                AddToBonusBalance(discountGiven, reasonWhy); // also check for updated vtuTransaction
 
                 AddDomainEvent(new StarAchievedByCustomerDomainEvent(
-                    this, DateTimeOffset.UtcNow, discountGiven));
+                    this, createdAt, discountGiven));
 
             }
         }

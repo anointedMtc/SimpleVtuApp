@@ -2,11 +2,11 @@
 using Microsoft.Extensions.Logging;
 using SagaOrchestrationStateMachines.Shared.IntegrationEvents.VtuAirtimeSaga;
 using SharedKernel.Application.Exceptions;
-using SharedKernel.Domain.Interfaces;
 using VtuApp.Application.Interfaces.ExternalServices.VtuNationApi;
 using VtuApp.Domain.Entities.VtuModelAggregate;
 using VtuApp.Domain.Interfaces;
 using VtuApp.Domain.Specifications;
+using VtuApp.Shared.Constants;
 using VtuApp.Shared.DTO.VtuNationApi.UserServices;
 using VtuApp.Shared.IntegrationEvents;
 
@@ -39,7 +39,8 @@ public sealed class SecondRetryVtuAirtimeOrderEventConsumer : IConsumer<SecondRe
 
         var spec = new GetCustomerByEmailSpecification(context.Message.Email);
 
-        if (await _customerRepository.FindAsync(spec) is null)
+        var customer = await _customerRepository.FindAsync(spec);
+        if (customer is null)
         {
             _logger.LogError("Tried to process {typeOfEvent} by {typeOfEventConsumer} for a customer that does not exist {customerId} at {time} with request {@Details}",
                 nameof(SecondRetryVtuAirtimeOrderEvent),
@@ -70,6 +71,9 @@ public sealed class SecondRetryVtuAirtimeOrderEventConsumer : IConsumer<SecondRe
                 DateTimeOffset.UtcNow,
                 response.Content
             );
+
+            customer.UpdateVtuTransactionStatus(context.Message.VtuTransactionId, Status.Success);
+            await _customerRepository.UpdateAsync(customer);
 
             await context.Publish(new BuyAirtimeForCustomerSuccessEvent(
                 context.Message.ApplicationUserId,

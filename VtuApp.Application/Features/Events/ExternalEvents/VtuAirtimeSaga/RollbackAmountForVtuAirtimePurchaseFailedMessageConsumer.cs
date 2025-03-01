@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using SagaOrchestrationStateMachines.Shared.IntegrationEvents.VtuAirtimeSaga;
 using SharedKernel.Application.Exceptions;
-using SharedKernel.Domain.Interfaces;
 using VtuApp.Domain.Entities.VtuModelAggregate;
 using VtuApp.Domain.Interfaces;
 using VtuApp.Domain.Specifications;
@@ -52,7 +51,7 @@ public sealed class RollbackAmountForVtuAirtimePurchaseFailedMessageConsumer
         }
 
         vtuCustomer.AddToCustomerBalance(context.Message.PricePaid);
-
+        vtuCustomer.UpdateVtuTransactionStatus(context.Message.VtuTransactionId, Status.Failed);
         await _customerRepository.UpdateAsync(vtuCustomer);
 
         await context.Publish(new FundsRefundedForVtuPurchaseFailureEvent(

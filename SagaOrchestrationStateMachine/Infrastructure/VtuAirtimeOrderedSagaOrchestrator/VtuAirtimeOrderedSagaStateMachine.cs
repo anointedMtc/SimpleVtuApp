@@ -1,5 +1,4 @@
 ﻿using MassTransit;
-using SagaOrchestrationStateMachines.Shared.IntegrationEvents.UserCreatedSaga;
 using SagaOrchestrationStateMachines.Shared.IntegrationEvents.VtuAirtimeSaga;
 using SharedKernel.Common.Constants;
 using VtuApp.Shared.IntegrationEvents;
@@ -102,6 +101,22 @@ public sealed class VtuAirtimeOrderedSagaStateMachine : MassTransitStateMachine<
             }));
         });
 
+        Event(() => BuyAirtimeForCustomerMessageFaulted, x => x
+            .CorrelateById(m => m.Message.Message.VtuTransactionId)
+            .SelectId(m => m.Message.Message.VtuTransactionId)
+        );
+        Event(() => SecondRetryVtuAirtimeOrderEventFaulted, x => x
+            .CorrelateById(m => m.Message.Message.VtuTransactionId)
+            .SelectId(m => m.Message.Message.VtuTransactionId)
+        );
+        Event(() => RollbackAmountForVtuAirtimePurchaseFailedMessageFaulted, x => x
+            .CorrelateById(m => m.Message.Message.VtuTransactionId)
+            .SelectId(m => m.Message.Message.VtuTransactionId)
+        );
+        Event(() => DeductFundsFromCustomerWalletForVtuPurchaseTransactionMessageFaulted, x => x
+            .CorrelateById(m => m.Message.Message.VtuTransactionId)
+            .SelectId(m => m.Message.Message.VtuTransactionId)
+        );
 
 
         Initially(
@@ -257,6 +272,14 @@ public sealed class VtuAirtimeOrderedSagaStateMachine : MassTransitStateMachine<
     public Event<RollbackAmountForVtuAirtimePurchaseFailedMessage> RollbackAmountForVtuAirtimePurchaseFailedMessage { get; private set; }
     public Event<NotifyCustomerOfVtuAirtimePurchaseSuccessEvent> NotifyCustomerOfVtuAirtimePurchaseSuccessEvent { get; private set; }
     public Event<DeductFundsFromCustomerWalletForVtuPurchaseTransactionMessage> DeductFundsFromCustomerWalletForVtuPurchaseTransactionMessage { get; private set; }
+
+
+
+    // FAULTS
+    public Event<Fault<BuyAirtimeForCustomerMessage>> BuyAirtimeForCustomerMessageFaulted {  get; private set; }
+    public Event<Fault<SecondRetryVtuAirtimeOrderEvent>> SecondRetryVtuAirtimeOrderEventFaulted {  get; private set; }
+    public Event<Fault<RollbackAmountForVtuAirtimePurchaseFailedMessage>> RollbackAmountForVtuAirtimePurchaseFailedMessageFaulted {  get; private set; }
+    public Event<Fault<DeductFundsFromCustomerWalletForVtuPurchaseTransactionMessage>> DeductFundsFromCustomerWalletForVtuPurchaseTransactionMessageFaulted {  get; private set; }
 
 
 }

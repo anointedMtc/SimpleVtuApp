@@ -16,8 +16,8 @@ public sealed class GetAllVtuCustomersSpecification : BaseSpecification<Customer
              (string.IsNullOrEmpty(paginationFilter.Search) || x.VtuBonusBalance.ToString().ToLower().Contains(paginationFilter.Search)) ||
              (string.IsNullOrEmpty(paginationFilter.Search) || x.TotalBalance.ToString().ToLower().Contains(paginationFilter.Search)) ||
              (string.IsNullOrEmpty(paginationFilter.Search) || x.NumberOfStars.ToString().ToLower().Contains(paginationFilter.Search)) ||
-             (string.IsNullOrEmpty(paginationFilter.Search) || x.TransactionCount.ToString().ToLower().Contains(paginationFilter.Search)) ||
-             (string.IsNullOrEmpty(paginationFilter.Search) || x.TimeLastStarWasAchieved.ToString().ToLower().Contains(paginationFilter.Search)) 
+             (string.IsNullOrEmpty(paginationFilter.Search) || x.TransactionCount.ToString().ToLower().Contains(paginationFilter.Search)) 
+             //(string.IsNullOrEmpty(paginationFilter.Search) || x.TimeLastStarWasAchieved.ToString().ToLower().Contains(paginationFilter.Search)) 
          )
     {
         if (!string.IsNullOrEmpty(paginationFilter.Sort))

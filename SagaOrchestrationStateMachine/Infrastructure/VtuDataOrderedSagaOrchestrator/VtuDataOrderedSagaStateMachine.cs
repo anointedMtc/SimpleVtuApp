@@ -103,6 +103,23 @@ public sealed class VtuDataOrderedSagaStateMachine : MassTransitStateMachine<Vtu
             }));
         });
 
+        Event(() => BuyDataForCustomerMessageFaulted, x => x
+            .CorrelateById(m => m.Message.Message.VtuTransactionId)
+            .SelectId(m => m.Message.Message.VtuTransactionId)
+        );
+        Event(() => SecondRetryVtuDataOrderEventFaulted, x => x
+            .CorrelateById(m => m.Message.Message.VtuTransactionId)
+            .SelectId(m => m.Message.Message.VtuTransactionId)
+        );
+        Event(() => RollbackAmountForVtuDataPurchaseFailedMessageFaulted, x => x
+            .CorrelateById(m => m.Message.Message.VtuTransactionId)
+            .SelectId(m => m.Message.Message.VtuTransactionId)
+        );
+        Event(() => DeductFundsFromCustomerWalletForVtuPurchaseTransactionMessageFaulted, x => x
+            .CorrelateById(m => m.Message.Message.VtuTransactionId)
+            .SelectId(m => m.Message.Message.VtuTransactionId)
+        );
+
 
         Initially(
             When(CustomerPurchasedDataVtuNationEvent)
@@ -264,6 +281,11 @@ public sealed class VtuDataOrderedSagaStateMachine : MassTransitStateMachine<Vtu
     public Event<DeductFundsFromCustomerWalletForVtuPurchaseTransactionMessage> DeductFundsFromCustomerWalletForVtuPurchaseTransactionMessage { get; private set; }
 
 
+    // FAULTS
+    public Event<Fault<BuyDataForCustomerMessage>> BuyDataForCustomerMessageFaulted { get; private set; }
+    public Event<Fault<SecondRetryVtuDataOrderEvent>> SecondRetryVtuDataOrderEventFaulted { get; private set; }
+    public Event<Fault<RollbackAmountForVtuDataPurchaseFailedMessage>> RollbackAmountForVtuDataPurchaseFailedMessageFaulted { get; private set; }
+    public Event<Fault<DeductFundsFromCustomerWalletForVtuPurchaseTransactionMessage>> DeductFundsFromCustomerWalletForVtuPurchaseTransactionMessageFaulted { get; private set; }
 
 
 }
