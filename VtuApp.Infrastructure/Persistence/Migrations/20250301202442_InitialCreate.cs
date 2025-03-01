@@ -21,7 +21,7 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BonusBalance_Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    VtuBonusBalance_Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TotalBalance_Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     NumberOfStars = table.Column<int>(type: "int", nullable: false),
                     TransactionCount = table.Column<int>(type: "int", nullable: false),
@@ -30,6 +30,30 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customers", x => x.CustomerId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VtuBonusTransfers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AmountTransfered_Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    InitialBalance_Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FinalBalance_Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TransferDirection = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    ReasonWhy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VtuBonusTransfers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VtuBonusTransfers_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "CustomerId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -57,6 +81,11 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_VtuBonusTransfers_CustomerId",
+                table: "VtuBonusTransfers",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_VtuTransactions_CustomerId",
                 table: "VtuTransactions",
                 column: "CustomerId");
@@ -65,6 +94,9 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "VtuBonusTransfers");
+
             migrationBuilder.DropTable(
                 name: "VtuTransactions");
 

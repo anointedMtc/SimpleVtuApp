@@ -35,7 +35,8 @@ namespace Wallet.Infrastructure.Persistence.Migrations
                     ApplicationUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    OwnerId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 256, nullable: false)
+                    OwnerId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 256, nullable: false),
+                    WalletBalance_Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -57,6 +58,7 @@ namespace Wallet.Infrastructure.Persistence.Migrations
                     Direction = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     ReasonWhy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    ReferenceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     WalletDomainEntityId = table.Column<Guid>(type: "uniqueidentifier", maxLength: 256, nullable: false)
                 },
                 constraints: table =>

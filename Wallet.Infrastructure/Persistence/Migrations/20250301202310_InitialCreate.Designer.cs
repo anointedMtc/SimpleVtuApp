@@ -12,7 +12,7 @@ using Wallet.Infrastructure.Persistence;
 namespace Wallet.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(WalletDbContext))]
-    [Migration("20250225092352_InitialCreate")]
+    [Migration("20250301202310_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -74,6 +74,9 @@ namespace Wallet.Infrastructure.Persistence.Migrations
                     b.Property<string>("ReasonWhy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ReferenceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("WalletDomainEntityId")
                         .HasMaxLength(256)
@@ -150,7 +153,26 @@ namespace Wallet.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.OwnsOne("Wallet.Domain.Entities.WalletAggregate.Amount", "WalletBalance", b1 =>
+                        {
+                            b1.Property<Guid>("WalletDomainEntityId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<decimal>("Value")
+                                .HasColumnType("decimal (18,2)");
+
+                            b1.HasKey("WalletDomainEntityId");
+
+                            b1.ToTable("WalletDomainEntities");
+
+                            b1.WithOwner()
+                                .HasForeignKey("WalletDomainEntityId");
+                        });
+
                     b.Navigation("Owner");
+
+                    b.Navigation("WalletBalance")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Wallet.Domain.Entities.Owner", b =>
