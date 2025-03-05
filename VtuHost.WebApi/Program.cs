@@ -1,5 +1,6 @@
 using Asp.Versioning.ApiExplorer;
 using Elastic.Channels;
+using Elastic.CommonSchema.Serilog;
 using Elastic.Ingest.Elasticsearch;
 using Elastic.Ingest.Elasticsearch.DataStreams;
 using Elastic.Serilog.Sinks;
@@ -29,6 +30,7 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("MassTransit", Serilog.Events.LogEventLevel.Debug)
     .Enrich.FromLogContext()
     .Enrich.WithExceptionDetails()
+    // leave some of these out since it is only effective when the app is starting and after that, the one in the servie container takes precedence... no need for all these... but just incase we need to configure it, then... 
     .WriteTo.Console(new RenderedCompactJsonFormatter())
     .WriteTo.Debug(new RenderedCompactJsonFormatter())
     .WriteTo.Seq("http://localhost:5341")
@@ -75,7 +77,33 @@ try
     builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
 
     builder.Host.UseSerilog((context, configuration) =>
-       configuration.ReadFrom.Configuration(context.Configuration));
+    {
+
+        configuration.ReadFrom.Configuration(context.Configuration);
+
+        configuration.WriteTo.Elasticsearch([new Uri(context.Configuration["ElasticConfiguration:Uri"]!)], opts =>
+        {
+            opts.DataStream = new DataStreamName("logs", "simple-Vtu-App", "vtuApp");
+            opts.BootstrapMethod = BootstrapMethod.Failure;
+            opts.ConfigureChannel = channelOpts =>
+            {
+                channelOpts.BufferOptions = new BufferOptions();
+            };
+
+        }, transport =>
+        {
+            // transport.Authentication(new BasicAuthentication(username, password)); // Basic Auth
+            // transport.Authentication(new ApiKey(base64EncodedApiKey)); // ApiKey
+        });
+
+        //configuration.WriteTo.Console(new EcsTextFormatter(new EcsTextFormatterConfiguration
+        //{
+        //    IncludeHost = false,
+        //    IncludeProcess = false,
+        //    IncludeUser = false,
+        //    IncludeActivityData = true
+        //}));
+    });
 
     builder.Services.AddHttpContextAccessor();
 
