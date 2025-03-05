@@ -1,26 +1,52 @@
 using Asp.Versioning.ApiExplorer;
+using Elastic.Channels;
+using Elastic.Ingest.Elasticsearch;
+using Elastic.Ingest.Elasticsearch.DataStreams;
+using Elastic.Serilog.Sinks;
 using ExternalServices.Api;
 using Identity.Api;
 using Identity.Infrastructure;
 using Notification.Api;
 using SagaOrchestrationStateMachines;
 using Serilog;
+using Serilog.Exceptions;
 using Serilog.Formatting.Compact;
 using SharedKernel.Api;
+using System.Reflection;
 using VtuApp.Api;
 using VtuHost.WebApi.Constants;
 using VtuHost.WebApi.Extensions;
 using VtuHost.WebApi.Middlewares;
 using Wallet.Api;
 
+// Reading data from configuration file instead of writing it raw like we did for Seq
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", false, true)
+    .Build();
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
     .MinimumLevel.Override("MassTransit", Serilog.Events.LogEventLevel.Debug)
     .Enrich.FromLogContext()
+    .Enrich.WithExceptionDetails()
     .WriteTo.Console(new RenderedCompactJsonFormatter())
+    .WriteTo.Debug(new RenderedCompactJsonFormatter())
     .WriteTo.Seq("http://localhost:5341")
-    .WriteTo.File(new CompactJsonFormatter(), "/logs/logformat2-.json", rollingInterval: RollingInterval.Day)
+    .WriteTo.File(new CompactJsonFormatter(), $"{Directory.GetCurrentDirectory()}/logs/logformat2-.json", rollingInterval: RollingInterval.Day)
+    .WriteTo.Elasticsearch([new Uri(configuration["ElasticConfiguration:Uri"]!)], opts =>
+    {
+        opts.DataStream = new DataStreamName("logs", "simple-Vtu-App", "vtuApp");
+        opts.BootstrapMethod = BootstrapMethod.Failure;
+        opts.ConfigureChannel = channelOpts =>
+        {
+            channelOpts.BufferOptions = new BufferOptions();
+        };
+        
+    }, transport =>
+    {
+        // transport.Authentication(new BasicAuthentication(username, password)); // Basic Auth
+        // transport.Authentication(new ApiKey(base64EncodedApiKey)); // ApiKey
+    })
     .CreateBootstrapLogger(); 
 
 
@@ -119,3 +145,34 @@ finally
 }
 
 
+
+//void ConfigureLogging()
+//{
+//    var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+//    var configuration = new ConfigurationBuilder()
+//        .AddJsonFile("appsettings.json", false, true)
+//        .AddJsonFile($"appsettings.{environment}.json", false)
+//        .Build();
+
+//    Log.Logger = new LoggerConfiguration()
+//        .Enrich.FromLogContext()
+//        .Enrich.WithExceptionDetails()
+//        .WriteTo.Debug()
+//        .WriteTo.Console()
+//        .WriteTo.Elasticsearch(ConfigureElasticSink(configuration, environment))
+//        .Enrich.WithProperty("Environment", environment)
+//        .ReadFrom.Configuration(configuration)
+//        .CreateLogger();
+//}
+
+//ElasticsearchSinkOptions ConfigureElasticSink(IConfigurationRoot configuration, string environment)
+//{
+//    return new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"]))
+//    {
+//        AutoRegisterTemplate = true,
+//        IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment.ToLower()}-{DateTimeOffset.UtcNow:yyyy-MM}"
+//        NumberOfReplicas = 1,
+//        NumberOfShards = 2
+//    };
+//}
