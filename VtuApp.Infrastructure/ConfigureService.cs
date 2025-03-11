@@ -27,19 +27,19 @@ public static class ConfigureService
 
         // REFIT
         services.AddRefitClient<IGetTokenFromVtuNation>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri("http://api.vtunation.com"))
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri("http://api.paysup.co"))
                 .AddStandardResilienceHandler();
 
         services.AddTransient<ITokenStoreForVtuNation, TokenStoreForVtuNation>();
         services.AddTransient<AuthHeaderHandlerForVtuNation>();
 
         services.AddRefitClient<IGetAdminServicesFromVtuNation>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri("http://api.vtunation.com"))
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri("http://api.paysup.co"))
                 .AddHttpMessageHandler<AuthHeaderHandlerForVtuNation>()
                 .AddStandardResilienceHandler();
 
         services.AddRefitClient<IGetServicesFromVtuNation>()
-               .ConfigureHttpClient(c => c.BaseAddress = new Uri("http://api.vtunation.com"))
+               .ConfigureHttpClient(c => c.BaseAddress = new Uri("http://api.paysup.co"))
                .AddHttpMessageHandler<AuthHeaderHandlerForVtuNation>()
                .AddStandardResilienceHandler();
 

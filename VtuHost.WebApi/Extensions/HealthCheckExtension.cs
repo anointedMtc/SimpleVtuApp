@@ -15,7 +15,7 @@ public static class HealthCheckExtension
 
         services.AddHealthChecks()
 
-         .AddCheck<VtuNationApiHealthCheck>(nameof(VtuNationApiHealthCheck), failureStatus: HealthStatus.Unhealthy, tags: ["custom", "apiEndPoint", "vtuNationApi"])
+         //.AddCheck<VtuNationApiHealthCheck>(nameof(VtuNationApiHealthCheck), failureStatus: HealthStatus.Unhealthy, tags: ["custom", "apiEndPoint", "vtuNationApi"])
 
 
          .AddDbContextCheck<WalletDbContext>()    

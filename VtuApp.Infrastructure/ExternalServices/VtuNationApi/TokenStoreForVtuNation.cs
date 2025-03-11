@@ -12,7 +12,7 @@ public class TokenStoreForVtuNation : ITokenStoreForVtuNation
     private readonly IGetTokenFromVtuNation _getTokenFromVtuNation;
 
 
-    public static readonly TimeSpan DefaultTokenCacheDuration = TimeSpan.FromSeconds(120);
+    public static readonly TimeSpan DefaultTokenCacheDuration = TimeSpan.FromMinutes(120);
     private static readonly string ExternalApiCacheKey = "VtuNationApiCacheKey";
 
     public TokenStoreForVtuNation(ICacheServiceRedis cacheServiceRedis, 
