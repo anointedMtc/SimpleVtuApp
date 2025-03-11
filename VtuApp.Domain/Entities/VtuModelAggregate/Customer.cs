@@ -21,7 +21,7 @@ public class Customer : BaseEntity, IAggregateRoot
     public string PhoneNumber { get; private set; }
     public VtuAmount VtuBonusBalance { get; private set; }
     public IReadOnlyCollection<VtuAppTransfer> VtuBonusTransfers => _vtuBonusTransfers.AsReadOnly();
-    public VtuAmount TotalBalance { get; private set; }
+    public VtuAmount MainBalance { get; private set; }
 
     public IReadOnlyCollection<VtuTransaction> VtuTransactions => _vtuTransactions.AsReadOnly();
     
@@ -40,7 +40,7 @@ public class Customer : BaseEntity, IAggregateRoot
         Email = email;
         PhoneNumber = phoneNumber;
         VtuBonusBalance = registrationBonus;
-        TotalBalance = 0;
+        MainBalance = 0;
 
         AddDomainEvent(new VtuAppCustomerCreatedDomainEvent(
             ApplicationUserId,
@@ -55,7 +55,7 @@ public class Customer : BaseEntity, IAggregateRoot
 
     public bool CanBuy(VtuAmount amount)
     {
-        if (TotalBalance > amount)
+        if (MainBalance > amount)
         {
             return true;
         }
@@ -70,7 +70,7 @@ public class Customer : BaseEntity, IAggregateRoot
         {
             throw new InvalidAmountException(amount);
         }
-        TotalBalance += amount;
+        MainBalance += amount;
 
         // domainEvent??? -- funds are only added as commands from walletModule which also raises an event after that... so no need
 
@@ -84,12 +84,12 @@ public class Customer : BaseEntity, IAggregateRoot
             throw new InvalidAmountException(amount);
         }
 
-        if (TotalBalance < amount)
+        if (MainBalance < amount)
         {
             throw new InsufficientCustomerFundsException(CustomerId);
         }
 
-        TotalBalance -= amount;
+        MainBalance -= amount;
 
         // domainEvent??? -- funds are only deducted as commands from walletModule which also raises an event after that... so no need
 

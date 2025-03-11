@@ -14,7 +14,7 @@ public sealed class GetAllVtuCustomersSpecification : BaseSpecification<Customer
              (string.IsNullOrEmpty(paginationFilter.Search) || x.Email.ToLower().Contains(paginationFilter.Search)) ||
              (string.IsNullOrEmpty(paginationFilter.Search) || x.PhoneNumber.ToLower().Contains(paginationFilter.Search)) ||
              (string.IsNullOrEmpty(paginationFilter.Search) || x.VtuBonusBalance.Value.ToString().ToLower().Contains(paginationFilter.Search)) ||
-             (string.IsNullOrEmpty(paginationFilter.Search) || x.TotalBalance.Value.ToString().ToLower().Contains(paginationFilter.Search)) ||
+             (string.IsNullOrEmpty(paginationFilter.Search) || x.MainBalance.Value.ToString().ToLower().Contains(paginationFilter.Search)) ||
              (string.IsNullOrEmpty(paginationFilter.Search) || x.NumberOfStars.ToString().ToLower().Contains(paginationFilter.Search)) ||
              (string.IsNullOrEmpty(paginationFilter.Search) || x.TransactionCount.ToString().ToLower().Contains(paginationFilter.Search)) ||
              (string.IsNullOrEmpty(paginationFilter.Search) || x.TimeLastStarWasAchieved.ToString().ToLower().Contains(paginationFilter.Search))
@@ -63,10 +63,10 @@ public sealed class GetAllVtuCustomersSpecification : BaseSpecification<Customer
                     ApplyOrderByDescending(p => p.VtuBonusBalance!);
                     break;
                 case "totalBalAsc":
-                    ApplyOrderBy(p => p.TotalBalance);
+                    ApplyOrderBy(p => p.MainBalance);
                     break;
                 case "totalBalDesc":
-                    ApplyOrderByDescending(p => p.TotalBalance);
+                    ApplyOrderByDescending(p => p.MainBalance);
                     break;
                 case "numberOfStarsAsc":
                     ApplyOrderBy(p => p.NumberOfStars!);

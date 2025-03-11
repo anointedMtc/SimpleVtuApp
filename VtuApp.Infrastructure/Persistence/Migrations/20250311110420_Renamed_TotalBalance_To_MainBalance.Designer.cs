@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VtuApp.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using VtuApp.Infrastructure.Persistence;
 namespace VtuApp.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(VtuDbContext))]
-    partial class VtuDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250311110420_Renamed_TotalBalance_To_MainBalance")]
+    partial class Renamed_TotalBalance_To_MainBalance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
