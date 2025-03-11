@@ -26,7 +26,7 @@ internal sealed class GetAvailableAirtimeNetworksQueryHandler : IRequestHandler<
         {
             getAvailableAirtimeNetworksResponse.AvailableAirtimeNetworksResponseVtuNation = response.Content;
             getAvailableAirtimeNetworksResponse.Success = true;
-            getAvailableAirtimeNetworksResponse.Message = $"Successfully retrieved available 9Mobile Data prices";
+            getAvailableAirtimeNetworksResponse.Message = $"Successfully retrieved available Airtime Networks";
         }
         else
         {

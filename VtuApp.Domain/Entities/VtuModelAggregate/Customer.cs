@@ -153,7 +153,7 @@ public class Customer : BaseEntity, IAggregateRoot
     // if a customer adds up to 3 new transactions within the span of one hour, then he gets a star and 10% bonus of the 3 transactions made
     private void CheckForStar()
     {
-        if (TimeLastStarWasAchieved == TimeSpan.Zero)
+        if (TimeLastStarWasAchieved == TimeSpan.Zero && _vtuTransactions.Count >= 3)
         {
             var chosenTransactions = _vtuTransactions.Take(3);
             var currentTime = DateTimeOffset.UtcNow;
@@ -226,7 +226,7 @@ public class Customer : BaseEntity, IAggregateRoot
             DateTimeOffset.UtcNow,
             //VtuBonusBalance,  // The same entity is being tracked as different entity types 'VtuBonusTransfer.InitialBalance#VtuAmount' and 'Customer.VtuBonusBalance#VtuAmount' with defining navigations. If a property value changes, it will result in two store changes, which might not be the desired outcome.
             VtuBonusBalance,
-            VtuBonusBalance - amountTransfered,
+            VtuBonusBalance + amountTransfered,
             TransferDirection.In,
             reasonWhy,
             this.CustomerId);

@@ -39,10 +39,10 @@ public sealed class NotifyUserOfStarAchievedEventConsumer
            $"<br><br> We wish to congratulate you on the achievement of a star because you made up to 3 transactions within the span of one hour. As a result, the sum of <del>N</del> {context.Message.DiscountGiven} naira which is 10% of the 3 transactions made within that hour has been credited to your vtuBonus Balance." +
            $"<br><br> Details of this transaction are as follows:" +
            $"<br>" +
-           $"<br> TotalTransactionsMade: {context.Message.TotalOfTransactionsMade}" +
-           $"<br> AmountTransfered: {context.Message.DiscountGiven}" +
-           $"<br> InitialWalletBalance: {context.Message.FinalVtuBonusBalance - context.Message.DiscountGiven}" +
-           $"<br> FinalWalletBalance: {context.Message.FinalVtuBonusBalance}" +
+           $"<br> Total_Value_of_Transactions_Made: {context.Message.TotalOfTransactionsMade}" +
+           $"<br> Amount_Transfered: {context.Message.DiscountGiven}" +
+           $"<br> Initial_Wallet_Balance: {context.Message.FinalVtuBonusBalance - context.Message.DiscountGiven}" +
+           $"<br> Final_Wallet_Balance: {context.Message.FinalVtuBonusBalance}" +
            $"<br> Time Of Transanction: {context.Message.CreatedAt}" +
            $"<br>" +
            $"<br><br> One hour would need to elapse before you can qualify for a new star" +
