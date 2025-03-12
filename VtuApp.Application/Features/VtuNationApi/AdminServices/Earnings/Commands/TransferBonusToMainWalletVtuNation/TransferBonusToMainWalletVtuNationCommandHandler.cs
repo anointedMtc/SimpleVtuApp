@@ -52,15 +52,16 @@ internal sealed class TransferBonusToMainWalletVtuNationCommandHandler : IReques
         }
         else
         {
-            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time}",
+            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time} with error message {Error.Message}",
                 nameof(TransferBonusToMainWalletVtuNationCommand),
                 "VtuNationApi",
-                DateTimeOffset.UtcNow
+                DateTimeOffset.UtcNow,
+                response.Error.Message
             );
 
             // if response is null, it returns an empty list or collection
             transferBonusToMainWalletVtuNationResponse.Success = false;
-            transferBonusToMainWalletVtuNationResponse.Message = $"Error processing your request. Please try again later";
+            transferBonusToMainWalletVtuNationResponse.Message = $"---{response.StatusCode}---{response.Error.Message}---{response.Error.InnerException}";
             transferBonusToMainWalletVtuNationResponse.TransferBonusToMainWalletResponseVtuNation = null;
         }
 

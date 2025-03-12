@@ -30,15 +30,16 @@ internal sealed class GetAvailableAirtimeNetworksQueryHandler : IRequestHandler<
         }
         else
         {
-            _logger.LogError("Unable to retrieve {NameOfRequest} from External Api {Name} at {time}",
+            _logger.LogError("Unable to retrieve {NameOfRequest} from External Api {Name} at {time} with erro message {Error.Message}",
                 nameof(GetAvailableAirtimeNetworksQuery),
                 "VtuNationApi",
-                DateTimeOffset.UtcNow
+                DateTimeOffset.UtcNow,
+                response.Error.Message
             );
 
             // if response is null, it returns an empty list or collection
             getAvailableAirtimeNetworksResponse.Success = false;
-            getAvailableAirtimeNetworksResponse.Message = $"Error processing your request. Please try again later";
+            getAvailableAirtimeNetworksResponse.Message = $"---{response.StatusCode}---{response.Error.Message}---{response.Error.InnerException}";
         }
 
         return getAvailableAirtimeNetworksResponse;

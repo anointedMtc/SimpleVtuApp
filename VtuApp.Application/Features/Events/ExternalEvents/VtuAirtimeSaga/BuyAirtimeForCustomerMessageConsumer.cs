@@ -101,7 +101,7 @@ public sealed class BuyAirtimeForCustomerMessageConsumer : IConsumer<BuyAirtimeF
                 context.Message.Email,
                 context.Message.VtuTransactionId,
                 DateTimeOffset.UtcNow,
-                response.Content
+                response.Error.Message
             );
 
             await context.Publish(new BuyAirtimeForCustomerFirstTryFailedEvent(

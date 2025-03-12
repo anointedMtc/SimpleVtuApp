@@ -257,6 +257,9 @@ public sealed class VtuDataOrderedSagaStateMachine : MassTransitStateMachine<Vtu
             .TransitionTo(VtuDataOrderedCompletedSagaState)
             .Finalize()
         );
+
+        During(FailedVtuDataPurchaseSagaState,
+            Ignore(SecondRetryVtuDataOrderEvent));
     }
 
 

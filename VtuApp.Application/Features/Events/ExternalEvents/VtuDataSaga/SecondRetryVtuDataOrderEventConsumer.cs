@@ -105,7 +105,7 @@ public sealed class SecondRetryVtuDataOrderEventConsumer : IConsumer<SecondRetry
                 context.Message.Email,
                 context.Message.VtuTransactionId,
                 DateTimeOffset.UtcNow,
-                response.Content
+                response.Error.Message
             );
 
             await context.Publish(new BuyDataForCustomerSecondReTryFailedEvent(

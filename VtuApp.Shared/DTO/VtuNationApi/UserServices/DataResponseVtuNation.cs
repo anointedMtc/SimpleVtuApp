@@ -12,5 +12,5 @@ public record DataResponseVtuNation
     public int Status { get; init; }
 
     [JsonPropertyName("date_added")]
-    public DateTime DateAdded { get; init; }
+    public string DateAdded { get; init; }
 }

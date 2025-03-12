@@ -4,5 +4,5 @@ public record ValidateOtpResponseVtuNation
 {
     public bool IsSuccessful { get; init; }
     public string Message { get; init; }
-    public int ResponseCode { get; init; }
+    public string ResponseCode { get; init; }
 }

@@ -52,15 +52,16 @@ internal sealed class ValidateOtpVtuNationCommandHandler : IRequestHandler<Valid
         }
         else
         {
-            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time}",
+            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time} with error message {Error.Message}",
                 nameof(ValidateOtpVtuNationCommand),
                 "VtuNationApi",
-                DateTimeOffset.UtcNow
+                DateTimeOffset.UtcNow,
+                response.Error.Message
             );
 
             // if response is null, it returns an empty list or collection
             validateOtpVtuNationResponse.Success = false;
-            validateOtpVtuNationResponse.Message = $"Error processing your request. Please try again later";
+            validateOtpVtuNationResponse.Message = $"---{response.StatusCode}---{response.Error.Message}---{response.Error.InnerException}";
             validateOtpVtuNationResponse.ValidateOtpResponseVtuNation = null;
         }
 

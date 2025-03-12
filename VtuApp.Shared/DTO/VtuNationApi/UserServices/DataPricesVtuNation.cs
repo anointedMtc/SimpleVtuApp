@@ -8,13 +8,13 @@ public record DataPricesVtuNation
     public string Label { get; init; }
     public string Value { get; init; }
     public string Description { get; init; }
-    public decimal Price { get; init; }
-    public decimal Discount { get; init; }
+    public string Price { get; init; }
+    public string Discount { get; init; }
     public int Status { get; init; }
 
     [JsonPropertyName("date_added")]
-    public DateTime DateAdded { get; init; }
+    public string DateAdded { get; init; }
 
     [JsonPropertyName("date_updated")]
-    public DateTime DateUpdated { get; init; }
+    public string DateUpdated { get; init; }
 }

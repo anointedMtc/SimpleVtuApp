@@ -16,5 +16,5 @@ public record RegisterRequestVtuNation
     [JsonPropertyName("referral_code")]
     public string ReferralCode { get; init; }
 
-    public string PhoneNumber { get; init; }
+    public string Phone { get; init; }
 }

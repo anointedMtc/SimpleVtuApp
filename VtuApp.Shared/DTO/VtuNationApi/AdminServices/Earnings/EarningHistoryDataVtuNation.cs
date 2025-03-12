@@ -27,13 +27,13 @@ public record EarningHistoryDataVtuNation
     [JsonPropertyName("transaction_type")]
     public string TransactionType { get; init; }
 
-    public decimal Amount { get; init; }
+    public string Amount { get; init; }
 
     [JsonPropertyName("init_bal")]
-    public decimal InitialBalance { get; init; }
+    public string InitialBalance { get; init; }
 
     [JsonPropertyName("final_bal")]
-    public decimal FinalBalance { get; init; }
+    public string FinalBalance { get; init; }
 
     public string Provider { get; init; }
 

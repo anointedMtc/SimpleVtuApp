@@ -52,6 +52,7 @@ public sealed class RollbackAmountForVtuAirtimePurchaseFailedMessageConsumer
 
         vtuCustomer.AddToCustomerBalance(context.Message.PricePaid);
         vtuCustomer.UpdateVtuTransactionStatus(context.Message.VtuTransactionId, Status.Failed);
+        vtuCustomer.DeductNumberOfStars();
         await _customerRepository.UpdateAsync(vtuCustomer);
 
         await context.Publish(new FundsRefundedForVtuPurchaseFailureEvent(

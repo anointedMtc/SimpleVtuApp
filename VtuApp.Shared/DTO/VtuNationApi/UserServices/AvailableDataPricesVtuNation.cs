@@ -3,6 +3,6 @@
 public record AvailableDataPricesVtuNation
 {
     public string ResponseMessage { get; init; }
-    public int ResponseCode { get; init; }
+    public string ResponseCode { get; init; }
     public List<DataPricesVtuNation> ResponseData { get; init; }
 }

@@ -52,15 +52,16 @@ internal sealed class ForgotPasswordVtuNationCommandHandler : IRequestHandler<Fo
         }
         else
         {
-            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time}",
+            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time} with error message {Error.Message}",
                 nameof(ForgotPasswordVtuNationCommand),
                 "VtuNationApi",
-                DateTimeOffset.UtcNow
+                DateTimeOffset.UtcNow,
+                response.Error.Message
             );
 
             // if response is null, it returns an empty list or collection
             forgotPasswordVtuNationResponse.Success = false;
-            forgotPasswordVtuNationResponse.Message = $"Error processing your request. Please try again later";
+            forgotPasswordVtuNationResponse.Message = $"---{response.StatusCode}---{response.Error.Message}---{response.Error.InnerException}";
             forgotPasswordVtuNationResponse.ForgotPasswordResponseVtuNation = null;
         }
 

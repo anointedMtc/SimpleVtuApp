@@ -24,7 +24,7 @@ public interface IGetAdminServicesFromVtuNation
     [Post("/api/auth/refresh")]
     Task<ApiResponse<RefreshTokenResponseVtuNation>> RefreshTokenVtuNationAsync();
 
-    [Post("api/auth/logout")]
+    [Post("/api/auth/logout")]
     Task<ApiResponse<LogOutResponseVtuNation>> LogOutVtuNationAsync();
 
 

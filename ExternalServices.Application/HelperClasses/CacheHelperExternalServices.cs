@@ -5,8 +5,8 @@ namespace ExternalServices.Application.HelperClasses;
 public static class CacheHelperExternalServices
 {
     public static readonly TimeSpan DefaultCacheDuration = TimeSpan.FromSeconds(30);
-    private static readonly string _getAllPostsQueryKeyTemplate = "posts-{0}-{1}-{2}-{3}";
-    private static readonly string _getPostByIdQueryKeyTemplate = "postById-{0}-{1}-{2}-{3}";
+    private static readonly string _getAllPostsQueryKeyTemplate = "posts----";
+    private static readonly string _getPostByIdQueryKeyTemplate = "postById----{0}";
 
 
 

@@ -100,7 +100,7 @@ public sealed class SecondRetryVtuAirtimeOrderEventConsumer : IConsumer<SecondRe
                 context.Message.Email,
                 context.Message.VtuTransactionId,
                 DateTimeOffset.UtcNow,
-                response.Content
+                response.Error.Message
             );
 
             await context.Publish(new BuyAirtimeForCustomerSecondReTryFailedEvent(

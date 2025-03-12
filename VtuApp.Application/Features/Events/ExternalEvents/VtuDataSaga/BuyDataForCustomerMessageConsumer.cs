@@ -102,7 +102,7 @@ public sealed class BuyDataForCustomerMessageConsumer : IConsumer<BuyDataForCust
                 context.Message.Email,
                 context.Message.VtuTransactionId,
                 DateTimeOffset.UtcNow,
-                response.Content
+                response.Error.Message
             );
 
             await context.Publish(new BuyDataForCustomerFirstTryFailedEvent(

@@ -211,7 +211,15 @@ public class Customer : BaseEntity, IAggregateRoot
         return;
     }
 
+    public void DeductNumberOfStars()
+    {
+        NumberOfStars--;
+    }
 
+    public void AddNumberOfStars()
+    {
+        NumberOfStars++;
+    }
 
     // HANDLING BONUSES
     public VtuAppTransfer AddToBonusBalance(VtuAmount amountTransfered, string reasonWhy)

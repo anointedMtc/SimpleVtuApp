@@ -52,15 +52,16 @@ internal sealed class GetSingleTransactionVtuNationQueryHandler : IRequestHandle
         }
         else
         {
-            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time}",
+            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time} with error message {Error.Message}",
                 nameof(GetSingleTransactionVtuNationQuery),
                 "VtuNationApi",
-                DateTimeOffset.UtcNow
+                DateTimeOffset.UtcNow,
+                response.Error.Message
             );
 
             // if response is null, it returns an empty list or collection
             getSingleTransactionVtuNationResponse.Success = false;
-            getSingleTransactionVtuNationResponse.Message = $"Error processing your request. Please try again later";
+            getSingleTransactionVtuNationResponse.Message = $"---{response.StatusCode}---{response.Error.Message}---{response.Error.InnerException}";
             getSingleTransactionVtuNationResponse.GetSingleTransactionResponseVtuNation = null;
         }
 
