@@ -94,13 +94,14 @@ public sealed class SecondRetryVtuAirtimeOrderEventConsumer : IConsumer<SecondRe
         }
         else
         {
-            _logger.LogError("Unable to process {typeOfRequest} by {typeOfConsumer} for Customer with Id {customerId} and transactionId {transactionId} at {time} with External Api details {@Response}",
+            _logger.LogError("Unable to process {typeOfRequest} by {typeOfConsumer} for Customer with Id {customerId} and transactionId {transactionId} at {time} with External Api details {Error.Message} and internal error {Error.InnerException}",
                 nameof(SecondRetryVtuAirtimeOrderEvent),
                 nameof(SecondRetryVtuAirtimeOrderEventConsumer),
                 context.Message.Email,
                 context.Message.VtuTransactionId,
                 DateTimeOffset.UtcNow,
-                response.Content
+                response.Error.Message,
+                response.Error.InnerException
             );
 
             await context.Publish(new BuyAirtimeForCustomerSecondReTryFailedEvent(

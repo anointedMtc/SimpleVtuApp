@@ -40,8 +40,8 @@ public sealed class NotifyUserOfFiveVtuTransactionsAchievedEventConsumer
            $"<br><br> Details of this transaction are as follows:" +
            $"<br>" +
            $"<br> AmountTransfered: {context.Message.BonusForFiveTransactions}" +
-           $"<br> InitialWalletBalance: {context.Message.FinalVtuBonusBalance - context.Message.BonusForFiveTransactions}" +
-           $"<br> FinalWalletBalance: {context.Message.FinalVtuBonusBalance}" +
+           $"<br> InitialVtuBonusBalance: {context.Message.FinalVtuBonusBalance - context.Message.BonusForFiveTransactions}" +
+           $"<br> FinalVtuBonusBalance: {context.Message.FinalVtuBonusBalance}" +
            $"<br> Time Of Transanction: {context.Message.CreatedAt}" +
            $"<br>" +
            $"<br><br> You would always recieve this bonus for every new Five transactions you make." +

@@ -30,15 +30,16 @@ internal sealed class GetAvailableDataNetworksQueryHandler : IRequestHandler<Get
         }
         else
         {
-            _logger.LogError("Unable to retrieve {NameOfRequest} from External Api {Name} at {time}",
+            _logger.LogError("Unable to retrieve {NameOfRequest} from External Api {Name} at {time} with error message {Error.Message}",
                 nameof(GetAvailableDataNetworksQuery),
                 "VtuNationApi",
-                DateTimeOffset.UtcNow
+                DateTimeOffset.UtcNow,
+                response.Error.Message
             );
 
             // if response is null, it returns an empty list or collection
             getAvailableDataNetworksResponse.Success = false;
-            getAvailableDataNetworksResponse.Message = $"Error processing your request. Please try again later";
+            getAvailableDataNetworksResponse.Message = $"---{response.StatusCode}---{response.Error.Message}---{response.Error.InnerException}";
         }
 
         return getAvailableDataNetworksResponse;

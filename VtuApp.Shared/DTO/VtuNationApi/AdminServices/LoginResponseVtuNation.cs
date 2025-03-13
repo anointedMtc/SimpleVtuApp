@@ -5,8 +5,8 @@ namespace VtuApp.Shared.DTO.VtuNationApi.AdminServices;
 public record LoginResponseVtuNation
 {
     public bool IsSuccessful { get; init; }
-    public int ResponseCode { get; init; }
-    public int ResponseMessage { get; init; }
+    public string ResponseCode { get; init; }
+    public string ResponseMessage { get; init; }
 
     public UserVtuNation User { get; init; }
 

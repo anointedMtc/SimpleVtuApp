@@ -52,15 +52,16 @@ internal sealed class SubmitBvnVtuNationCommandHandler : IRequestHandler<SubmitB
         }
         else
         {
-            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time}",
+            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time} with error message {Error.Message}",
                 nameof(SubmitBvnVtuNationCommand),
                 "VtuNationApi",
-                DateTimeOffset.UtcNow
+                DateTimeOffset.UtcNow,
+                response.Error.Message
             );
 
             // if response is null, it returns an empty list or collection
             SubmitBvnVtuNationResponse.Success = false;
-            SubmitBvnVtuNationResponse.Message = $"Error processing your request. Please try again later";
+            SubmitBvnVtuNationResponse.Message = $"---{response.StatusCode}---{response.Error.Message}---{response.Error.InnerException}";
             SubmitBvnVtuNationResponse.SubmitBvnResponseVtuNation = null;
         }
 

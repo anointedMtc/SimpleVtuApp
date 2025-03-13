@@ -128,7 +128,7 @@ public class ApplicationDbContextInitializer
                     {
                         FirstName = "Gods",
                         LastName = "Eye",
-                        Email = "godsEye@gmail.com",
+                        Email = "godseye@gmail.com",
                         NormalizedEmail = "GODSEYE@GMAIL.COM",
                         ConstUserName = "godsEyeNumber1",
                         UserName = "godsEyeNumber1",

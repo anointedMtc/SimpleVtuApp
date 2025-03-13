@@ -52,15 +52,16 @@ internal sealed class SetUpdateTransactionPassVtuNationCommandHandler : IRequest
         }
         else
         {
-            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time}",
+            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time} with error message {Error.Message}",
                 nameof(SetUpdateTransactionPassVtuNationCommand),
                 "VtuNationApi",
-                DateTimeOffset.UtcNow
+                DateTimeOffset.UtcNow,
+                response.Error.Message
             );
 
             // if response is null, it returns an empty list or collection
             setUpdateTransactionPassVtuNationResponse.Success = false;
-            setUpdateTransactionPassVtuNationResponse.Message = $"Error processing your request. Please try again later";
+            setUpdateTransactionPassVtuNationResponse.Message = $"---{response.StatusCode}---{response.Error.Message}---{response.Error.InnerException}";
             setUpdateTransactionPassVtuNationResponse.SetUpdateTransactionPassResponseVtuNation = null;
         }
 

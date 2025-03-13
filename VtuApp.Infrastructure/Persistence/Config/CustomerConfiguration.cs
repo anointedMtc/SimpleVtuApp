@@ -13,7 +13,7 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.Metadata.FindNavigation(nameof(Customer.VtuTransactions))?
             .SetPropertyAccessMode(PropertyAccessMode.Field);
 
-        builder.OwnsOne(p => p.TotalBalance, p =>
+        builder.OwnsOne(p => p.MainBalance, p =>
         {
             p.Property(pp => pp.Value).IsRequired().HasColumnType("decimal (18,2)");
         });

@@ -12,7 +12,7 @@ public class TokenStoreForVtuNation : ITokenStoreForVtuNation
     private readonly IGetTokenFromVtuNation _getTokenFromVtuNation;
 
 
-    public static readonly TimeSpan DefaultTokenCacheDuration = TimeSpan.FromSeconds(120);
+    public static readonly TimeSpan DefaultTokenCacheDuration = TimeSpan.FromMinutes(120);
     private static readonly string ExternalApiCacheKey = "VtuNationApiCacheKey";
 
     public TokenStoreForVtuNation(ICacheServiceRedis cacheServiceRedis, 
@@ -34,6 +34,7 @@ public class TokenStoreForVtuNation : ITokenStoreForVtuNation
             _logger.LogInformation("Cache hit for key: {CacheKey}.", ExternalApiCacheKey);
 
             await _cacheServiceRedis.RefreshCache(ExternalApiCacheKey);
+            //return await Task.FromResult(cachedResult.Token!);
             return cachedResult.Token!;
         }
 
@@ -42,30 +43,38 @@ public class TokenStoreForVtuNation : ITokenStoreForVtuNation
             ExternalApiCacheKey,
             "VtuNationApi");
 
-        var externalResponse = await _getTokenFromVtuNation.GetVtuNationApiTokenAsync(new LoginRequestVtuNation() { Phone = "08109713734", Password = "anointedMtc" });
+        var externalResponse = await _getTokenFromVtuNation.GetVtuNationApiTokenAsync(new LoginRequestVtuNation() { Phone = "08109713734", Password = "#1AnointedMtc_1554" });
 
         if (externalResponse.IsSuccessful && externalResponse.Content.IsSuccessful == true)
         {
-            var externalApiKeyHolder = new LoginResponseVtuNation
-            {
-                Token = externalResponse.Content?.Token
-            };
+            //var externalApiKeyHolder = new LoginResponseVtuNation
+            //{
+            //    Token = externalResponse.Content?.Token
+            //};
+            //LoginResponseVtuNation externalApiKeyHolder = externalResponse.Content;
+            //externalApiKeyHolder = externalResponse.Content;
+
 
             await _cacheServiceRedis.SetExternalApiKeyAsync(
                     ExternalApiCacheKey,
-                    externalApiKeyHolder,
+                    //externalApiKeyHolder,
+                    externalResponse.Content,
                     DefaultTokenCacheDuration
             );
 
-            _logger.LogInformation("Setting data to cache for key: {CacheKey}", ExternalApiCacheKey);
+            _logger.LogInformation("Setting data to cache for key: {CacheKey} with details {@Response}", 
+                ExternalApiCacheKey,
+                externalResponse.Content);
 
-            return externalApiKeyHolder.Token!;
+            //return externalApiKeyHolder.Token!;
+            return externalResponse.Content?.Token!;
         }
         else
         {
-            _logger.LogError("Error getting JWT from External Api Service Provider {Name} at {time}", 
+            _logger.LogError("Error getting JWT from External Api Service Provider {Name} at {time} with error message {Error.Message}", 
                 "VtuNationApi",
-                DateTimeOffset.UtcNow);
+                DateTimeOffset.UtcNow,
+                externalResponse.Error?.Message);
 
             return "null";
         }

@@ -39,6 +39,9 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("FiveTransactionCount")
+                        .HasColumnType("int");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -50,8 +53,8 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan>("TimeLastStarWasAchieved")
-                        .HasColumnType("time");
+                    b.Property<DateTimeOffset>("TimeLastStarWasAchieved")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int>("TransactionCount")
                         .HasColumnType("int");
@@ -119,7 +122,7 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("VtuApp.Domain.Entities.VtuModelAggregate.Customer", b =>
                 {
-                    b.OwnsOne("VtuApp.Domain.Entities.VtuModelAggregate.VtuAmount", "TotalBalance", b1 =>
+                    b.OwnsOne("VtuApp.Domain.Entities.VtuModelAggregate.VtuAmount", "MainBalance", b1 =>
                         {
                             b1.Property<Guid>("CustomerId")
                                 .HasColumnType("uniqueidentifier");
@@ -151,7 +154,7 @@ namespace VtuApp.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("CustomerId");
                         });
 
-                    b.Navigation("TotalBalance")
+                    b.Navigation("MainBalance")
                         .IsRequired();
 
                     b.Navigation("VtuBonusBalance")

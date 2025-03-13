@@ -52,15 +52,16 @@ internal sealed class GetProfileVtuNationQueryHandler : IRequestHandler<GetProfi
         }
         else
         {
-            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time}",
+            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time} with error message {Error.Message}",
                 nameof(GetProfileVtuNationQuery),
                 "VtuNationApi",
-                DateTimeOffset.UtcNow
+                DateTimeOffset.UtcNow,
+                response.Error.Message
             );
 
             // if response is null, it returns an empty list or collection
             getProfileVtuNationResponse.Success = false;
-            getProfileVtuNationResponse.Message = $"Error processing your request. Please try again later";
+            getProfileVtuNationResponse.Message = $"---{response.StatusCode}---{response.Error.Message}---{response.Error.InnerException}";
             getProfileVtuNationResponse.GetProfileResponseVtuNation = null;
         }
 

@@ -52,15 +52,16 @@ internal sealed class SubmitPaymentNotificationVtuNationCommandHandler : IReques
         }
         else
         {
-            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time}",
+            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time} with error message {Error.Message}",
                 nameof(SubmitPaymentNotificationVtuNationCommand),
                 "VtuNationApi",
-                DateTimeOffset.UtcNow
+                DateTimeOffset.UtcNow,
+                response.Error.Message
             );
 
             // if response is null, it returns an empty list or collection
             submitPaymentNotificationVtuNationResponse.Success = false;
-            submitPaymentNotificationVtuNationResponse.Message = $"Error processing your request. Please try again later";
+            submitPaymentNotificationVtuNationResponse.Message = $"---{response.StatusCode}---{response.Error.Message}---{response.Error.InnerException}";
             submitPaymentNotificationVtuNationResponse.SubmitPaymentNotificationResponseVtuNation = null;
         }
 

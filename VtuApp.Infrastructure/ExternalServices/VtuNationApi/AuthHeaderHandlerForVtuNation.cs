@@ -16,9 +16,9 @@ public class AuthHeaderHandlerForVtuNation : DelegatingHandler
     {
         // if it is null, then we would send it and let the external api deny us service... 
         // we don't even want to do anything specifically considering the fact that we have used polly for resilience and retries... that should be enough
-        var token = _tokenStoreForVtuNation.GetVtuNationApiToken();
+        var token = await _tokenStoreForVtuNation.GetVtuNationApiToken();
 
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.ToString());
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
     }

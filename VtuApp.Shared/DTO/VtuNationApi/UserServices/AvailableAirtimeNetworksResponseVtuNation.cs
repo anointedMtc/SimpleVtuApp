@@ -2,9 +2,9 @@
 
 public record AvailableAirtimeNetworksResponseVtuNation
 {
-    public int ResponseMessage { get; init; }
+    public string ResponseMessage { get; init; }
     public bool IsSuccessful { get; init; }
-    public int ResponseCode { get; init; }
+    public string ResponseCode { get; init; }
     public List<AirtimeResponseVtuNation> ResponseData { get; init; }
 
 }

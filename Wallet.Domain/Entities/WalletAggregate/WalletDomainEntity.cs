@@ -38,6 +38,7 @@ public class WalletDomainEntity : BaseEntity, IAggregateRoot
         ApplicationUserId = applicationUserId;
         Email = email;
         CreatedAt = DateTimeOffset.UtcNow;
+        WalletBalance = 0M;
 
         // raise the domain event
         RaiseWalletAddedDomainEvent();

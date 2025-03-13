@@ -1,4 +1,7 @@
-﻿namespace VtuApp.Api.Controllers.V1;
+﻿using VtuApp.Application.Features.VtuNationApi.AdminServices.Auth.Commands.LogInVtuNation;
+using VtuApp.Shared.DTO.VtuNationApi.AdminServices;
+
+namespace VtuApp.Api.Controllers.V1;
 
 [Authorize]
 [ApiVersion("1.0")]
@@ -78,6 +81,15 @@ public class VtuNation_AdminServicesController : ApiBaseController
 
 
     // AUTH
+    [HttpPost("login-vtuNation")]
+    public async Task<ActionResult<LogInVtuNationResponse>> LoginVtuNation([FromBody] LoginRequestVtuNation loginRequestVtuNation)
+    {
+        var result = await Mediator.Send(new LogInVtuNationCommand() { LoginRequestVtuNation = loginRequestVtuNation });
+
+        return Ok(result);
+    }
+
+
     [HttpPost("forgot-password-vtuNation")]
     public async Task<ActionResult<ForgotPasswordVtuNationResponse>> ForgotPasswordVtuNation([FromBody] ForgotPasswordRequestVtuNation forgotPasswordRequestVtuNation)
     {

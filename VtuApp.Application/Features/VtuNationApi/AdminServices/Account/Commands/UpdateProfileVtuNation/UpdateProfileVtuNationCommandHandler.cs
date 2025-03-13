@@ -52,15 +52,16 @@ internal sealed class UpdateProfileVtuNationCommandHandler : IRequestHandler<Upd
         }
         else
         {
-            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time}",
+            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time} with error message {Error.Message}",
                 nameof(UpdateProfileVtuNationCommand),
                 "VtuNationApi",
-                DateTimeOffset.UtcNow
+                DateTimeOffset.UtcNow,
+                response.Error.Message
             );
 
             // if response is null, it returns an empty list or collection
             updateProfileVtuNationResponse.Success = false;
-            updateProfileVtuNationResponse.Message = $"Error processing your request. Please try again later";
+            updateProfileVtuNationResponse.Message = $"---{response.StatusCode}---{response.Error.Message}---{response.Error.InnerException}";
             updateProfileVtuNationResponse.UpdateProfileResponseVtuNation = null;
         }
 

@@ -39,15 +39,16 @@ public class Get9MobileDataPricesQueryHandler : IRequestHandler<Get9MobileDataPr
         }
         else
         {
-            _logger.LogError("Unable to retrieve {NameOfRequest} from External Api {Name} at {time}",
+            _logger.LogError("Unable to retrieve {NameOfRequest} from External Api {Name} at {time} with error message {Error.Message}",
                 nameof(Get9MobileDataPricesQuery),
                 "VtuNationApi",
-                DateTimeOffset.UtcNow
+                DateTimeOffset.UtcNow,
+                response.Error.Message
             );
 
             // if response is null, it returns an empty list or collection
             get9MobileDataPricesResponse.Success = false;
-            get9MobileDataPricesResponse.Message = $"Error processing your request. Please try again later";
+            get9MobileDataPricesResponse.Message = $"--- {response.StatusCode} --- {response.Error.Message} --- {response.Error.InnerException}";
         }
         
         return get9MobileDataPricesResponse;

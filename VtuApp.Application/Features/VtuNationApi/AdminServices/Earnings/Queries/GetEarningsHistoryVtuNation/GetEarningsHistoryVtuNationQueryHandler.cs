@@ -52,15 +52,16 @@ internal sealed class GetEarningsHistoryVtuNationQueryHandler : IRequestHandler<
         }
         else
         {
-            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time}",
+            _logger.LogError("Unable to process {NameOfRequest} from External Api {Name} at {time} with error message {Error.Message}",
                 nameof(GetEarningsHistoryVtuNationQuery),
                 "VtuNationApi",
-                DateTimeOffset.UtcNow
+                DateTimeOffset.UtcNow,
+                response.Error.Message 
             );
 
             // if response is null, it returns an empty list or collection
             getEarningsHistoryVtuNationResponse.Success = false;
-            getEarningsHistoryVtuNationResponse.Message = $"Error processing your request. Please try again later";
+            getEarningsHistoryVtuNationResponse.Message = $"---{response.StatusCode}---{response.Error.Message}---{response.Error.InnerException}";
             getEarningsHistoryVtuNationResponse.GetEarningsHistoryResponseVtuNation = null;
         }
 

@@ -228,7 +228,7 @@ public sealed class VtuDataOrderedSagaStateMachine : MassTransitStateMachine<Vtu
         );
 
         // FOURTH STAGE FOR EVERYBODY - WHEN SUCCESSFUL
-        During(SuccessVtuDataPurchaseSagaState,
+        DuringAny(
             When(BuyDataForCustomerSuccessEvent)
             .Send(new Uri($"queue:{QueueConstants.NotifyCustomerOfVtuDataPurchaseSuccessEventQueueName}"),
                 context => new NotifyCustomerOfVtuDataPurchaseSuccessEvent(
@@ -257,6 +257,12 @@ public sealed class VtuDataOrderedSagaStateMachine : MassTransitStateMachine<Vtu
             .TransitionTo(VtuDataOrderedCompletedSagaState)
             .Finalize()
         );
+
+        During(FailedVtuDataPurchaseSagaState,
+            Ignore(SecondRetryVtuDataOrderEvent));
+
+        During(SuccessVtuDataPurchaseSagaState,
+            Ignore(SecondRetryVtuDataOrderEvent));
     }
 
 

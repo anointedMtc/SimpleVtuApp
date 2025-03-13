@@ -77,7 +77,7 @@ internal sealed class Buy10GBVtuNationCommandHandler : IRequestHandler<Buy10GBVt
 
 
         // but if customer exists, does he/she have enough sufficient funds to proceed?
-        var initialBalance = customer.TotalBalance;
+        var initialBalance = customer.MainBalance;
         decimal discount = 0;
         decimal priceAfterDiscount = MtnDataPriceVtuNation.TenGB - discount;
 

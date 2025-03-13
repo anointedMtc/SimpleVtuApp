@@ -19,7 +19,7 @@ internal sealed class RegisterWithVtuNationApiValidator : AbstractValidator<Regi
            .NotEmpty().WithMessage("{PropertyName} should have value.")
            .EmailAddress().WithName("MailId").WithMessage("{PropertyName} is invalid! {PropertyValue} does not meet requirements. Please check!");
 
-        RuleFor(r => r.RegisterRequestVtuNation.PhoneNumber)
+        RuleFor(r => r.RegisterRequestVtuNation.Phone)
            .NotEmpty().WithMessage("{PropertyName} should have value.")
            .MinimumLength(11).WithMessage("{PropertyName} should me minimum of {ComparisonValue}. {PropertyValue} does not meet requirement.");
 

@@ -28,18 +28,18 @@ public record GetProfileResponseVtuNation
 
 
     [JsonPropertyName("balance")]
-    public decimal Balance { get; init; }
+    public string Balance { get; init; }
 
 
     [JsonPropertyName("bonus_balance")]
-    public decimal BonusBalance { get; init; }
+    public string BonusBalance { get; init; }
 
 
     public string Email { get; init; }
 
     public string Code { get; init; }
 
-    public int Status { get; init; }
+    public string Status { get; init; }
 
     [JsonPropertyName("account_type")]
     public string AccountType { get; init; }

@@ -209,7 +209,7 @@ internal sealed class BuyDataVtuNationCommandHandler : IRequestHandler<BuyDataVt
             };
         }
 
-        var initialBalance = customer.TotalBalance;
+        var initialBalance = customer.MainBalance;
         decimal discount = 0;
         decimal priceAfterDiscount = chosenDataPlanPrice - discount;
 
