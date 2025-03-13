@@ -43,6 +43,7 @@ public class Customer : BaseEntity, IAggregateRoot
         PhoneNumber = phoneNumber;
         VtuBonusBalance = registrationBonus;
         MainBalance = 0;
+        //TimeLastStarWasAchieved = DateTimeOffset.UtcNow;  you should probably add this... migrations took care of it now, but it may hunt you in future when you make a new/clean migrations
 
         AddDomainEvent(new VtuAppCustomerCreatedDomainEvent(
             ApplicationUserId,
