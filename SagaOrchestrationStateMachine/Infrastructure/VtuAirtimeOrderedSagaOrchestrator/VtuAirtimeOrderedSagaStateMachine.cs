@@ -251,6 +251,9 @@ public sealed class VtuAirtimeOrderedSagaStateMachine : MassTransitStateMachine<
 
         During(FailedVtuAirtimePurchaseSagaState,
             Ignore(SecondRetryVtuAirtimeOrderEvent));
+
+        During(SuccessVtuAirtimePurchaseSagaState,
+            Ignore(SecondRetryVtuAirtimeOrderEvent));
     }
 
 

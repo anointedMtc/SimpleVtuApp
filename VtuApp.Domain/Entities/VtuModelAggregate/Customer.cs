@@ -28,7 +28,7 @@ public class Customer : BaseEntity, IAggregateRoot
     public int NumberOfStars { get; private set; }
     public int TransactionCount { get; private set; }
 
-    public TimeSpan TimeLastStarWasAchieved { get; set; } 
+    public DateTimeOffset TimeLastStarWasAchieved { get; set; } 
 
 
     public Customer(Guid applicationUserId, string firstName, string lastName,
@@ -153,11 +153,12 @@ public class Customer : BaseEntity, IAggregateRoot
     // if a customer adds up to 3 new transactions within the span of one hour, then he gets a star and 10% bonus of the 3 transactions made
     private void CheckForStar()
     {
-        if (TimeLastStarWasAchieved == TimeSpan.Zero && _vtuTransactions.Count >= 3)
+        var elapsedTime = (DateTimeOffset.UtcNow - TimeLastStarWasAchieved).TotalHours; // The TotalHours property represents whole and fractional hours, whereas the Hours property represents whole hours. --- simply means it would return 1.2 hours, 1.6 etc... so the fractions (minutes, seconds, even ticks) are taken into consideration with this method
+        if (elapsedTime > 1 && _vtuTransactions.Count >= 3)
         {
             var chosenTransactions = _vtuTransactions.Take(3);
             var currentTime = DateTimeOffset.UtcNow;
-            var oneHourAgo = currentTime - TimeSpan.FromHours(1);
+            var oneHourAgo = currentTime - TimeSpan.FromHours(1); // use .Add(-1)  we can add negative hours
             VtuAmount totalTransactionsMade = 0;
 
             foreach (var transaction in chosenTransactions)
@@ -177,7 +178,17 @@ public class Customer : BaseEntity, IAggregateRoot
 
                 // we need to now add a timestamp that will help us sort from the last time you earned a star
                 // add one hour to it so that you won't be qulified for another one hour
-                TimeLastStarWasAchieved += TimeSpan.FromHours(1);
+                //TimeLastStarWasAchieved += TimeSpan.FromHours(1);
+                //TimeLastStarWasAchieved = new TimeSpan(1, 00, 00);
+                // DateTime newDate = currentDateAndTime.AddHours(3);
+                /*
+                 // Add -1 hour to simulate timespan being one hour in past
+                    DateTime d1 = DateTime.Now.AddHours(-1);
+                    DateTime d2 = DateTime.Now;
+                    TimeSpan diff = d2 - d1;
+                    bool diffIsGreaterThan1Hour = diff.TotalHours > 1;
+                 */
+                TimeLastStarWasAchieved = DateTimeOffset.UtcNow;
 
                 NumberOfStars++;
 

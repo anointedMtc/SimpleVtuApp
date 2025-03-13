@@ -260,6 +260,9 @@ public sealed class VtuDataOrderedSagaStateMachine : MassTransitStateMachine<Vtu
 
         During(FailedVtuDataPurchaseSagaState,
             Ignore(SecondRetryVtuDataOrderEvent));
+
+        During(SuccessVtuDataPurchaseSagaState,
+            Ignore(SecondRetryVtuDataOrderEvent));
     }
 
 

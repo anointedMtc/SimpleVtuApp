@@ -96,13 +96,14 @@ public sealed class BuyDataForCustomerMessageConsumer : IConsumer<BuyDataForCust
         }
         else
         {
-            _logger.LogError("Unable to process {typeOfRequest} by {typeOfConsumer} for Customer with Id {customerId} and transactionId {transactionId} at {time} with External Api details {@Response}",
+            _logger.LogError("Unable to process {typeOfRequest} by {typeOfConsumer} for Customer with Id {customerId} and transactionId {transactionId} at {time} with External Api details {Error.Message} and internal error {Error.InnerException}",
                 nameof(BuyDataForCustomerMessage),
                 nameof(BuyDataForCustomerMessageConsumer),
                 context.Message.Email,
                 context.Message.VtuTransactionId,
                 DateTimeOffset.UtcNow,
-                response.Error.Message
+                response.Error.Message,
+                response.Error.InnerException
             );
 
             await context.Publish(new BuyDataForCustomerFirstTryFailedEvent(

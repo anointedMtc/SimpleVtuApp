@@ -15,7 +15,7 @@ public record BuyAirtimeAndDataListCollection
     [JsonPropertyName("tran_id")]
     public string TransactionId { get; init; }
 
-    public string Status { get; init; }
+    public int Status { get; init; }
 
     [JsonPropertyName("transaction_type")]
     public string TransactionType { get; init; }
