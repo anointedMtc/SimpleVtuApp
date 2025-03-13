@@ -26,7 +26,9 @@ public class Customer : BaseEntity, IAggregateRoot
     public IReadOnlyCollection<VtuTransaction> VtuTransactions => _vtuTransactions.AsReadOnly();
     
     public int NumberOfStars { get; private set; }
+    //public int StarCount { get; private set; }  // let it keep track of how many times you achieved NumberOfStars bonus because we reset
     public int TransactionCount { get; private set; }
+    public int FiveTransactionCount { get; private set; }
 
     public DateTimeOffset TimeLastStarWasAchieved { get; set; } 
 
@@ -122,6 +124,7 @@ public class Customer : BaseEntity, IAggregateRoot
         {
             // reset count
             TransactionCount = 0;
+            FiveTransactionCount++;
 
             var timeOfDiscount = DateTimeOffset.UtcNow;
             var reasonWhy = $"Five Transactions at {timeOfDiscount}";

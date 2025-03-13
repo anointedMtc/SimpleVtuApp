@@ -220,7 +220,7 @@ public sealed class VtuAirtimeOrderedSagaStateMachine : MassTransitStateMachine<
         );
 
         // FOURTH STAGE FOR EVERYBODY - WHEN SUCCESSFUL
-        During(SuccessVtuAirtimePurchaseSagaState,
+        DuringAny(
             When(BuyAirtimeForCustomerSuccessEvent)
             .Send(new Uri($"queue:{QueueConstants.NotifyCustomerOfVtuAirtimePurchaseSuccessEventQueueName}"),
                 context => new NotifyCustomerOfVtuAirtimePurchaseSuccessEvent(
